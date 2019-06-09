@@ -25,7 +25,7 @@ SECRET_KEY = 'sct4id^f#&qi%a6!n&&*@+=4ok9tc_scuurg@kh(+9oa*5&a#l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'authentication.apps.AuthenticationConfig',
+    'Event.apps.EventConfig',
+    'Location.apps.LocationConfig',
+    'Match.apps.MatchConfig',
+    'Message.apps.MessageConfig',
+    'News.apps.NewsConfig',
+    'Person.apps.PersonConfig',
+    'Sport.apps.SportConfig',
+    'Team.apps.TeamConfig',
+    'University.apps.UniversityConfig',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +65,7 @@ ROOT_URLCONF = 'app_jing.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates/")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,12 +84,26 @@ WSGI_APPLICATION = 'app_jing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if os.getenv('GAE_APPLICATION', None):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'app-jing',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': '/cloudsql/app-jing:us-west1:app-jing',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'app-jing',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': '34.83.214.178',
+        }
+    }
 
 
 # Password validation
@@ -103,9 +128,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
@@ -118,3 +143,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static/"),
+]
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
