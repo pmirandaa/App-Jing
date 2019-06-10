@@ -1,9 +1,9 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-app_name = 'person'
+app_name = 'match'
 
 urlpatterns = [
     path('', TemplateView.as_view(
-        template_name="Inicio/baseInicio.html"), name='non-auth-home'),
+        template_name="Match/baseMatch.html"), name='matches-section'),
 ]
