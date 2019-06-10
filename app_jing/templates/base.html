@@ -63,7 +63,7 @@
       {% endif %}
       <li class="nav-item {% block activeNoticias %}{% endblock activeNoticias %}">
         <a class="nav-link"
-           href="#">Noticias</a>
+           href="{% url 'news:non-auth-news' %}">Noticias</a>
       </li>
     </ul>
     <ul class="navbar-nav nav-flex-icons nav-fill">

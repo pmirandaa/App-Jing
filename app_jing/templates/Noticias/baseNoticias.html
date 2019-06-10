@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+JING - Noticias
+{% endblock title %}
+
+{% block activeNoticias %}active{% endblock activeNoticias %}
+
+{% block content %}
+<section class="my-5">
+  <h2 class="h1-responsive font-weight-bold text-center my-5">Ultimas Noticias</h2>
+  <div class="col-md-10 offset-md-1">
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="view overlay rounded z-depth-2 mb-lg-0 mb-4">
+          <img class="img-fluid"
+               src="https://mdbootstrap.com/img/Photos/Others/img%20(27).jpg"
+               alt="Sample image">
+          <a>
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+      </div>
+      <div class="col-lg-7">
+        <a href="#!"
+           class="green-text">
+          <h6 class="font-weight-bold mb-3"><i class="fas fa-utensils pr-2"></i>Comida</h6>
+        </a>
+        <h3 class="font-weight-bold mb-3"><strong>Nuevo lugar de distribución de colaciones</strong></h3>
+        <p>
+          Se ha habilitado un nuevo lugar en el que los deportistas podran recibir sus colaciones, es importante mantener el orden para 
+          hacer el proceso mas eficiente
+        </p>
+        <p>by <a><strong>Pablo Miranda</strong></a>, 10/06/2019</p>
+        <a class="btn btn-success btn-md"
+           data-toggle="modal"
+           data-target=".bd-example-modal-xl">Mas Información</a>
+      </div>
+    </div>
+    <hr class="my-5">
+    <div class="row">
+      <div class="col-lg-7">
+        <a href="#!"
+           class="pink-text">
+          <h6 class="font-weight-bold mb-3"><i class="fas fa-image pr-2"></i>Lifestyle</h6>
+        </a>
+        <h3 class="font-weight-bold mb-3"><strong>Title of the news</strong></h3>
+        <p>
+          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+          deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
+          provident.
+        </p>
+        <p>by <a><strong>Carine Fox</strong></a>, 14/08/2018</p>
+        <a class="btn btn-pink btn-md mb-lg-0 mb-4">Read more</a>
+      </div>
+      <div class="col-lg-5">
+        <div class="view overlay rounded z-depth-2">
+          <img class="img-fluid"
+               src="https://mdbootstrap.com/img/Photos/Others/img%20(34).jpg"
+               alt="Sample image">
+          <a>
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <hr class="my-5">
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="view overlay rounded z-depth-2 mb-lg-0 mb-4">
+          <img class="img-fluid"
+               src="https://mdbootstrap.com/img/Photos/Others/img (28).jpg"
+               alt="Sample image">
+          <a>
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+      </div>
+      <div class="col-lg-7">
+        <a href="#!"
+           class="indigo-text">
+          <h6 class="font-weight-bold mb-3"><i class="fas fa-suitcase pr-2"></i>Travels</h6>
+        </a>
+        <h3 class="font-weight-bold mb-3"><strong>Title of the news</strong></h3>
+        <p>
+          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+          magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro qui dolorem ipsum quia sit amet.
+        </p>
+        <p>by <a><strong>Carine Fox</strong></a>, 11/08/2018</p>
+        <a class="btn btn-indigo btn-md">Read more</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade bd-example-modal-xl"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myExtraLargeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="row mt-4">
+          <div class="col-lg-5">
+            <div class="view overlay rounded z-depth-2 mb-lg-0 mb-4">
+              <img class="img-fluid"
+                   src="https://mdbootstrap.com/img/Photos/Others/img%20(27).jpg"
+                   alt="Sample image">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+
+          </div>
+          <div class="col-lg-7">
+            <a href="#!"
+               class="green-text">
+              <h6 class="font-weight-bold mb-3"><i class="fas fa-utensils pr-2"></i>Comida</h6>
+            </a>
+            <h3 class="font-weight-bold mb-3"><strong>Nuevo lugar de distribución de colaciones</strong></h3>
+            <p>
+              Se ha habilitado un nuevo lugar en el que los deportistas podran recibir sus colaciones, es importante
+              mantener el orden para
+              hacer el proceso mas eficiente
+            </p>
+            <p>by <a><strong>Pablo Miranda</strong></a>, 10/06/2019</p>
+          </div>
+        </div>
+        <hr class="my-5">
+        <div>
+          <p>
+            El texto anterior era solo el resumen de la noticia, la gracia de este es que sea mas extenso y explique bien todo, 
+            al final es una forma de no tener que ahorrar palabras para que quepan en el espacio del resumen. Son basicamente 
+            el resumen y el cuerpo de la noticia.<br />
+            Se ha habilitado un nuevo lugar en el que los deportistas podran recibir sus colaciones, es importante
+            mantener el orden para
+            hacer el proceso mas eficiente.<br />
+            Se ha habilitado un nuevo lugar en el que los deportistas podran recibir sus colaciones, es importante
+            mantener el orden para
+            hacer el proceso mas eficiente.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
