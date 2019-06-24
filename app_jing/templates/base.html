@@ -5,7 +5,7 @@
   <title>{% block title %}{% endblock title %}</title>
   <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link href="{% static 'img/favicon.jpg' %}" rel="icon">
+	<link href="{% static 'images/favicon.jpg' %}" rel="icon">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/addons/datatables.min.css' %}" rel="stylesheet">
@@ -13,11 +13,14 @@
 		integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	{% block styles %}{% endblock styles %}
 
-	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/mdb.min.js' %}"></script>
+  <script src="{% static 'js/qrcode.min.js' %}"></script>
   <script src="{% static 'js/addons/datatables.min.js' %}"></script>
-	{% block scripts %}{% endblock scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+  {% block scripts %}{% endblock scripts %}
 </head>
 <body>
 
@@ -44,7 +47,7 @@
     <ul class="navbar-nav w-100 nav-fill">
       <li class="nav-item {% block activeNoticias %}{% endblock activeNoticias %}">
         <a class="nav-link"
-           href="{% url 'news:non-auth-news' %}">Noticias</a>
+           href="{% url 'news:home' %}">Noticias</a>
       </li>
       <li class="nav-item {% block activeInicio %}{% endblock activeInicio %}">
         <a class="nav-link"
@@ -74,13 +77,34 @@
              data-toggle="dropdown"
              aria-haspopup="true"
              aria-expanded="false">
-            <i class="fas fa-user"></i> Profile </a>
+             {% if person %}
+              {% if person.has_avatar %}
+                <img src="{{ avatar.avatar.url }}"
+                     class="rounded-circle z-depth-0"
+                     alt="avatar image"
+                     height="35">
+              {% else %}
+                <i class="fas fa-user"></i>
+              {% endif %}
+                {{ person }}
+             {% else %}
+              <i class="fas fa-user"></i> {{ name }}
+             {% endif %}
+            </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-info"
                aria-labelledby="navbarDropdownMenuLink-4">
+            {% if not person or person.is_organizer %}
+              <a class="dropdown-item"
+                 href="#"
+                 data-toggle="modal"
+                 data-target="#validationModal">Validar inscripción</a>
+            {% endif %}
+            {% if person %}
+              <a class="dropdown-item"
+                 href="#">Cambiar imagen</a>
+            {% endif %}
             <a class="dropdown-item"
-               href="#">My account</a>
-            <a class="dropdown-item"
-               href="{% url 'person:logout' %}">Log out</a>
+               href="{% url 'person:logout' %}">Cerrar Sesión</a>
           </div>
         </li>
       {% else %}
@@ -147,6 +171,70 @@
   </div>
 </div>
 
+<div class="modal fade"
+     id="validationModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog"
+       role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Validar Usuario</h4>
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% if person.is_organizer %}
+        <form class="border border-light p-5">
+          <label for="select">Nombre</label>
+          <input class="typeahead form-control"
+                id="validation-name"
+                type="text" />
+          <h6 id="validation-disclaimer" 
+              class="mt-4 text-center"
+              style="display: none">
+            Escanea el codigo QR o bien escribe el codigo numerico para validar tu cuenta
+          </h6>
+          <div class="my-5 justify-content-center mx-auto" 
+              id="qrcode"
+              style="width: 370px"></div>
+          <div class="border rounded-lg py-2 mt-3"
+              style="display: none"
+              id="code-container">
+            <h1 id="code"
+                class="text-center"></h1>
+          </div>
+        </form>
+      {% endif %}
+      {% if not person %}
+        <form class="border border-light p-5"
+              method="post"
+              action="{% url "person:validate" %}">
+          {% csrf_token %}
+          <input type="hidden"
+                 name="next"
+                 value="{{ request.path }}">
+          <h5 id="validation-disclaimer"
+              class="text-center">
+            Escribe el código de 6 digitos que te mostrara algun(a) organizador(a), tienes solo 5 minutos o el código se invalido
+          </h5>
+          <input class="form-control py-2 mt-5"
+                 id="code-input"
+                 type="text"
+                 pattern="\d*"
+                 maxlength="6"
+                 name="code">
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% block content %}
 
 {% endblock content %}
@@ -162,6 +250,34 @@
       $('#registerForm').attr('action', "{% url 'person:login' %}");
       $('#registerForm').submit();
     })
+
+    $('#validation-name').typeahead({
+	    source:  function (query, process) {
+        return $.get("{% url 'person:unvalidated' %}", { query: query }, function (data) {
+	          return process(data);
+	        });
+	    },
+      afterSelect: function (item) {
+        $.post("{% url 'person:getcodes' %}",
+          { 
+            "item": item,
+            "csrfmiddlewaretoken": '{{ csrf_token }}'
+          }, function(data) {
+            $('#validation-disclaimer').show()
+            $('#code').text(data.code)
+            $('#code-container').show()
+            var qrcode = new QRCode("qrcode", {
+              text: `{% url "person:validate" %}${data.id}`,
+              width: 370,
+              height: 370,
+              colorDark : "#000000",
+              colorLight : "#ffffff",
+              correctLevel : QRCode.CorrectLevel.H
+            });
+          }
+        )
+      }
+	  });
   })
 </script>
 

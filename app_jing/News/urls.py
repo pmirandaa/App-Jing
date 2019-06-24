@@ -1,8 +1,10 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
+from News.views import HomeNews
+
 app_name = 'news'
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="Noticias/baseNoticias.html"), name='non-auth-news'),
+    path('', HomeNews.as_view(), name='home'),
 ]
