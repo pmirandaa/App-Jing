@@ -16,24 +16,34 @@ from Person.models import Person
 from Person.models import PersonAvatar
 from Person.models import PersonTemporaryCode
 
+from News.views import HomeNews
+
 import datetime
 import random
 import json
+
 
 class RegisterView(View):
 
     def post(self, request):
         username = request.POST.get('username')
         password = request.POST.get('password')
+        error = None
 
-        new_user = User.objects.create_user(
-            username=username,
-            password=password,
-        )
+        try:
+            new_user = User.objects.create_user(
+                username=username,
+                password=password,
+            )
 
-        login(request, new_user)
+            login(request, new_user)
 
-        return HttpResponseRedirect(reverse('news:home'))
+            return HttpResponseRedirect(reverse('news:home'))
+
+        except:
+            error = "Un usuario con ese nombre ya existe."
+
+            return HomeNews.get_with_error(request, error=error)
 
 
 class LoginView(View):
@@ -98,11 +108,11 @@ class UnvalidatedPerson(View):
 
 
 class GetQRAndCode(View):
-    
+
     def random_with_N_digits(self, n):
         range_start = 10**(n-1)
         range_end = (10**n)-1
-        
+
         return random.randint(range_start, range_end)
 
     def post(self, request):
@@ -115,7 +125,7 @@ class GetQRAndCode(View):
         PersonTemporaryCode.objects.create(
             person=person,
             code=code,
-            expiration_date=timezone.now() + datetime.timedelta(minutes=5)
+            expiration_date=timezone.now() + datetime.timedelta(minutes=15)
         )
 
         return HttpResponse(json.dumps({
@@ -128,7 +138,7 @@ class ValidateUser(View):
 
     def get(self, request, person_id):
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             person = Person.objects.get(pk=person_id)
             person.user = request.user
 
@@ -142,12 +152,12 @@ class ValidateUser(View):
         next = request.POST.get('next')
         if PersonTemporaryCode.objects.filter(
             code=int(code),
-            expiration_date__lt=timezone.now()
+            expiration_date__gt=timezone.now()
         ).exists():
-            person = PersonTemporaryCode.objects.get(
+            person = PersonTemporaryCode.objects.filter(
                 code=int(code),
-                expiration_date__lt=timezone.now()
-            ).person
+                expiration_date__gt=timezone.now()
+            ).first().person
 
             person.user = request.user
             person.save()
