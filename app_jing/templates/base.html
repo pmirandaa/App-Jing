@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="es">
+
 <head>
   <title>{% block title %}{% endblock title %}</title>
   <meta charset="utf-8">
@@ -9,9 +10,9 @@
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/addons/datatables.min.css' %}" rel="stylesheet">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-		integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-	{% block styles %}{% endblock styles %}
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  {% block styles %}{% endblock styles %}
 
 	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
@@ -23,6 +24,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
   {% block scripts %}{% endblock scripts %}
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -57,21 +59,23 @@
       </li>
       {% if person %}
         <li class="nav-item {% block activePartidos %}{% endblock activePartidos %}">
-          <a class="nav-link"
-             href="#">Partidos</a>
+          <a class="nav-link" href="#">Partidos</a>
         </li>
         <li class="nav-item {% block activeEquipos %}{% endblock activeEquipos %}">
-          <a class="nav-link"
-             href="#">Equipos</a>
+          <a class="nav-link" href="#">Equipos</a>
         </li>
         <li class="nav-item {% block activeMensaje %}{% endblock activeMensaje %}">
-          <a class="nav-link"
-             href="#">Mensajes</a>
+          <a class="nav-link" href="#">Mensajes</a>
         </li>
-      {% endif %}
-    </ul>
-    <ul class="navbar-nav nav-flex-icons nav-fill">
-      {% if user.is_authenticated %}
+        {% endif %}
+        {% if user.is_superuser %}
+        <li class="nav-item {% block activeAdmin %}{% endblock activeAdmin %}">
+          <a class="nav-link" href="{% url 'administration:administracion-section' %}">Admin</a>
+        </li>
+        {% endif %}
+      </ul>
+      <ul class=" navbar-nav nav-flex-icons nav-fill">
+        {% if user.is_authenticated %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active"
              id="navbarDropdownMenuLink-4"
@@ -108,13 +112,10 @@
                href="{% url 'person:logout' %}">Cerrar Sesión</a>
           </div>
         </li>
-      {% else %}
+        {% else %}
         <li class="nav-item">
-          <a class="btn btn-outline-white my-0"
-             style="width: max-content"
-             href=""
-             data-toggle="modal"
-             data-target="#loginModal">Iniciar Sesión</a>
+          <a class="btn btn-outline-white my-0" style="width: max-content" href="" data-toggle="modal"
+            data-target="#loginModal">Iniciar Sesión</a>
         </li>
       {% endif %}
     </ul>
@@ -197,7 +198,7 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
 
 <div class="modal fade"
      id="validationModal"
@@ -267,7 +268,7 @@
 
 {% block content %}
 
-{% endblock content %}
+  {% endblock content %}
 
 <script>
   $(document).ready(function() {
@@ -355,4 +356,5 @@
 </script>
 
 </body>
+
 </html>
