@@ -7,6 +7,7 @@ from Person.views import HomePerson
 from Person.views import UnvalidatedPerson
 from Person.views import GetQRAndCode
 from Person.views import ValidateUser
+from Person.views import PersonsList
 
 app_name = 'person'
 
@@ -16,6 +17,7 @@ urlpatterns = [
     path('get_qr/', GetQRAndCode.as_view(), name='getcodes'),
     path('validate/', ValidateUser.as_view(), name='validate'),
     path('validate/<int:person_id>', ValidateUser.as_view()),
+    path('get_all/', PersonsList.as_view(), name='all'),
 
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),

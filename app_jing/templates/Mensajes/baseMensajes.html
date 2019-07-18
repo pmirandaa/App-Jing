@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  JING - Mensajes
+{% endblock title %}
+
+{% block activeMensaje %}active{% endblock activeMensaje %}
+
+{% block styles %}
+<style>
+  .btn-circle {
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    border-radius: 17px;
+  }
+</style>
+{% endblock styles %}
+
+{% block content %}
+  <section class="my-2 row">
+    <div class="d-flex row w-100 justify-content-center">
+      <h2 class="h1-responsive font-weight-bold text-center my-5">Mensajes</h2>
+      <a class="btn btn-danger btn-circle my-auto ml-5"
+         data-toggle="modal"
+         data-target=".new_message">
+        <i class="fas fa-paper-plane"></i>
+      </a>
+    </div>
+    <div class="w-100 mx-md-5 mx-4">
+      {% if messages %}
+        <table class="table table-bordered table-hover"
+              cellspacing="0"
+              width="100%">
+          <thead>
+            <tr>
+              <th class="th-sm">
+                Fecha
+              </th>
+              <th class="th-sm">
+                Remitente
+              </th>
+              <th class="th-sm">
+                Contenido
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for message in messages %}
+              <tr {% if message.is_read %}class="read-message"{% endif %}>
+                <td>{{ message.date|date:'Y/m/d H:i' }}</td>
+                <td>{{ message.sender }}</td>
+                <td>
+                  <p class="font-weight-bold mb-0">
+                    {{ message.subject }}
+                  </p>
+                  <hr class="mt-0 mb-2" />
+                  <p class="ml-3 mb-1">
+                    {{ message.body }}
+                  </p>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <h3 class="h3-responsive font-weight-bold text-center my-5">
+          Aún no has recibido mensajes en la aplicación.
+        </h3>
+      {% endif %}
+    </div>
+  </section>
+
+  <div class="modal fade new_message"
+       tabindex="-1"
+       role="dialog"
+       aria-labelledby="myExtraLargeModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <form method="POST"
+                id="messages_form">
+            {% csrf_token %}
+            <div class="row mt-4">
+              <div class="col-lg-5">
+                <select id="to-selector" class="form-control mb-3">
+                  <option value="" selected disabled>Elija un grupo de destinatarios</option>
+                  <option value="uni">Universidad</option>
+                  <option value="sport">Deporte</option>
+                  <option value="team">Equipo</option>
+                  <option value="person">Persona</option>
+                </select>
+                <select class="selectpicker form-control d-none mb-4"
+                        multiple
+                        id="university-picker"
+                        name="university">
+                  {% for university in universities %}
+                    <option value="{{ university.id }}">{{ university }}</option>
+                  {% endfor %}
+                </select>
+                <select class="selectpicker form-control d-none mb-4"
+                        multiple
+                        id="team-picker"
+                        name="team">
+                  {% for team in teams %}
+                  <option value="{{ team.id }}">{{ team }}</option>
+                  {% endfor %}
+                </select>
+                <select class="selectpicker form-control d-none mb-4"
+                        multiple
+                        id="sport-picker"
+                        name="sport">
+                  {% for sport in sports %}
+                  <option value="{{ sport.id }}">{{ sport }}</option>
+                  {% endfor %}
+                </select>
+                <input class="typeahead form-control d-none mb-4"
+                       id="message-name"
+                       type="text"
+                       autocomplete="off" />
+              </div>
+              <div class="col-lg-7">
+                <select class="form-control mb-3"
+                        name="category">
+                  <option value=""
+                          disabled
+                          selected>Elijá categoría</option>
+                  {% for category in categories %}
+                  <option value="{{ category.id }}"
+                          class="mb-2">
+                    {{ category.name }}
+                  </option>
+                  {% endfor %}
+                </select>
+                <div class="md-form mb-4">
+                  <input type="text"
+                         id="news_title"
+                         name="title"
+                         class="form-control validate">
+                  <label data-error="wrong"
+                         data-success="right"
+                         for="news_title">Titulo de la noticia</label>
+                </div>
+                <div class="md-form mb-4">
+                  <textarea id="news_resume"
+                            name="resume"
+                            class="md-textarea form-control"
+                            rows="3"></textarea>
+                  <label data-error="wrong"
+                         data-success="right"
+                         for="news_resume">Bajada de la noticia (Texto corto)</label>
+                </div>
+              </div>
+            </div>
+            <hr class="my-5">
+            <div class="md-form mb-4">
+              <textarea id="news_body"
+                        name="body"
+                        class="md-textarea form-control"
+                        rows="5"></textarea>
+              <label data-error="wrong"
+                     data-success="right"
+                     for="news_resume">Cuerpo de la noticia (Texto largo)</label>
+            </div>
+            <div class="row justify-content-end">
+              <button class="btn btn-success btn-md mr-3"
+                      onclick="$('#news_form').submit();">Agregar Noticia</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $('.table').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+        },
+        "searching": false,
+        "bInfo": false,
+        "columnDefs": [
+          { orderable: false, targets: 2 }
+        ],
+        "order": [[ 0, 'desc' ]]
+      });
+
+      $('.read-message').css("background-color", "rgba(0,0,0,.05)")
+
+      $.ajax({
+        method: "post",
+        url: "{% url 'messages:read' %}",
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          unread_messages: '{{ unread_messages }}'
+        }
+      })
+
+      $('#message-name').typeahead({
+        source:  function (query, process) {
+          return $.get("{% url 'person:all' %}", { query: query }, function (data) {
+              return process(data);
+          });
+        },
+        afterSelect: function (item) {
+          console.log(item)
+        }
+      })
+
+      $('#university-picker').selectpicker({
+        style: 'ml-0',
+        selectedTextFormat: 'count > 2',
+        countSelectedText: function (count, total) {
+          return `Se han seleccionado ${count} universidades`
+        },
+        noneSelectedText: "No se han seleccionado universidades"
+      });
+
+      $('#team-picker').selectpicker({
+        style: 'ml-0',
+        selectedTextFormat: 'count > 2',
+        countSelectedText: function (count, total) {
+          return `Se han seleccionado ${count} equipos`
+        },
+        noneSelectedText: "No se han seleccionado equipos"
+      });
+
+      $('#sport-picker').selectpicker({
+        style: 'ml-0',
+        selectedTextFormat: 'count > 2',
+        countSelectedText: function (count, total) {
+          return `Se han seleccionado ${count} deportes`
+        },
+        noneSelectedText: "No se han seleccionado deportes"
+      });
+
+      $('#to-selector').on('change', function () {
+        console.log($(this).val())
+        switch($(this).val()) {
+          case "uni":
+            $('#university-picker').parent().removeClass('d-none')
+            $('#university-picker').removeClass('d-none')
+            break
+          
+          case "sport":
+            $('#sport-picker').parent().removeClass('d-none')
+            $('#sport-picker').removeClass('d-none')
+            break
+          
+          case "team":
+            $('#team-picker').parent().removeClass('d-none')
+            $('#team-picker').removeClass('d-none')
+            break
+          
+          case "person":
+            $('#message-name').removeClass('d-none')
+            break
+
+          default:
+            break
+        }
+      })
+    })
+  </script>
+{% endblock content %}

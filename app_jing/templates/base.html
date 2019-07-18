@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="{% static 'images/favicon.jpg' %}" rel="icon">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/bootstrap-select.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/addons/datatables.min.css' %}" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
@@ -16,6 +17,7 @@
 	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
   <script src="{% static 'js/mdb.min.js' %}"
           defer></script>
   <script src="{% static 'js/qrcode.min.js' %}"></script>
@@ -66,7 +68,7 @@
         </li>
         <li class="nav-item {% block activeMensaje %}{% endblock activeMensaje %}">
           <a class="nav-link"
-             href="#">Mensajes</a>
+             href="{% url 'messages:home' %}">Mensajes ({{ person.pending_messages }})</a>
         </li>
       {% endif %}
     </ul>
@@ -100,10 +102,6 @@
                  data-toggle="modal"
                  data-target="#validationModal">Validar inscripción</a>
             {% endif %}
-            {% if person %}
-              <a class="dropdown-item"
-                 href="#">Cambiar imagen</a>
-            {% endif %}
             <a class="dropdown-item"
                href="{% url 'person:logout' %}">Cerrar Sesión</a>
           </div>
@@ -131,6 +129,18 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+{% endif %}
+{% if success %}
+<div class="alert alert-success alert-dismissible fade show m-4"
+     role="alert">
+  <strong>{{ success }}</strong>
+  <button type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 {% endif %}
 <div class="modal fade"
      id="loginModal"
@@ -251,7 +261,7 @@
                  value="{{ request.path }}">
           <h5 id="validation-disclaimer"
               class="text-center">
-            Escribe el código de 6 digitos que te mostrara algun(a) organizador(a), tienes solo 5 minutos o el código se invalido
+            Escribe el código de 6 digitos que te mostrara algun(a) organizador(a), tienes solo 15 minutos o el código será invalido
           </h5>
           <input class="form-control py-2 mt-5"
                  id="code-input"

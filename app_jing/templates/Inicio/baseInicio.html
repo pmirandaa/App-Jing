@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  JING - Inicio
+  JING - Informaciones
 {% endblock title %}
 
 {% block activeInicio %}active{% endblock activeInicio %}
@@ -43,23 +43,36 @@
     >
       <div class="container-fluid mt-3">
         <div class="row">
-          <div class="col-md-8">
-            <img class="img-fluid"
-                 src="{% static 'images/mapa.jpg' %}"
-                 alt="Mapa Sede">
-          </div>
-          <div class="col-md-4">
-            <h1>
-              Lugares de interes
-            </h1>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Entrada Principal</li>
-              <li class="list-group-item">Casino</li>
-              <li class="list-group-item">Camarines</li>
-              <li class="list-group-item">Baños</li>
-              <li class="list-group-item">Canchas de futbol</li>
-              <li class="list-group-item">Canchas de Tenis</li>
-            </ul>
+          <div class="col-12 justify-content-center">
+            {% if university %}
+              <div class="row justify-content-center mb-4">
+                {% if university.logo %}
+                  <img class="img-fluid"
+                      src="{{ university.logo.url }}"
+                      alt="Logo Sede"
+                      style="max-width: 100px">
+                {% endif %}
+                <h3 class="my-auto">
+                  {{ university.name }}
+                </h3>
+              </div>
+              {% if university.map %}
+              <div class="row">
+                <img class="img-fluid"
+                     src="{{ university.map.url }}"
+                     alt="Mapa Sede"
+                     style="max-width: 98%">
+              </div>
+              {% else %}
+                <h1 class="text-center mt-5">
+                  Aun no se ha cargado un mapa de la sede.
+                </h1>
+              {% endif %}
+            {% else %}
+              <h1 class="text-center mt-5">
+                Aun no se ha determinado la universidad sede.
+              </h1>
+            {% endif %}
           </div>
         </div>
       </div>

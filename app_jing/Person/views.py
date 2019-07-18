@@ -12,6 +12,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.core import serializers
 
+from University.models import UniversityEvent
+
 from Person.models import Person
 from Person.models import PersonAvatar
 from Person.models import PersonTemporaryCode
@@ -74,18 +76,21 @@ class HomePerson(View):
         person = None
         avatar = None
 
+        university_host = UniversityEvent.objects.filter(is_host=True, event__year=datetime.datetime.now().year).first()
+
         if request.user.is_authenticated:
             if Person.objects.filter(user=request.user).exists():
-                person = Person.objects.get(user=request.user)
-
                 if person.has_avatar:
                     avatar = PersonAvatar.objects.filter(person=person).latest()
+
+                person = Person.objects.get(user=request.user)
 
         return render(request, 'Inicio/baseInicio.html',
                       {
                           "name": request.user.username,
                           "person": person,
-                          "avatar": avatar
+                          "avatar": avatar,
+                          "university": university_host.university
                       })
 
 
@@ -96,6 +101,23 @@ class UnvalidatedPerson(View):
 
         persons = Person.objects.filter(
             user__isnull=True,
+            name__icontains=query
+        ).order_by('name')[:10]
+
+        person_names = []
+
+        for person in persons:
+            person_names.append(person.name)
+
+        return HttpResponse(json.dumps(person_names), 'application/json')
+
+
+class PersonsList(View):
+
+    def get(self, request):
+        query = request.GET.get('query')
+
+        persons = Person.objects.filter(
             name__icontains=query
         ).order_by('name')[:10]
 
@@ -144,12 +166,17 @@ class ValidateUser(View):
 
             person.save()
 
-        return HttpResponseRedirect(reverse('news:home'))
+            success = "Su cuenta se ha validado exitosamente"
+
+            return HomeNews.get_with_success(request, success=success)
+        else:
+            error = "Debe iniciar sesión con su perfil antes de intentar validar su cuenta."
+
+            return HomeNews.get_with_error(request, error=error)
 
     def post(self, request):
 
         code = request.POST.get('code')
-        next = request.POST.get('next')
         if PersonTemporaryCode.objects.filter(
             code=int(code),
             expiration_date__gt=timezone.now()
@@ -162,4 +189,10 @@ class ValidateUser(View):
             person.user = request.user
             person.save()
 
-        return HttpResponseRedirect(next)
+            success = "Su cuenta se ha validado exitosamente"
+
+            return HomeNews.get_with_success(request, success=success)
+        else:
+            error = "No se ha podido validar, recuerde que su numero de validación es valido solo por 15 minutos"
+
+            return HomeNews.get_with_error(request, error=error)
