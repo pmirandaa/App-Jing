@@ -22,6 +22,17 @@
 {% endblock styles %}
 
 {% block content %}
+  <div class="alert alert-success alert-dismissible fade show m-4 d-none"
+       role="alert"
+       id="send_alert">
+    <strong id="strong_alert"></strong>
+    <button type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <section class="my-2 row">
     <div class="d-flex row w-100 justify-content-center">
       <h2 class="h1-responsive font-weight-bold text-center my-5">Mensajes</h2>
@@ -125,57 +136,42 @@
                   <option value="{{ sport.id }}">{{ sport }}</option>
                   {% endfor %}
                 </select>
-                <input class="typeahead form-control d-none mb-4"
+                <input class="typeahead form-control d-none mb-4 mt-2"
                        id="message-name"
                        type="text"
                        autocomplete="off" />
+                <div class="card mb-4 p-2 d-none"
+                     id="box_name">
+                     <ul id="list_name" class="mb-0">
+
+                     </ul>
+                </div>
               </div>
               <div class="col-lg-7">
-                <select class="form-control mb-3"
-                        name="category">
-                  <option value=""
-                          disabled
-                          selected>Elijá categoría</option>
-                  {% for category in categories %}
-                  <option value="{{ category.id }}"
-                          class="mb-2">
-                    {{ category.name }}
-                  </option>
-                  {% endfor %}
-                </select>
                 <div class="md-form mb-4">
                   <input type="text"
-                         id="news_title"
-                         name="title"
+                         id="message_subject"
+                         name="subject"
                          class="form-control validate">
                   <label data-error="wrong"
                          data-success="right"
-                         for="news_title">Titulo de la noticia</label>
+                         for="message_subject">Asunto del mensaje</label>
                 </div>
                 <div class="md-form mb-4">
-                  <textarea id="news_resume"
-                            name="resume"
+                  <textarea id="message_body"
+                            name="message"
                             class="md-textarea form-control"
-                            rows="3"></textarea>
+                            rows="4"></textarea>
                   <label data-error="wrong"
                          data-success="right"
-                         for="news_resume">Bajada de la noticia (Texto corto)</label>
+                         for="message_body">Mensaje</label>
                 </div>
               </div>
             </div>
-            <hr class="my-5">
-            <div class="md-form mb-4">
-              <textarea id="news_body"
-                        name="body"
-                        class="md-textarea form-control"
-                        rows="5"></textarea>
-              <label data-error="wrong"
-                     data-success="right"
-                     for="news_resume">Cuerpo de la noticia (Texto largo)</label>
-            </div>
             <div class="row justify-content-end">
               <button class="btn btn-success btn-md mr-3"
-                      onclick="$('#news_form').submit();">Agregar Noticia</button>
+                      type="button"
+                      onclick="checkAndPack()">Enviar mensaje</button>
             </div>
           </form>
         </div>
@@ -209,13 +205,15 @@
       })
 
       $('#message-name').typeahead({
+        minLength: 3,
         source:  function (query, process) {
           return $.get("{% url 'person:all' %}", { query: query }, function (data) {
               return process(data);
           });
         },
         afterSelect: function (item) {
-          console.log(item)
+          $('#box_name').removeClass('d-none')
+          $('#list_name').append($('<li>').append(item))
         }
       })
 
@@ -247,7 +245,6 @@
       });
 
       $('#to-selector').on('change', function () {
-        console.log($(this).val())
         switch($(this).val()) {
           case "uni":
             $('#university-picker').parent().removeClass('d-none')
@@ -273,5 +270,47 @@
         }
       })
     })
+
+    function checkAndPack() {
+      let universities = $('#university-picker').val()
+      let teams = $('#team-picker').val()
+      let sports = $('#sport-picker').val()
+      let people = []
+      let subject = $('#message_subject').val()
+      let message = $('#message_body').val()
+      
+      $('#list_name li').each(function() {
+        people.push($(this).text())
+      })
+
+      $.ajax({
+        url: "{% url 'messages:home' %}",
+        type: "POST",
+        data: {
+          "csrfmiddlewaretoken": '{{ csrf_token }}',
+          "universities": universities,
+          "teams": teams,
+          "sports": sports,
+          "people": people,
+          "subject": subject,
+          "message": message,
+        },
+        success: function (data) {
+          data = JSON.parse(data)
+          $('.new_message').modal('hide')
+          $('#strong_alert').text(data.message)
+          $('#send_alert').removeClass('d-none')
+          if (data.reload) {
+            setTimeout(function() {
+              window.location.reload()
+            }, 5000)
+          }
+        },
+        error: function(xhr, error_message, error) {
+          console.log(xhr.status + ": " + xhr.responseText)
+          console.log(error_message)
+        }
+      })
+    }
   </script>
 {% endblock content %}
