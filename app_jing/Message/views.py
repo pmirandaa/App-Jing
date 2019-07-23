@@ -118,6 +118,14 @@ class ReadMessages(View):
     def post(self, request):
         ids = ast.literal_eval(request.POST.get('unread_messages'))
 
-        Message.objects.filter(pk__in=ids).update(is_read=True)
+        for id in ids:
+            message = Message.objects.get(pk=id)
+            reciever = message.reciever
+
+            reciever.pending_messages -= 1
+            reciever.save()
+
+            message.is_read = True
+            message.save()
 
         return HttpResponse({})
