@@ -76,14 +76,15 @@ class HomePerson(View):
         person = None
         avatar = None
 
-        university_host = UniversityEvent.objects.filter(is_host=True, event__year=datetime.datetime.now().year).first()
+        university_host = UniversityEvent.objects.filter(
+            is_host=True, event__year=datetime.datetime.now().year).first()
 
         if request.user.is_authenticated:
             if Person.objects.filter(user=request.user).exists():
-                if person.has_avatar:
-                    avatar = PersonAvatar.objects.filter(person=person).latest()
-
                 person = Person.objects.get(user=request.user)
+                if person.has_avatar:
+                    avatar = PersonAvatar.objects.filter(
+                        person=person).latest()
 
         return render(request, 'Inicio/baseInicio.html',
                       {

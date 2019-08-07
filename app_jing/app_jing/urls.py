@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('administracion/', include('Administration.urls')),
     path('partidos/', include('Match.urls')),
+    path('equipos/', include('Team.urls')),
     path('', include('News.urls')),
     path('personas/', include('Person.urls')),
     path('mensajes/', include('Message.urls')),
