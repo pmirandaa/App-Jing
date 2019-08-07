@@ -5,8 +5,8 @@
 <head>
   <title>{% block title %}{% endblock title %}</title>
   <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link href="{% static 'images/favicon.jpg' %}" rel="icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="{% static 'images/favicon.jpg' %}" rel="icon">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/bootstrap-select.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
@@ -15,12 +15,11 @@
     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   {% block styles %}{% endblock styles %}
 
-	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
-  <script src="{% static 'js/mdb.min.js' %}"
-          defer></script>
+  <script src="{% static 'js/mdb.min.js' %}" defer></script>
   <script src="{% static 'js/qrcode.min.js' %}"></script>
   <script src="{% static 'js/addons/datatables.min.js' %}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
@@ -29,46 +28,33 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand ml-10"
-     href="{% url 'news:home' %}">
-      <img src="{% static 'images/JING llamas.png' %}"
-           width="90"
-           height="30"
-           alt="Logo JING">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand ml-10" href="{% url 'news:home' %}">
+      <img src="{% static 'images/JING llamas.png' %}" width="90" height="30" alt="Logo JING">
       <h5 style="display: inline-block; font-weight: bold">JING</h5>
-  </a>
-  <button class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent-555"
-          aria-controls="navbarSupportedContent-555"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-between"
-       id="navbarSupportedContent-555">
-    <ul class="navbar-nav w-100 nav-fill">
-      <li class="nav-item {% block activeNoticias %}{% endblock activeNoticias %}">
-        <a class="nav-link"
-           href="{% url 'news:home' %}">Noticias</a>
-      </li>
-      <li class="nav-item {% block activeInicio %}{% endblock activeInicio %}">
-        <a class="nav-link"
-           href="{% url 'person:non-auth-home' %}">Información general
-        </a>
-      </li>
-      {% if person %}
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+      aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent-555">
+      <ul class="navbar-nav w-100 nav-fill">
+        <li class="nav-item {% block activeNoticias %}{% endblock activeNoticias %}">
+          <a class="nav-link" href="{% url 'news:home' %}">Noticias</a>
+        </li>
+        <li class="nav-item {% block activeInicio %}{% endblock activeInicio %}">
+          <a class="nav-link" href="{% url 'person:non-auth-home' %}">Información general
+          </a>
+        </li>
+        {% if person %}
         <li class="nav-item {% block activePartidos %}{% endblock activePartidos %}">
-          <a class="nav-link" href="#">Partidos</a>
+          <a class="nav-link" href="{% url 'match:matches-section' %}">Partidos</a>
         </li>
         <li class="nav-item {% block activeEquipos %}{% endblock activeEquipos %}">
-          <a class="nav-link" href="#">Equipos</a>
+          <a class="nav-link" href="{% url 'team:team-home' %}">Equipos</a>
         </li>
         <li class="nav-item {% block activeMensaje %}{% endblock activeMensaje %}">
-          <a class="nav-link"
-             href="{% url 'messages:home' %}">Mensajes ({{ person.pending_messages }})</a>
+          <a class="nav-link" href="{% url 'messages:home' %}">Mensajes ({{ person.pending_messages }})</a>
         </li>
         {% endif %}
         {% if user.is_superuser %}
@@ -80,35 +66,24 @@
       <ul class=" navbar-nav nav-flex-icons nav-fill">
         {% if user.is_authenticated %}
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle active"
-             id="navbarDropdownMenuLink-4"
-             data-toggle="dropdown"
-             aria-haspopup="true"
-             aria-expanded="false">
-             {% if person %}
-              {% if person.has_avatar %}
-                <img src="{{ avatar.avatar.url }}"
-                     class="rounded-circle z-depth-0"
-                     alt="avatar image"
-                     height="35">
-              {% else %}
-                <i class="fas fa-user"></i>
-              {% endif %}
-                {{ person }}
-             {% else %}
-              <i class="fas fa-user"></i> {{ name }}
-             {% endif %}
-            </a>
-          <div class="dropdown-menu dropdown-menu-right dropdown-info"
-               aria-labelledby="navbarDropdownMenuLink-4">
-            {% if not person or person.is_organizer %}
-              <a class="dropdown-item"
-                 href="#"
-                 data-toggle="modal"
-                 data-target="#validationModal">Validar inscripción</a>
+          <a class="nav-link dropdown-toggle active" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {% if person %}
+            {% if person.has_avatar %}
+            <img src="{{ avatar.avatar.url }}" class="rounded-circle z-depth-0" alt="avatar image" height="35">
+            {% else %}
+            <i class="fas fa-user"></i>
             {% endif %}
-            <a class="dropdown-item"
-               href="{% url 'person:logout' %}">Cerrar Sesión</a>
+            {{ person }}
+            {% else %}
+            <i class="fas fa-user"></i> {{ name }}
+            {% endif %}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+            {% if not person or person.is_organizer %}
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#validationModal">Validar inscripción</a>
+            {% endif %}
+            <a class="dropdown-item" href="{% url 'person:logout' %}">Cerrar Sesión</a>
           </div>
         </li>
         {% else %}
@@ -116,219 +91,155 @@
           <a class="btn btn-outline-white my-0" style="width: max-content" href="" data-toggle="modal"
             data-target="#loginModal">Iniciar Sesión</a>
         </li>
-      {% endif %}
-    </ul>
-  </div>
-</nav>
-{% if error %}
-  <div class="alert alert-danger alert-dismissible fade show m-4"
-       role="alert">
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  {% if error %}
+  <div class="alert alert-danger alert-dismissible fade show m-4" role="alert">
     <strong>{{error}}</strong>
-    <button type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-{% endif %}
-{% if success %}
-<div class="alert alert-success alert-dismissible fade show m-4"
-     role="alert">
-  <strong>{{ success }}</strong>
-  <button type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-{% endif %}
-<div class="modal fade"
-     id="loginModal"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="myModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog"
-       role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold"
-            id="loginModalTitle">Iniciar Sesión</h4>
-        <button type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="registerForm" method="POST">
-        {% csrf_token %}
-        <div class="modal-body mx-3">
-          <div class="md-form mb-5">
-            <i class="fas fa-user prefix grey-text"></i>
-            <input type="text"
-                   id="orangeForm-name"
-                   name="username"
-                   class="form-control validate">
-            <label data-error="wrong"
-                   data-success="right"
-                   for="orangeForm-name">Nombre de usuario</label>
-          </div>
-          <div class="md-form mb-4">
-            <i class="fas fa-lock prefix grey-text"></i>
-            <input type="password"
-                   id="orangeForm-pass"
-                   name="password"
-                   class="form-control validate">
-            <label data-error="wrong"
-                   data-success="right"
-                   for="orangeForm-pass">Contraseña</label>
-          </div>
-          <div class="md-form mb-4" 
-               id="confirm-pass"
-               style="display: none">
-            <i class="fas fa-lock prefix grey-text"></i>
-            <input type="password"
-                   id="orangeForm-pass2"
-                   name="password2"
-                   class="form-control validate">
-            <label data-error="wrong"
-                   data-success="right"
-                   for="orangeForm-pass2">Confirmar contraseña</label>
-          </div>
-      </form>
+  {% endif %}
+  {% if success %}
+  <div class="alert alert-success alert-dismissible fade show m-4" role="alert">
+    <strong>{{ success }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endif %}
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold" id="loginModalTitle">Iniciar Sesión</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="registerForm" method="POST">
+          {% csrf_token %}
+          <div class="modal-body mx-3">
+            <div class="md-form mb-5">
+              <i class="fas fa-user prefix grey-text"></i>
+              <input type="text" id="orangeForm-name" name="username" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="orangeForm-name">Nombre de usuario</label>
+            </div>
+            <div class="md-form mb-4">
+              <i class="fas fa-lock prefix grey-text"></i>
+              <input type="password" id="orangeForm-pass" name="password" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="orangeForm-pass">Contraseña</label>
+            </div>
+            <div class="md-form mb-4" id="confirm-pass" style="display: none">
+              <i class="fas fa-lock prefix grey-text"></i>
+              <input type="password" id="orangeForm-pass2" name="password2" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="orangeForm-pass2">Confirmar contraseña</label>
+            </div>
+        </form>
       </div>
       <div class="modal-footer d-flex justify-content-center">
         <button id="registerButton" class="btn btn-deep-orange">Registrarse</button>
-        <button id="registerButton2" 
-                class="btn btn-deep-orange"
-                style="display: none">Registrarse</button>
+        <button id="registerButton2" class="btn btn-deep-orange" style="display: none">Registrarse</button>
         <button id="loginButton" class="btn btn-default">Iniciar Sesión</button>
       </div>
     </div>
   </div>
   </div>
 
-<div class="modal fade"
-     id="validationModal"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="myModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog"
-       role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Validar Usuario</h4>
-        <button type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      {% if person.is_organizer %}
-        <form class="border border-light p-5"
-              autocomplete="off">
+  <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Validar Usuario</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% if person.is_organizer %}
+        <form class="border border-light p-5" autocomplete="off">
           <label for="select">Nombre</label>
-          <input class="typeahead form-control"
-                 id="validation-name"
-                 type="text" 
-                 autocomplete="off"/>
-          <h6 id="validation-disclaimer" 
-              class="mt-4 text-center"
-              style="display: none">
+          <input class="typeahead form-control" id="validation-name" type="text" autocomplete="off" />
+          <h6 id="validation-disclaimer" class="mt-4 text-center" style="display: none">
             Escanea el codigo QR o bien escribe el codigo numerico para validar tu cuenta
           </h6>
-          <div class="my-5 justify-content-center mx-auto" 
-               id="qrcode"
-               style="width: 300px"></div>
-          <div class="border rounded-lg py-2 mt-3"
-               style="display: none"
-               id="code-container">
-            <h1 id="code"
-                class="text-center"></h1>
+          <div class="my-5 justify-content-center mx-auto" id="qrcode" style="width: 300px"></div>
+          <div class="border rounded-lg py-2 mt-3" style="display: none" id="code-container">
+            <h1 id="code" class="text-center"></h1>
           </div>
         </form>
-      {% endif %}
-      {% if not person %}
-        <form class="border border-light p-5"
-              method="post"
-              action="{% url "person:validate" %}">
+        {% endif %}
+        {% if not person %}
+        <form class="border border-light p-5" method="post" action="{% url "person:validate" %}">
           {% csrf_token %}
-          <input type="hidden"
-                 name="next"
-                 value="{{ request.path }}">
-          <h5 id="validation-disclaimer"
-              class="text-center">
-            Escribe el código de 6 digitos que te mostrara algun(a) organizador(a), tienes solo 15 minutos o el código será invalido
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <h5 id="validation-disclaimer" class="text-center">
+            Escribe el código de 6 digitos que te mostrara algun(a) organizador(a), tienes solo 15 minutos o el código
+            será invalido
           </h5>
-          <input class="form-control py-2 mt-5"
-                 id="code-input"
-                 type="text"
-                 pattern="\d*"
-                 maxlength="6"
-                 name="code">
+          <input class="form-control py-2 mt-5" id="code-input" type="text" pattern="\d*" maxlength="6" name="code">
         </form>
-      {% endif %}
+        {% endif %}
+      </div>
     </div>
   </div>
-</div>
 
-{% block content %}
+  {% block content %}
 
   {% endblock content %}
 
-<script>
-  $(document).ready(function() {
-    $('#registerButton2').on('click', function () {
-      var password = document.getElementById("orangeForm-pass")
-      var confirm_password = document.getElementById("orangeForm-pass2");
+  <script>
+    $(document).ready(function () {
+      $('#registerButton2').on('click', function () {
+        var password = document.getElementById("orangeForm-pass")
+        var confirm_password = document.getElementById("orangeForm-pass2");
 
-      if(password.value != confirm_password.value) {
-        confirm_password.setCustomValidity("Las contraseñas no coinciden");
-      } else {
-        $('#registerForm').attr('action', "{% url 'person:register' %}");
+        if (password.value != confirm_password.value) {
+          confirm_password.setCustomValidity("Las contraseñas no coinciden");
+        } else {
+          $('#registerForm').attr('action', "{% url 'person:register' %}");
+          $('#registerForm').submit();
+        }
+      })
+
+      $('#orangeForm-pass2').on('change', function () {
+        var password = document.getElementById("orangeForm-pass")
+        var confirm_password = document.getElementById("orangeForm-pass2");
+
+        if (password.value != confirm_password.value) {
+          confirm_password.setCustomValidity("Las contraseñas no coinciden");
+        }
+      })
+
+      $('#registerButton').on('click', function () {
+        $('#registerButton').hide()
+        $('#loginButton').hide()
+        $('#loginModalTitle').text("Registrar usuario")
+        $('#confirm-pass').show()
+        $('#registerButton2').show()
+      })
+
+      $('#loginButton').on('click', function () {
+        $('#registerForm').attr('action', "{% url 'person:login' %}");
         $('#registerForm').submit();
-      }
-    })
+      })
 
-    $('#orangeForm-pass2').on('change', function () {
-      var password = document.getElementById("orangeForm-pass")
-      var confirm_password = document.getElementById("orangeForm-pass2");
-
-      if(password.value != confirm_password.value) {
-        confirm_password.setCustomValidity("Las contraseñas no coinciden");
-      }
-    })
-
-    $('#registerButton').on('click', function () {
-      $('#registerButton').hide()
-      $('#loginButton').hide()
-      $('#loginModalTitle').text("Registrar usuario")
-      $('#confirm-pass').show()
-      $('#registerButton2').show()
-    })
-
-    $('#loginButton').on('click', function () {
-      $('#registerForm').attr('action', "{% url 'person:login' %}");
-      $('#registerForm').submit();
-    })
-
-    $('#validation-name').typeahead({
-	    source:  function (query, process) {
-        return $.get("{% url 'person:unvalidated' %}", { query: query }, function (data) {
-	          return process(data);
-	        });
-	    },
-      afterSelect: function (item) {
-        $.post("{% url 'person:getcodes' %}",
-          { 
+      $('#validation-name').typeahead({
+        source: function (query, process) {
+          return $.get("{% url 'person:unvalidated' %}", {
+            query: query
+          }, function (data) {
+            return process(data);
+          });
+        },
+        afterSelect: function (item) {
+          $.post("{% url 'person:getcodes' %}", {
             "item": item,
             "csrfmiddlewaretoken": '{{ csrf_token }}'
-          }, function(data) {
+          }, function (data) {
             $('#validation-disclaimer').show()
             $('#code').text(data.code)
             $('#code-container').show()
@@ -336,35 +247,34 @@
               text: `${document.location.origin}{% url "person:validate" %}${data.id}`,
               width: 300,
               height: 300,
-              colorDark : "#000000",
-              colorLight : "#ffffff",
-              correctLevel : QRCode.CorrectLevel.H
+              colorDark: "#000000",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.H
             });
-          }
-        )
-      }
-	  });
+          })
+        }
+      });
 
-    $('#validationModal').on('hidden.bs.modal', function(){
-      $('#validation-name').val("")
-      $('#qrcode').html("")
-      $('#code').text("")
-      $('#code-container').hide()
-      $('#validation-disclaimer').hide()
-    });
+      $('#validationModal').on('hidden.bs.modal', function () {
+        $('#validation-name').val("")
+        $('#qrcode').html("")
+        $('#code').text("")
+        $('#code-container').hide()
+        $('#validation-disclaimer').hide()
+      });
 
-    $('#loginModal').on('hidden.bs.modal', function(){
-      $('#loginModalTitle').text("Iniciar Sesión")
-      $('#confirm-pass').hide()
-      $('#registerButton2').hide()
-      $('#registerButton').show()
-      $('#loginButton').show()
-      $('#orangeForm-name').val(null)
-      $('#orangeForm-pass').val(null)
-      $('#orangeForm-pass2').val(null)
-    });
-  })
-</script>
+      $('#loginModal').on('hidden.bs.modal', function () {
+        $('#loginModalTitle').text("Iniciar Sesión")
+        $('#confirm-pass').hide()
+        $('#registerButton2').hide()
+        $('#registerButton').show()
+        $('#loginButton').show()
+        $('#orangeForm-name').val(null)
+        $('#orangeForm-pass').val(null)
+        $('#orangeForm-pass2').val(null)
+      });
+    })
+  </script>
 
 </body>
 

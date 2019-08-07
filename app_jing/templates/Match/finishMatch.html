@@ -1,0 +1,53 @@
+<form method="POST" action="{% url 'match:finish' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-12 col-md-7 mt-3">
+            <div class="row mb-3">
+                <div class="col-12 col-md-3">Deporte: </div>
+                <div class="col-12 col-md-9">{{ match.sport }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12 col-md-3">Fecha: </div>
+                <div class="col-12 col-md-9">{{ match.date|date:'d-m-Y H:i' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12 col-md-3">Ganador: </div>
+                <div class="col-12 col-md-9">
+                    <select class="browser-default custom-select" name="winner">
+                        <option selected value=""> ---- </option>
+                        {% for tm in match.teams.all %}
+                        <option value="{{ tm.team.id }}">{{ tm.team.university.short_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Universidad</th>
+                        <th scope="col">Marcador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tm in match.teams.all %}
+                    <tr>
+                        <td>{{ tm.team.university.short_name }}</td>
+                        <td>
+                            <input min="0" type="number" class="form-control" value="{{ tm.score }}"
+                                name="score-{{ tm.team.id}}">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input type="hidden" name="match" value="{{ match.id }}">
+            <button class="btn btn-success btn-block my-4" type="submit">Terminar Partido</button>
+        </div>
+    </div>
+</form>
