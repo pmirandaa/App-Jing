@@ -405,7 +405,7 @@ JING - Administración
 			<select class="browser-default custom-select" name="event">
 				<option selected> ------ </option>
 				{% for event in events %}
-				<option value="{{event.id}}">{{ event.name }}</option>
+				<option value="{{event.id}}">{{ event.name }} - {{ event.year }}</option>
 				{% endfor %}
 			</select>
 		</div>

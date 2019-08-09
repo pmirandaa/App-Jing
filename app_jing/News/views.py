@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from Person.models import Person
 from Person.models import PersonAvatar
+from Event.models import Event
 from News.models import NewsCategory
 from News.models import News
 
@@ -66,7 +67,7 @@ class HomeNews(View):
                           "news": news
                       })
 
-    def get_with_error(request, error):
+    def get_with_error(self, request, error):
         person = None
         avatar = None
 
@@ -91,7 +92,7 @@ class HomeNews(View):
                           "news": news
                       })
 
-    def get_with_success(request, success):
+    def get_with_success(self, request, success):
         person = None
         avatar = None
 
@@ -129,6 +130,7 @@ class CreateNews(View):
         news = News(
             title=title,
             body=body,
+            event=Event.objects.all().first(),
             short_story=resume,
             date=timezone.now(),
             publisher=Person.objects.filter(user=request.user).first(),

@@ -54,7 +54,7 @@ class HomeMessages(View):
         people = request.POST.getlist('people[]', None)
 
         subject = request.POST.get('subject')
-        message = request.POST.get('message')
+        message_body = request.POST.get('message')
 
         message_recievers = []
 
@@ -91,7 +91,7 @@ class HomeMessages(View):
                 reciever=reciever,
                 event=event,
                 subject=subject,
-                body=message,
+                body=message_body,
             )
 
             message.save()

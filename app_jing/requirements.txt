@@ -11,3 +11,5 @@ pyflakes==2.1.1
 pytz==2019.1
 sqlparse==0.3.0
 wincertstore==0.2
+google-cloud-storage==1.18.0
+django-storages==1.7.1

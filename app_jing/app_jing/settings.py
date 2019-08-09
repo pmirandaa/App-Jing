@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,7 @@ SECRET_KEY = 'sct4id^f#&qi%a6!n&&*@+=4ok9tc_scuurg@kh(+9oa*5&a#l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('GAE_APPLICATION', None):
-    DEBUG = False
+    DEBUG = True
 else:
     DEBUG = True
 
@@ -94,7 +95,7 @@ if os.getenv('GAE_APPLICATION', None):
             'NAME': 'app-jing',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
-            'HOST': '/cloudsql/app-jing:us-west1:app-jing',
+            'HOST': '/cloudsql/app-jing-249302:us-west2:app-jing',
         }
     }
 else:
@@ -104,7 +105,7 @@ else:
             'NAME': 'app-jing',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
-            'HOST': '34.83.214.178',
+            'HOST': '35.235.115.168',
         }
     }
 
@@ -153,6 +154,15 @@ STATICFILES_DIRS = [
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = "https://storage.googleapis.com/app-jing-media2/"
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'app-jing-media2'
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, "App_Jing-75f3b8e6a824.json")
+)
+
 
 SESSION_COOKIE_AGE = 36000
