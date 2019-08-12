@@ -72,16 +72,7 @@ class AdminCreateUser(View):
         event = Event.objects.get(id=event_id)
         university = University.objects.get(id=university_id)
 
-        user = User(
-            username=rut,
-            email=email,
-            first_name=nombres,
-            last_name=apellidos
-        )
-        user.save()
-
         person = Person(
-            user=user,
             event=event,
             name='{}, {}'.format(apellidos, nombres),
             email=email,
@@ -94,10 +85,7 @@ class AdminCreateUser(View):
             is_sports_coordinator=is_sports_coordinator
         )
 
-        try:
-            person.save()
-        except:
-            user.delete()
+        person.save()
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)

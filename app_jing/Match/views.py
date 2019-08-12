@@ -1,10 +1,9 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.views import View
 
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
-
-from datetime import datetime
 
 from Location.models import Location
 from Person.models import Person
@@ -34,9 +33,6 @@ class MatchView(View):
                 event = person.event
                 teams = Team.objects.filter(event=event)
 
-                if person.has_avatar:
-                    avatar = PersonAvatar.objects.filter(
-                        person=person).latest()
         return render(request, 'Match/baseMatch.html',
                       {
                           "name": request.user.username,
@@ -57,9 +53,9 @@ class MatchView(View):
 
         date = request.POST.get('date')
         time = request.POST.get('time')
-        dt = '{} {}'.format(date, time)
+        d_t = '{} {}'.format(date, time)
 
-        match_date = datetime.strptime(dt, "%d-%m-%Y %H:%M")
+        match_date = datetime.strptime(d_t, "%Y-%m-%d %H:%M")
         event = None
 
         if request.user.is_authenticated:
@@ -88,8 +84,8 @@ class MatchView(View):
                     match.teams.add(match_team)
 
                 else:
-                    for mt in match_teams:
-                        mt.delete()
+                    for m_t in match_teams:
+                        m_t.delete()
                     match.delete()
 
         redirect_url = reverse('match:matches-section')
@@ -129,22 +125,20 @@ class MatchFinishView(View):
         match = Match.objects.get(id=match_id)
 
         if match is not None:
-            for mt in match.teams.all():
-                team_id = mt.team.id
+            for m_t in match.teams.all():
+                team_id = m_t.team.id
                 score_name = 'score-{}'.format(team_id)
                 score = request.POST.get(score_name)
                 if score != '':
-                    mt.score = score
-                    mt.save()
+                    m_t.score = score
+                    m_t.save()
                 else:
                     redirect_url = reverse('match:matches-section')
                     return HttpResponseRedirect(redirect_url)
 
             match.state = Match.PLAYED
             winner = Team.objects.get(id=winner_id)
-            tm_winner = match.teams.get(team=winner)
-            tm_winner.winner = True
-            tm_winner.save()
+            match.winner = winner
             match.save()
 
         redirect_url = reverse('match:matches-section')
@@ -170,13 +164,13 @@ class MatchCloseView(View):
         match = Match.objects.get(id=match_id)
 
         if match is not None:
-            for mt in match.teams.all():
-                team_id = mt.team.id
+            for m_t in match.teams.all():
+                team_id = m_t.team.id
                 score_name = 'score-{}'.format(team_id)
                 score = request.POST.get(score_name)
                 if score != '':
-                    mt.score = score
-                    mt.save()
+                    m_t.score = score
+                    m_t.save()
                 else:
                     redirect_url = reverse('match:matches-section')
                     return HttpResponseRedirect(redirect_url)
@@ -184,9 +178,7 @@ class MatchCloseView(View):
             match.state = Match.PLAYED
             match.closed = True
             winner = Team.objects.get(id=winner_id)
-            tm_winner = match.teams.get(team=winner)
-            tm_winner.winner = True
-            tm_winner.save()
+            match.winner = winner
             match.save()
 
         redirect_url = reverse('match:matches-section')

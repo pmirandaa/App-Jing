@@ -11,12 +11,7 @@
         <div class="row mb-3">
             <div class="col-12 col-md-3">Ganador: </div>
             <div class="col-12 col-md-9">
-                {% for tm in match.teams.all %}
-                {% if tm.winner %}
-                {{ tm.team.university.short_name }}
-                {% endif %}
-                {% endfor %}
-
+                {{ match.winner.university.short_name}}
             </div>
         </div>
     </div>

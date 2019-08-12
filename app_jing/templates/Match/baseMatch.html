@@ -3,7 +3,9 @@
 {% block title %}
 JING - Partidos
 {% endblock title %}
-
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+{% endblock styles %}
 {% block activePartidos %}active{% endblock activePartidos %}
 
 {% block content %}
@@ -116,11 +118,7 @@ JING - Partidos
 								</ul>
 							</td>
 							<td>
-								{% for tm in match.teams.all %}
-								{% if tm.winner %}
-								{{ tm.team.university.short_name }}
-								{% endif %}
-								{% endfor %}
+								{{match.winner.university.short_name}}
 							</td>
 							<td>
 								{% if match.close %}
@@ -178,7 +176,7 @@ JING - Partidos
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col">
+							<div class="col-12 col-md-6">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<label class="input-group-text" for="sport">Deporte</label>
@@ -192,7 +190,7 @@ JING - Partidos
 									</select>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-12 col-md-6">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text">Duración</span>
@@ -203,7 +201,7 @@ JING - Partidos
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm-12 col-md">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<label class="input-group-text" for="location">Lugar</label>
@@ -216,16 +214,16 @@ JING - Partidos
 									</select>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-sm-12 col-md">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text">Fecha</span>
 									</div>
-									<input placeholder="ej: 29-12-2019" name="date" type="text" aria-label="Fecha"
-										class="form-control">
+									<input placeholder="ej: 29-12-2019" name="date" type="date" aria-label="Fecha"
+										class="form-control" id="datepicker-create">
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-sm-12 col-md">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text">Hora</span>
@@ -370,8 +368,17 @@ JING - Partidos
 		</div>
 	</div>
 </div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/datepicker-es.js' %}"></script>
+
 <script>
 	$(document).ready(function () {
+		$.datepicker.setDefaults( $.datepicker.regional[ "es" ] );
+		$("#datepicker-create").datepicker();
+
 		$('#played-matches').DataTable({
 			"language": {
 				"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
@@ -500,4 +507,4 @@ JING - Partidos
 		})
 	});
 </script>
-{% endblock content %}
+{% endblock scripts %}
