@@ -1,7 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
 from Sport.models import Sport
 
 
-admin.site.register(Sport)
+class SportAdmin(admin.ModelAdmin):
+    list_display = ('name', 'gender', 'sport_type', 'coordinator')
+    search_fields = ('name', 'gender', 'sport_type', 'coordinator__name')
+
+admin.site.register(Sport, SportAdmin)
