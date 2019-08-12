@@ -11,7 +11,6 @@ from Sport.models import Sport
 class MatchTeam(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)
-    winner = models.BooleanField(default=False)
     comment = models.TextField(max_length=300, blank=True)
 
     def __str__(self):
@@ -38,6 +37,8 @@ class Match(models.Model):
     teams = models.ManyToManyField(MatchTeam)
     sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
     closed = models.BooleanField(default=False)
+    winner = models.ForeignKey(
+        Team, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
 
     def __str__(self):
         match_teams = self.teams.all()

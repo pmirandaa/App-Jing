@@ -57,7 +57,7 @@
           <a class="nav-link" href="{% url 'messages:home' %}">Mensajes ({{ person.pending_messages }})</a>
         </li>
         {% endif %}
-        {% if user.is_superuser %}
+        {% if person.is_admin %}
         <li class="nav-item {% block activeAdmin %}{% endblock activeAdmin %}">
           <a class="nav-link" href="{% url 'administration:administracion-section' %}">Admin</a>
         </li>

@@ -25,9 +25,6 @@ class TeamHome(View):
             if Person.objects.filter(user=request.user).exists():
                 person = Person.objects.get(user=request.user)
 
-                if person.has_avatar:
-                    avatar = PersonAvatar.objects.filter(
-                        person=person).latest()
         return render(request, 'Team/baseTeam.html',
                       {
                           "name": request.user.username,
@@ -50,7 +47,8 @@ class TeamHome(View):
                 person = Person.objects.get(user=request.user)
                 event = person.event
 
-        if len(players) > 0 and event is not None:
+        num_players = len(players)
+        if num_players > 0 and event is not None:
             coord_id = players[0]
 
             coordinator = Person.objects.get(id=coord_id)
@@ -63,14 +61,20 @@ class TeamHome(View):
             team.save()
 
             team_players = []
+            players_to_save = []
             for player_id in players:
                 player = Person.objects.get(id=player_id)
                 if player is not None:
+                    player.is_player = True
+                    players_to_save.append(player)
                     team_player = PlayerTeam(player=player, team=team)
                     team_players.append(team_player)
                 else:
                     team_players = []
                     team.delete()
+
+            for player in players_to_save:
+                player.save()
 
             for team_player in team_players:
                 team_player.save()
