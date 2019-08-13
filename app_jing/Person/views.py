@@ -18,6 +18,12 @@ from Person.models import Person
 from Person.models import PersonAvatar
 from Person.models import PersonTemporaryCode
 
+from Match.models import Match
+
+from Sport.models import Sport
+
+from University.models import University
+
 from News.views import HomeNews
 
 import datetime
@@ -79,6 +85,13 @@ class HomePerson(View):
         university_host = UniversityEvent.objects.filter(
             is_host=True, event__year=datetime.datetime.now().year).first()
 
+        matches = Match.objects.all()
+
+        sports = Sport.objects.all()
+
+        universities = University.objects.all().order_by('overall_score')
+        important_scores = len(University.objects.filter(overall_score__gt=0)) != 0
+
         if request.user.is_authenticated:
             if Person.objects.filter(user=request.user).exists():
                 person = Person.objects.get(user=request.user)
@@ -91,7 +104,11 @@ class HomePerson(View):
                           "name": request.user.username,
                           "person": person,
                           "avatar": avatar,
-                          "university": university_host.university
+                          "university": university_host.university,
+                          "matches": matches,
+                          "sports": sports,
+                          "universities": universities,
+                          "important_scores": important_scores,
                       })
 
 

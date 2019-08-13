@@ -107,7 +107,62 @@ JING - Partidos
 						</tr>
 					</thead>
 					<tbody>
-						{% for match in played %}
+						{% for match in played_open %}
+						<tr>
+							<td>{{ match.sport }}</td>
+							<td>
+								<ul>
+									{% for tm in match.teams.all %}
+									<li> {{tm.team.university.short_name}} </li>
+									{% endfor %}
+								</ul>
+							</td>
+							<td>
+								{{match.winner.university.short_name}}
+							</td>
+							<td>
+								{% if match.close %}
+								Cerrado
+								{% else %}
+								Abierto
+								{% endif %}
+							</td>
+							<td class="text-center">
+								<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+									{% if not match.closed %}
+									<button type="button" class="btn text-center btn-warning close-match-btn"
+										data-match="{{ match.id}}">
+										<i class="fas fa-key fa-sm pr-2" aria-hidden="true"></i>
+										Cerrar
+									</button>
+									{% for tm in match.teams.all %}
+										{% if tm.team.coordinator.user == user %}
+											<button 
+												type="button" 
+												class="btn text-center btn-orange comment-match-btn"
+												data-match="{{ match.id}}">
+												<i class="fas fa-sm pr-2 fa-comment-dots"></i>
+												Agregar comentario
+											</button>
+										{% endif %}
+									{% endfor %}
+									{% else %}
+									<button type="button" class="btn text-center btn-primary results-match-btn"
+										data-match="{{ match.id}}">
+										<i class="fas fa-eye fa-sm pr-2" aria-hidden="true"></i>
+										Ver resultados
+									</button>
+									{% endif %}
+									<button type="button" class="btn text-center btn-danger delete-match-btn"
+										data-toggle="modal" data-target="#delete-modal" data-match="{{match.id}}"
+										data-name="{{match}}">
+										<i class="fas fa-trash fa-sm pr-2" aria-hidden="true"></i> Borrar
+									</button>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+						{% for match in played_closed %}
 						<tr>
 							<td>{{ match.sport }}</td>
 							<td>
@@ -348,7 +403,28 @@ JING - Partidos
 	</div>
 </div>
 
-<!-- Close Team Form-->
+<!-- Comment Team Form-->
+<div class="modal fade" id="comment-match-modal" tabindex="-1" role="dialog" aria-labelledby="Agregar comentario"
+	aria-hidden="true">
+	<div class="modal-dialog  modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="Cerrar partido">Agregar comentario al partido</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid" id="comment-match-form"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Result Team Form-->
 <div class="modal fade" id="results-match-modal" tabindex="-1" role="dialog" aria-labelledby="Resultados partido"
 	aria-hidden="true">
 	<div class="modal-dialog  modal-lg" role="document">
@@ -502,6 +578,23 @@ JING - Partidos
 					.done(function (data) {
 						$('#results-match-form').html(data)
 						$('#results-match-modal').modal('show');
+					})
+			}
+		})
+
+		$('.comment-match-btn').click(function () {
+			let match_id = $(this).data('match')
+			if (match_id) {
+				$.ajax({
+						url: "{% url 'match:comment' %}",
+						data: {
+							csrfmiddlewaretoken: '{% csrf_token %}',
+							match: match_id
+						}
+					})
+					.done(function (data) {
+						$('#comment-match-form').html(data)
+						$('#comment-match-modal').modal('show');
 					})
 			}
 		})

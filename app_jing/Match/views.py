@@ -1,4 +1,7 @@
 from datetime import datetime
+from datetime import timedelta
+
+from django.utils import timezone
 from django.shortcuts import render
 from django.views import View
 
@@ -23,6 +26,9 @@ class MatchView(View):
         # TODO: Filtrar ambos por evento
         pending_matches = Match.objects.exclude(state=Match.PLAYED)
         played_matches = Match.objects.filter(state=Match.PLAYED)
+        
+        played_closed_matches = played_matches.filter(time_closed__lt=(timezone.now() - timedelta(hours=1)))
+        played_opened_matches = played_matches.filter(time_closed__gt=(timezone.now() - timedelta(hours=1)))
 
         locations = Location.objects.all()
         sports = Sport.objects.all()
@@ -38,7 +44,8 @@ class MatchView(View):
                           "name": request.user.username,
                           "person": person,
                           "pending": pending_matches,
-                          "played": played_matches,
+                          "played_closed": played_closed_matches,
+                          "played_open": played_opened_matches,
                           "locations": locations,
                           "sports": sports,
                           "teams": teams
@@ -139,6 +146,7 @@ class MatchFinishView(View):
             match.state = Match.PLAYED
             winner = Team.objects.get(id=winner_id)
             match.winner = winner
+            match.time_closed = timezone.now()
             match.save()
 
         redirect_url = reverse('match:matches-section')
@@ -196,6 +204,32 @@ class MatchResultsView(View):
                       {
                           "match": match
                       })
+
+
+class MatchCommentView(View):
+
+    def get(self, request):
+        match_id = request.GET.get('match')
+
+        match = Match.objects.get(id=match_id)
+
+        return render(request, 'Match/commentMatch.html',
+                      {
+                          "match": match
+                      })
+
+    def post(self, request):
+        match_id = request.POST.get('match')
+        team_id = request.POST.get('team')
+        comment = request.POST.get('comment')
+
+        match = Match.objects.get(pk=match_id)
+        match_team = match.teams.get(pk=team_id)
+
+        match_team.comment = comment
+        match_team.save()
+
+        return HttpResponseRedirect(reverse('match:matches-section'))
 
 
 class MatchDeleteView(View):

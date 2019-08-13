@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 
 from Match.views import MatchView, MatchDeleteView, MatchStartView
 from Match.views import MatchFinishView, MatchCloseView, MatchResultsView
+from Match.views import MatchCommentView
 
 app_name = 'match'
 
@@ -14,4 +15,5 @@ urlpatterns = [
     path('finish', MatchFinishView.as_view(), name='finish'),
     path('close', MatchCloseView.as_view(), name='close'),
     path('results', MatchResultsView.as_view(), name='results'),
+    path('comment', MatchCommentView.as_view(), name='comment'),
 ]

@@ -37,6 +37,7 @@ class Match(models.Model):
     teams = models.ManyToManyField(MatchTeam)
     sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
     closed = models.BooleanField(default=False)
+    time_closed = models.DateTimeField(null=True, blank=True)
     winner = models.ForeignKey(
         Team, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
 

@@ -37,3 +37,9 @@ class Sport(models.Model):
             self.name,
             self.get_gender_display()
         )
+
+
+class FinalSportPoints(models.Model):
+    sport_type = models.CharField(max_length=1, choices=Sport.SPORT_TYPE)
+    place = models.IntegerField()
+    points = models.IntegerField()

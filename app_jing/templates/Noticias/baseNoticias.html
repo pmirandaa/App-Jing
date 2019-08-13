@@ -56,36 +56,47 @@ JING - Noticias
   </div>
   {% if news %}
   <div class="col-md-10 offset-md-1">
-    {% for new in news %}
-      <div class="row {% if forloop.counter|divisibleby:2 %}flex-row-reverse{% endif %}">
-        <div class="col-lg-5">
-          <div class="view overlay rounded z-depth-2 mb-lg-0 mb-4">
-            <img class="img-fluid"
-                 src="{{ new.picture.url }}"
-                 alt="{{ new.title }}">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-7">
-          <a href="#!"
-             class="{{ new.category.color }}-text category">
-            <h6 class="font-weight-bold mb-3">{{ new.category.icon|safe }}{{ new.category.name }}</h6>
-          </a>
-          <h3 class="font-weight-bold mb-3"><strong>{{ new.title }}</strong></h3>
-          <p class="news_short">
-            {{ new.short_story|linebreaksbr }}
-          </p>
-          <p class="news_long d-none">
-            {{ new.body|linebreaksbr }}
-          </p>
-          <p class="news_data">by <a><strong>{{ new.publisher.name }}</strong></a>, {{ new.date|date:'Y/m/d H:i' }}</p>
-          <a class="btn {{ new.category.btn_class }} btn-md open-modal">Mas Información</a>
-        </div>
-      </div>
-      <hr class="my-5">
-    {% endfor %}
+    <table id="dt-select"
+           class="table table-bordered"
+           cellspacing="0"
+           width="100%">
+        <thead style="display: none"><tr><th></th></tr></thead>
+        <tbody>
+          {% for new in news %}
+            <tr>
+              <td>
+                <div class="row {% if forloop.counter|divisibleby:2 %}flex-row-reverse{% endif %}">
+                  <div class="col-lg-5">
+                    <div class="view overlay rounded z-depth-2 mb-lg-0 mb-4">
+                      <img class="img-fluid"
+                          src="{{ new.picture.url }}"
+                          alt="{{ new.title }}">
+                      <a>
+                        <div class="mask rgba-white-slight"></div>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-lg-7">
+                    <a href="#!"
+                      class="{{ new.category.color }}-text category">
+                      <h6 class="font-weight-bold mb-3">{{ new.category.icon|safe }}{{ new.category.name }}</h6>
+                    </a>
+                    <h3 class="font-weight-bold mb-3"><strong>{{ new.title }}</strong></h3>
+                    <p class="news_short">
+                      {{ new.short_story|linebreaksbr }}
+                    </p>
+                    <p class="news_long d-none">
+                      {{ new.body|linebreaksbr }}
+                    </p>
+                    <p class="news_data">by <a><strong>{{ new.publisher.name }}</strong></a>, {{ new.date|date:'Y/m/d H:i' }}</p>
+                    <a class="btn {{ new.category.btn_class }} btn-md open-modal">Mas Información</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
   </div>
   {% else %}
     <h3 class="h3-responsive font-weight-bold text-center my-5">No hay publicaciones para los valores seleccionados</h3>
@@ -218,6 +229,16 @@ JING - Noticias
   </div>
 </div>
 <script>
+  $(document).ready(function () {
+    $('#dt-select').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+        },
+        "bInfo": false,
+        "searching": false,
+    });
+  })
+
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
