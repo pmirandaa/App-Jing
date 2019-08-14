@@ -12,8 +12,9 @@ class Person(models.Model):
     )
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email = models.EmailField()
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.PROTECT)
     rut = models.CharField(max_length=13)
     phone_number = models.CharField(max_length=20)
     is_admin = models.BooleanField(default=False)
@@ -26,7 +27,7 @@ class Person(models.Model):
     pending_messages = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return '{} {}'.format(self.name, self.last_name)
 
 
 class PersonAvatar(models.Model):

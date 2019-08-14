@@ -21,6 +21,21 @@ JING - Administración
 			aria-controls="nav-contact" aria-selected="false">Universidades</a>
 	</div>
 </nav>
+{% if alert %}
+<div class="row mt-3">
+	<div class="col"></div>
+	<div class="col-10">
+
+		<div class="alert alert-{{alert.type}} alert-dismissible fade show" role="alert">
+			{{alert.message}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
+	<div class="col"></div>
+</div>
+{% endif %}
 <div class="tab-content" id="nav-tabContent">
 	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 		<div class="container-fluid">
@@ -50,7 +65,7 @@ JING - Administración
 							{% for person in people %}
 							<tr>
 								<td>{{ person.rut }}</td>
-								<td>{{ person.name }}</td>
+								<td>{{ person.name }} {{ person.last_name}}</td>
 								<td>{{ person.email }}</td>
 								<td>{{ person.university.short_name }}</td>
 								<td>
@@ -65,13 +80,13 @@ JING - Administración
 								</td>
 								<td class="text-center">
 									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-										{% comment %} <button type="button" class="btn text-center btn-info"
-											data-toggle="modal" data-target="#edit-modal">
+										<button type="button" class="btn text-center btn-info edit-user-btn"
+											data-user="{{ person.id }}">
 											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
-										</button> {% endcomment %}
+										</button>
 										<button type="button" class="btn text-center btn-danger delete-user-btn"
-											data-toggle="modal" data-target="#delete-modal"
-											data-user="{{person.user.id}}" data-user-name="{{person.name}}">
+											data-toggle="modal" data-target="#delete-modal" data-user="{{person.id}}"
+											data-user-name="{{person.name}}">
 											<i class="fas fa-trash fa-sm pr-2" aria-hidden="true"></i> Borrar
 										</button>
 									</div>
@@ -117,10 +132,10 @@ JING - Administración
 								<td>{{ sport.coordinator }}</td>
 								<td class="text-center">
 									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-										{% comment %} <button type="button" class="btn text-center btn-info"
-											data-toggle="modal" data-target="#edit-modal">
+										<button type="button" class="btn text-center btn-info edit-sport-btn"
+											data-sport="{{sport.id}}">
 											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
-										</button> {% endcomment %}
+										</button>
 										<button type="button" class="btn text-center btn-danger delete-sport-btn"
 											data-toggle="modal" data-target="#delete-modal" data-sport="{{ sport.id }}"
 											data-name="" {{ sport }}>
@@ -212,10 +227,10 @@ JING - Administración
 								<td>{{location.university.short_name}}</td>
 								<td class="text-center">
 									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-										{% comment %} <button type="button" class="btn text-center btn-info"
-											data-toggle="modal" data-target="#edit-modal">
+										<button type="button" class="btn text-center btn-info edit-location-btn"
+											data-location="{{location.id}}">
 											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
-										</button> {% endcomment %}
+										</button>
 										<button type="button" class="btn text-center btn-danger delete-location-btn"
 											data-toggle="modal" data-target="#delete-modal"
 											data-location="{{location.id}}" data-name="{{location.name}}">
@@ -261,10 +276,10 @@ JING - Administración
 								<td> {{uni.city}} </td>
 								<td class="text-center">
 									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-										{% comment %} <button type="button" class="btn text-center btn-info"
-											data-toggle="modal" data-target="#edit-modal">
+										<button type="button" class="btn text-center btn-info edit-uni-btn"
+											data-uni="{{ uni.id }}">
 											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
-										</button> {% endcomment %}
+										</button>
 										<button type="button" class="btn text-center btn-danger delete-uni-btn"
 											data-toggle="modal" data-target="#delete-modal" data-uni="{{uni.id}}"
 											data-name="{{uni.name}}">
@@ -318,12 +333,11 @@ JING - Administración
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="container-fluid">
+				<div class="container-fluid" id="edit-modal-form">
 					Este es el modal de edición
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary">Guardar</button>
 				<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
 			</div>
 		</div>
@@ -501,7 +515,17 @@ JING - Administración
 				placeholder="Por ejmplo: UCH - Universidad de Chile" aria-label="Por ejmplo: UCH - Universidad d Chile"
 				aria-describedby="uni-name-addon">
 		</div>
-
+		{% comment %} <div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text">Coordinador</label>
+			</div>
+			<select class="browser-default custom-select" name="coordinator" required>
+				<option selected> ------ </option>
+				{% for coord in unis_coords %}
+				<option value="{{coord.id}}">{{ coord.name }}</option>
+				{% endfor %}
+			</select>
+		</div> {% endcomment %}
 		<div class="md-form form-sm">
 			<button class="btn btn-info btn-block my-4" type="submit" id="create-event">Crear Universidad</button>
 		</div>
@@ -629,7 +653,6 @@ JING - Administración
 		<button class="btn btn-danger btn-block my-4" type="submit">Borrar Universidad</button>
 	</form>
 </div>
-
 
 <script>
 	$('btn[id^="create-"]').click(function () {
@@ -775,5 +798,58 @@ JING - Administración
 		$('#delete-modal .modal-body').html(delete_location_form)
 		delete_location_form.attr('hidden', false)
 	})
+
+	$('.edit-user-btn').click(function () {
+		let btn = $(this)
+		let person = btn.data('user')
+		if (person) {
+			let url = "{% url 'administration:editar-usuario' %}"
+			getEditForm(person, url)
+		}
+	})
+
+	$('.edit-uni-btn').click(function () {
+		let btn = $(this)
+		let uni = btn.data('uni')
+		if (uni) {
+			let url = "{% url 'administration:editar-universidad' %}"
+			getEditForm(uni, url)
+		}
+	})
+
+	$('.edit-location-btn').click(function () {
+		let btn = $(this)
+		let location = btn.data('location')
+		if (location) {
+			let url = "{% url 'administration:editar-lugar' %}"
+			getEditForm(location, url)
+		}
+	})
+
+	$('.edit-sport-btn').click(function () {
+		let btn = $(this)
+		let sport = btn.data('sport')
+		if (sport) {
+			let url = "{% url 'administration:editar-deporte' %}"
+			getEditForm(sport, url)
+		}
+	})
+
+	function getEditForm(id, url) {
+		$('btn').prop('disabled', true)
+		$.ajax({
+				url: url,
+				data: {
+					csrfmiddlewaretoken: '{% csrf_token %}',
+					id: id
+				}
+			})
+			.done(function (data) {
+				$('#edit-modal-form').html(data)
+				$('#edit-modal').modal('show')
+			}).always(function () {
+				$('btn').prop('disabled', false)
+			})
+	}
 </script>
 {% endblock content %}

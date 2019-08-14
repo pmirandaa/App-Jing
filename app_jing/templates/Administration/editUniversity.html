@@ -1,0 +1,45 @@
+<div class="mx-5" id="uni-create-form">
+    <form method="POST" action="{% url 'administration:editar-universidad' %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{university.id}}">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="uni-name-addon">Nombre</span>
+            </div>
+            <input name="name" type="text" class="form-control" placeholder="Nombre Universidad"
+                aria-label="Nombre Universidad" aria-describedby="uni-name-addon" value="{{university.name}}">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="uni-city-addon">Ciudad</span>
+            </div>
+            <input name="city" type="text" class="form-control" placeholder="Ciudad" aria-label="Ciudad"
+                aria-describedby="uni-city-addon" value="{{university.city}}">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="uni-name-addon">Siglas</span>
+            </div>
+            <input name="short-name" type="text" class="form-control"
+                placeholder="Por ejemplo: UCH - Universidad de Chile"
+                aria-label="Por ejmplo: UCH - Universidad de Chile" aria-describedby="uni-name-addon"
+                value="{{university.short_name}}">
+        </div>
+        {% comment %} <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text">Coordinador</label>
+            </div>
+            <select class="browser-default custom-select" name="coordinator" required>
+                <option selected> ------ </option>
+                {% for coord in unis_coords %}
+                <option value="{{coord.id}}">{{ coord.name }}</option>
+                {% endfor %}
+            </select>
+        </div> {% endcomment %}
+        <div class="md-form form-sm">
+            <button class="btn btn-info btn-block my-4" type="submit">Actualizar Universidad</button>
+        </div>
+    </form>
+</div>
