@@ -1,0 +1,36 @@
+<div class="mx-5">
+    <form method="POST" action="{% url 'administration:editar-lugar' %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{location.id}}">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nombre</span>
+            </div>
+            <input name="name" type="text" aria-label="Nombre" class="form-control" value="{{ location.name }}"
+                required>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Dirección</span>
+            </div>
+            <input name="address" type="text" aria-label="Dirección" class="form-control" value="{{ location.address}}"
+                required>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="location-university">Universidad</label>
+            </div>
+            <select class="browser-default custom-select" name="university" required>
+                <option selected value=""> ------ </option>
+                {% for uni in universities %}
+                <option value="{{uni.id}}" {% if location.university == uni %}selected{% endif %}>
+                    {{ uni.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="md-form form-sm">
+            <button class="btn btn-info btn-block my-4" type="submit">Actualizar Lugar</button>
+        </div>
+    </form>
+</div>

@@ -10,6 +10,21 @@ JING - Equipos
 
 
 <div class="container">
+    {% if alert %}
+    <div class="row mt-3">
+        <div class="col"></div>
+        <div class="col-10">
+
+            <div class="alert alert-{{alert.type}} alert-dismissible fade show" role="alert">
+                {{alert.message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+    {% endif %}
     <div class="row my-5">
         <div class="col-md-6 col-12 pt-2">
             <h2>Lista de Equipos</h2>
@@ -43,7 +58,8 @@ JING - Equipos
                         <td>{{ team.coordinator }}</td>
                         <td class="text-center">
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <button type="button" class="btn text-center btn-info">
+                                <button type="button" class="btn text-center btn-info edit-team-btn"
+                                    data-team="{{team.id}}">
                                     <i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
                                 </button>
                                 <button type="button" class="btn text-center btn-danger delete-team-btn"
@@ -74,12 +90,10 @@ JING - Equipos
             </div>
             <form method="POST" action="{% url 'team:create-team'%}">
                 {% csrf_token %}
-
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col">
-
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" for="sport">Deporte</label>
@@ -106,7 +120,7 @@ JING - Equipos
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 col-12">
+                            <div class="col">
                                 <h4>Seleccione jugador</h4>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -117,15 +131,23 @@ JING - Equipos
                                         <option value="" selected> ------ </option>
                                         {% for player in players %}
                                         <option class="uni-{{player.university.id}}" value="{{ player.id }}">
-                                            {{ player.name }}</option>
+                                            {{ player.name }} {{ player.last_name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-12">
+                        </div>
+                        <div class="row mb-3" id="captain-selector" hidden>
+                            <div class="col">
+                                <h4>Capitán</h4>
+                                <select class="browser-default custom-select" name="captain">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <h4>Jugadores</h4>
                                 <div id="player-list"></div>
-
                             </div>
                         </div>
                     </div>
@@ -144,6 +166,28 @@ JING - Equipos
 <button id="player-btn" class="btn btn-light btn-block text-left mb-3 delete-btn" type="button" hidden>
     <i class="fas fa-times mr-5 delete-player"></i>
 </button>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="edit-modal-form">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Delete Team Form-->
 <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -188,6 +232,7 @@ JING - Equipos
 
     $('[name=university]').change(function () {
         let uniId = $(this).val()
+        $('#player-list').empty()
         if (uniId != '') {
             $('option[class^=uni-]').hide()
             if (uniId != '') {
@@ -203,6 +248,13 @@ JING - Equipos
     $('#players-selector').change(function () {
         let playerId = $(this).val()
         if (playerId != '') {
+            let capOption = $('#players-selector option:selected').clone()
+            if ($('[name=captain] option').length > 0) {
+                capOption.prop('selected', false)
+            } else {
+                $('#captain-selector').prop('hidden', false)
+            }
+            $('[name=captain]').append(capOption)
             let player = $('#players-selector option:selected').text()
             $('#players-selector option:selected').hide()
             $(this).val(undefined)
@@ -223,11 +275,22 @@ JING - Equipos
         let playerId = btn.data('player')
         let inputId = '#player-' + playerId
 
+        $('[name=captain] option[value=' + playerId + ']').remove()
         $(inputId).remove()
         btn.remove()
 
         let option = '#players-selector option[value=' + playerId + ']'
         $(option).show()
+
+        let capOpts = $('[name=captain] option')
+        if (capOpts.length > 0) {
+            let selectedCap = $('[name=captain] option:selected')
+            if (selectedCap == undefined) {
+                capOps[0].prop('selected', true)
+            }
+        } else {
+            $('#captain-selector').prop('hidden', true)
+        }
     })
 
     $('.delete-team-btn').click(function () {
@@ -237,6 +300,80 @@ JING - Equipos
         let team_name = $(this).data('name')
         $('#delete-team-id').val(team_id)
         $('#team-name').html(team_name)
+    })
+
+    $('.edit-team-btn').click(function () {
+        let btn = $(this)
+        let team = btn.data('team')
+        if (team) {
+            let url = "{% url 'team:edit-team' %}"
+            getEditForm(team, url)
+        }
+    })
+
+    function getEditForm(id, url) {
+        $('btn').prop('disabled', true)
+        $.ajax({
+                url: url,
+                data: {
+                    csrfmiddlewaretoken: '{% csrf_token %}',
+                    id: id
+                }
+            })
+            .done(function (data) {
+                $('#edit-modal-form').html(data)
+                $('#edit-modal').modal('show')
+            }).always(function () {
+                $('btn').prop('disabled', false)
+            })
+    }
+
+    $('#edit-modal-form').on('change', '#edit-players-selector', function () {
+        let playerId = $(this).val()
+        if (playerId != '') {
+            let capOption = $('#edit-players-selector option:selected').clone()
+            if ($('[name=edit-captain] option').length > 0) {
+                capOption.prop('selected', false)
+            } else {
+                $('#edit-captain-selector').prop('hidden', false)
+            }
+            $('[name=edit-captain]').append(capOption)
+            let player = $('#edit-players-selector option:selected').text()
+            $('#edit-players-selector option:selected').hide()
+            $(this).val(undefined)
+
+            let btn = $('#player-btn').clone().removeAttr('id').data('player', playerId).prop('hidden', false)
+
+            let input = $('#player-input').clone().attr('id', 'player-' + playerId)
+
+            input.val(playerId)
+            btn.append(player)
+
+            $('#edit-player-list').append(input, btn)
+        }
+    })
+
+    $('#edit-modal-form').on('click', '.delete-btn .delete-player', function () {
+        let btn = $(this).parent()
+        let playerId = btn.data('player')
+        let inputId = '#player-' + playerId
+
+        $('[name=edit-captain] option[value=' + playerId + ']').remove()
+        $(inputId).remove()
+        btn.remove()
+
+        let option = '#edit-players-selector option[value=' + playerId + ']'
+        $(option).prop('hidden', false)
+
+        let capOpts = $('[name=edit-captain] option')
+        if (capOpts.length > 0) {
+            let selectedCap = $('[name=edit-captain] option:selected')
+            if (selectedCap == undefined) {
+                capOps[0].prop('selected', true)
+            }
+        } else {
+            $('#edit-captain-selector').prop('hidden', true)
+        }
     })
 </script>
 {% endblock content %}
