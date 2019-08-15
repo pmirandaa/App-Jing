@@ -31,6 +31,7 @@ class Sport(models.Model):
         max_length=1, choices=SPORT_TYPE, default=TYPE_A)
     # rules = models.FileField(upload_to='uploads/reglamentos/')
     coordinator = models.ForeignKey(Person, on_delete=models.PROTECT)
+    closed = models.BooleanField(default=False)
 
     def __str__(self):
         return '{} {}'.format(

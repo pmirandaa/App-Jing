@@ -24,7 +24,7 @@ JING - Noticias
 <section class="my-2">
   <div class="d-flex row w-100 justify-content-center">
     <h2 class="h1-responsive font-weight-bold text-center my-5">Ultimas Noticias</h2>
-    {% if person.is_organizer %}
+    {% if person.is_organizer or person.is_admin %}
       <a class="btn btn-danger btn-circle my-auto ml-5"
          data-toggle="modal"
          data-target=".new_news">
@@ -55,9 +55,9 @@ JING - Noticias
     </form>
   </div>
   {% if news %}
-  <div class="col-md-10 offset-md-1">
+  <div class="d-flex col-md-11 mx-auto">
     <table id="dt-select"
-           class="table table-bordered"
+           class="table"
            cellspacing="0"
            width="100%">
         <thead style="display: none"><tr><th></th></tr></thead>

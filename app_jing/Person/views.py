@@ -89,7 +89,7 @@ class HomePerson(View):
 
         sports = Sport.objects.all()
 
-        universities = University.objects.all().order_by('overall_score')
+        universities = University.objects.all().order_by('-overall_score')
         important_scores = len(University.objects.filter(overall_score__gt=0)) != 0
 
         if request.user.is_authenticated:

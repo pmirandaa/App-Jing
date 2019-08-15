@@ -12,6 +12,9 @@ from Message.models import Message
 from Event.models import Event
 
 from University.models import University
+from Team.models import Team
+from Team.models import PlayerTeam
+from Sport.models import Sport
 
 import json
 import ast
@@ -36,6 +39,8 @@ class HomeMessages(View):
         unread_messages_ids = list(messages.filter(is_read=False).values_list('id', flat=True))
 
         universities = University.objects.all()
+        teams = Team.objects.all()
+        sports = Sport.objects.all()
 
         return render(request, 'Mensajes/baseMensajes.html',
                       {
@@ -44,7 +49,9 @@ class HomeMessages(View):
                           "avatar": avatar,
                           "messages": messages,
                           "unread_messages": unread_messages_ids,
-                          "universities": universities
+                          "universities": universities,
+                          "teams": teams,
+                          "sports": sports,
                       })
 
     def post(self, request):
@@ -64,14 +71,14 @@ class HomeMessages(View):
             message_recievers.extend(university_recievers)
 
         if teams is not None:
-            # implement query to get team members
-            pass
-            # message_recievers.extend(team_recievers)
+            team_recievers = list(PlayerTeam.objects.filter(team_id__in=teams).values_list('player_id', flat=True))
+            
+            message_recievers.extend(team_recievers)
 
         if sports is not None:
-            # implement query to get sport players
-            pass
-            # message_recievers.extend(sport_recievers)
+            sport_recievers = list(PlayerTeam.objects.filter(team__sport_id__in=sports).values_list('player_id', flat=True))
+            
+            message_recievers.extend(sport_recievers)
 
         if people is not None:
             for person in people:
