@@ -8,7 +8,7 @@ from Event.models import Event
 
 
 class Team(models.Model):
-    coordinator = models.ForeignKey(Person, on_delete=models.CASCADE)
+    coordinator = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
     place = models.PositiveIntegerField(default=0)
     event_score = models.PositiveIntegerField(default=0)

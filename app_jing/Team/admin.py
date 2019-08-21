@@ -5,11 +5,14 @@ from Team.models import PlayerTeam
 
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ('event', 'Sport', 'coordinator')
+    list_display = ('event', 'Sport', 'Coordinator')
     search_fields = ('event__name', 'event__year', 'sport__name', 'coordinator__name', 'university__short_name')
 
     def Sport(self, obj):
         return f'{obj.university.short_name} - {obj.sport}'
+
+    def Coordinator(self, obj):
+        return obj.coordinator or '-'
 
 
 class TeamPlayerAdmin(admin.ModelAdmin):

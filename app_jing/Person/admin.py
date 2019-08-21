@@ -6,7 +6,7 @@ from Person.models import PersonTemporaryCode
 
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('rut', 'name', 'user', 'University', 'role')
+    list_display = ('rut', 'Name', 'user', 'University', 'role')
     search_fields = ('rut', 'name', 'user__username', 'university__short_name')
 
     def role(self, obj):
@@ -25,6 +25,9 @@ class PersonAdmin(admin.ModelAdmin):
 
     def University(self, obj):
         return obj.university.short_name or '-'
+
+    def Name(self, obj):
+        return f'{obj.name} {obj.last_name}'
 
 
 class PersonTemporaryCodeAdmin(admin.ModelAdmin):

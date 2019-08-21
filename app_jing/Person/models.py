@@ -17,6 +17,7 @@ class Person(models.Model):
     university = models.ForeignKey(University, on_delete=models.PROTECT)
     rut = models.CharField(max_length=13)
     phone_number = models.CharField(max_length=20)
+    emergency_phone_number = models.CharField(max_length=20, null=True)
     is_admin = models.BooleanField(default=False)
     is_organizer = models.BooleanField(default=False)
     is_university_coordinator = models.BooleanField(default=False)
