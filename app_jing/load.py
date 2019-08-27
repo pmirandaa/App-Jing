@@ -15,10 +15,10 @@ from Event.models import Event
 
 import pandas
 
-excel = pandas.ExcelFile('equipos-universidad-deporte.xlsx')
+excel = pandas.ExcelFile('excels\PlanillaUC_Vóleibol_Playa_Varones.xlsx')
 
 data = pandas.read_excel(excel, None)
-university_id = 4
+university_id = 2
 event = Event.objects.all().first()
 
 for datasheet in data:
@@ -38,6 +38,8 @@ for datasheet in data:
         else:
             sport = datasheet
     
+    print(f'{sport} - {gender}')
+
     if gender is not None:
         if gender == "Varones":
             sport = Sport.objects.get(name__iexact=sport, gender=Sport.MALES)
@@ -56,51 +58,79 @@ for datasheet in data:
             if data[datasheet].loc[[row]]['nombres'].isnull().item():
                 break
 
-            person = Person(
-                event=event,
-                name=data[datasheet].loc[[row]]['nombres'].item(),
-                last_name=f'{data[datasheet].loc[[row]]["apellido paterno"].item()} {data[datasheet].loc[[row]]["apellido materno"].item()}',
-                email=data[datasheet].loc[[row]]['email'].item(),
-                university_id=university_id,
-                rut=data[datasheet].loc[[row]]["rut (12345678-9)"].item(),
-                phone_number=data[datasheet].loc[[row]]['telefono(+569XXXXXXXX)'].item(),
-                emergency_phone_number=data[datasheet].loc[[row]]['emergencia(+569XXXXXXXX)'].item(),
-                is_coach=data[datasheet].loc[[row]]["encargado equipo(si/no)"].item() in ['si', 'Si', 'SI', 'sí', 'Sí', 'SÍ'],
-                is_player=data[datasheet].loc[[row]]["encargado equipo(si/no)"].item() in ['no', 'NO', 'No'],
-            )
+            if Person.objects.filter(
+                name__icontains=data[datasheet].loc[[row]]['nombres'].item(), 
+                last_name__icontains=f'{data[datasheet].loc[[row]]["apellido paterno"].item()} {data[datasheet].loc[[row]]["apellido materno"].item()}'). exists():
+                print('esta repetida')
 
-            if person.is_coach:
+                person = Person.objects.get(
+                name__icontains=data[datasheet].loc[[row]]['nombres'].item(), 
+                last_name__icontains=f'{data[datasheet].loc[[row]]["apellido paterno"].item()} {data[datasheet].loc[[row]]["apellido materno"].item()}')
+
+            else:
+                person = Person(
+                    event=event,
+                    name=data[datasheet].loc[[row]]['nombres'].item(),
+                    last_name=f'{data[datasheet].loc[[row]]["apellido paterno"].item()} {data[datasheet].loc[[row]]["apellido materno"].item()}',
+                    email=data[datasheet].loc[[row]]['email'].item(),
+                    university_id=university_id,
+                    rut=data[datasheet].loc[[row]]["rut (12345678-9)"].item(),
+                    phone_number=data[datasheet].loc[[row]]['telefono(+569XXXXXXXX)'].item(),
+                    emergency_phone_number=data[datasheet].loc[[row]]['emergencia(+569XXXXXXXX)'].item(),
+                    is_coach=data[datasheet].loc[[row]]["encargado equipo(si/no)"].item() in ['si', 'Si', 'SI', 'sí', 'Sí', 'SÍ'],
+                    is_player=data[datasheet].loc[[row]]["encargado equipo(si/no)"].item() in ['no', 'NO', 'No', '', ' '],
+                )
+
+            if data[datasheet].loc[[row]]["encargado equipo(si/no)"].item() in ['si', 'Si', 'SI', 'sí', 'Sí', 'SÍ']:
                 coordinator = person
-
+                players.append(person)
             else:
                 players.append(person)
         
             row += 1
         
-        except:
+        except Exception as e:
+            #print(e)
             break
 
     if coordinator is not None:
+        print('COOOORD')
         coordinator.save()
 
-    team = Team(
-        coordinator=coordinator,
+    if Team.objects.filter(
         university_id=university_id,
         sport=sport,
-        event=event,
-    )
+        event=event).exists():
 
-    team.save()
+        team = Team.objects.get(
+            university_id=university_id,
+            sport=sport,
+            event=event
+        )
+    
+    else:
+        team = Team(
+            coordinator=coordinator,
+            university_id=university_id,
+            sport=sport,
+            event=event,
+        )
+
+        team.save()
 
     for person in players:
         person.save()
 
-        player_team = PlayerTeam(
-            player=person,
-            team=team
-        )
+        if PlayerTeam.objects.filter(player=person, team=team).exists():
+            continue
 
-        player_team.save()
+        else:
+            player_team = PlayerTeam(
+                player=person,
+                team=team
+            )
+
+            player_team.save()
 
     print(f'Done with {sport}')
     

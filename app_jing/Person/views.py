@@ -115,17 +115,23 @@ class HomePerson(View):
 class UnvalidatedPerson(View):
 
     def get(self, request):
-        query = request.GET.get('query')
+        query_name = request.GET.get('query').split(' ')[0]
+
+        try:
+            query_surname = request.GET.get('query').split(' ')[1]
+        except:
+            query_surname = '' 
 
         persons = Person.objects.filter(
             user__isnull=True,
-            name__icontains=query
+            name__icontains=query_name,
+            last_name__icontains=query_surname,
         ).order_by('name')[:10]
 
         person_names = []
 
         for person in persons:
-            person_names.append(person.name)
+            person_names.append(f'{person.name} {person.last_name}')
 
         return HttpResponse(json.dumps(person_names), 'application/json')
 
@@ -133,16 +139,23 @@ class UnvalidatedPerson(View):
 class PersonsList(View):
 
     def get(self, request):
-        query = request.GET.get('query')
+        query_name = request.GET.get('query').split(' ')[0]
+
+        try:
+            query_surname = request.GET.get('query').split(' ')[1]
+        except:
+            query_surname = '' 
 
         persons = Person.objects.filter(
-            name__icontains=query
+            name__icontains=query_name,
+            last_name__icontains=query_surname,
         ).order_by('name')[:10]
+
 
         person_names = []
 
         for person in persons:
-            person_names.append(person.name)
+            person_names.append(f'{person.name} {person.last_name}')
 
         return HttpResponse(json.dumps(person_names), 'application/json')
 

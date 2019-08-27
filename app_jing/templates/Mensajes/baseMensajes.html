@@ -36,11 +36,13 @@
   <section class="my-2 row">
     <div class="d-flex row w-100 justify-content-center">
       <h2 class="h1-responsive font-weight-bold text-center my-5">Mensajes</h2>
-      <a class="btn btn-danger btn-circle my-auto ml-5"
-         data-toggle="modal"
-         data-target=".new_message">
-        <i class="fas fa-paper-plane"></i>
-      </a>
+      {% if person.is_admin or person.is_organizer %}
+        <a class="btn btn-danger btn-circle my-auto ml-5"
+          data-toggle="modal"
+          data-target=".new_message">
+          <i class="fas fa-paper-plane"></i>
+        </a>
+      {% endif %}
     </div>
     <div class="w-100 mx-md-5 mx-4">
       {% if messages %}

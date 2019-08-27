@@ -449,7 +449,7 @@ JING - Administración
 			<select class="browser-default custom-select" name="university">
 				<option selected> ------ </option>
 				{% for uni in universities %}
-				<option value="{{uni.id}}">{{ uni.name }}</option>
+				<option value="{{uni.id}}">{{ uni.name }} - {{uni.city}}</option>
 				{% endfor %}
 			</select>
 		</div>
