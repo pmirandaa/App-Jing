@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-12 col-md-7 mt-3">
+        <div class="row mb-3">
+            <div class="col-12 col-md-3">Deporte: </div>
+            <div class="col-12 col-md-9">{{ match.sport }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 col-md-3">Fecha: </div>
+            <div class="col-12 col-md-9">{{ match.date|date:'d-m-Y H:i' }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 col-md-3">Ganador: </div>
+            <div class="col-12 col-md-9">
+                {{ match.winner.university.short_name}}
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Universidad</th>
+                    <th scope="col">Marcador</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tm in match.teams.all %}
+                <tr>
+                    <td>{{ tm.team.university.short_name }}</td>
+                    <td>
+                        {{ tm.score}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<form method="post" action="{% url 'match:comment' %}">
+    {% csrf_token %}
+    <div class="row">
+        {% for mt in match.teams.all %}
+            {% if mt.team.coordinator.user == user %}
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="hidden" name="match" value="{{ match.id }}"/>
+                        <input type="hidden" name="team" value="{{mt.id}}"/>
+                        <label for="exampleFormControlTextarea2">Comentarios {{ mt.team.university.short_name}}</label>
+                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" name="comment">{{mt.comment}}</textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-orange btn-block my-4"                  type="submit">
+                        <i class="fas fa-sm pr-2 fa-comment-dots"></i> Agregar comentario
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</form>

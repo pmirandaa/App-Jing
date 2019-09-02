@@ -1,0 +1,9 @@
+{% if teams %}
+    {% for team in teams %}
+        <tr>
+            <td>{% if team.place != 0 %}{{ team.place }}{% endif %}</td>
+            <td>{{ team.university }}</td>
+            <td>{{ team.event_score }}</td>
+        </tr>
+    {% endfor %}
+{% endif %}

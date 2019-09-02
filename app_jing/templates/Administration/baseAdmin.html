@@ -1,0 +1,911 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+JING - Administración
+{% endblock title %}
+
+{% block activeAdmin %}active{% endblock activeAdmin %}
+
+{% block content %}
+<nav>
+	<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+		{% if person.is_admin %}
+			<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+				aria-controls="nav-home" aria-selected="true">Usuarios</a>
+		{% endif %}
+		<a class="nav-item nav-link {% if person.is_organizer %}active{% endif %}" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+			aria-controls="nav-profile" aria-selected="false">Deportes</a>
+		{% if person.is_admin %}
+			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+				aria-controls="nav-contact" aria-selected="false">Eventos</a>
+			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-locations" role="tab"
+				aria-controls="nav-contact" aria-selected="false">Lugares</a>
+			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-universities" role="tab"
+				aria-controls="nav-contact" aria-selected="false">Universidades</a>
+		{% endif %}
+	</div>
+</nav>
+{% if alert %}
+<div class="row mt-3">
+	<div class="col"></div>
+	<div class="col-10">
+
+		<div class="alert alert-{{alert.type}} alert-dismissible fade show" role="alert">
+			{{alert.message}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
+	<div class="col"></div>
+</div>
+{% endif %}
+<div class="tab-content" id="nav-tabContent">
+	{% if person.is_admin %}
+	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-10 col-12 mt-5 offset-md-1">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal"
+						id="create-user-btn">
+						Nuevo Usuario
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="table-responsive col-md-10 offset-md-1 mt-4">
+					<table id="dt-users" class="table table-striped table-bordered table-hover" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>RUT</th>
+								<th>Nombre</th>
+								<th>Email</th>
+								<th>Universidad</th>
+								<th>Roles</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for person in people %}
+							<tr>
+								<td>{{ person.rut }}</td>
+								<td>{{ person.name }} {{ person.last_name}}</td>
+								<td>{{ person.email }}</td>
+								<td>{{ person.university.short_name }}</td>
+								<td>
+									<ul>
+										{% if person.is_admin %}<li>Administrador</li>{% endif %}
+										{% if person.is_organizer %}<li>Organizador</li>{% endif %}
+										{% if person.is_university_coordinator %}<li>Coord. Universidad</li>{% endif %}
+										{% if person.is_sports_coordinator %}<li>Coord. Deporte</li>{% endif %}
+										{% if person.is_player %}<li>Deportista</li>{% endif %}
+										{% if person.is_coach %}<li>Entrenador</li>{% endif %}
+									</ul>
+								</td>
+								<td class="text-center">
+									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+										<button type="button" class="btn text-center btn-info edit-user-btn"
+											data-user="{{ person.id }}">
+											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
+										</button>
+										<button type="button" class="btn text-center btn-danger delete-user-btn"
+											data-toggle="modal" data-target="#delete-modal" data-user="{{person.id}}"
+											data-user-name="{{person.name}}">
+											<i class="fas fa-trash fa-sm pr-2" aria-hidden="true"></i> Borrar
+										</button>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	<div class="tab-pane fade {% if person.is_organizer %}show active{% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+		<div class="container-fluid">
+			{% if person.is_admin %}
+			<div class="row">
+				<div class="col-md-10 col-12 mt-5 offset-md-1">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal"
+						id="create-sport-btn">
+						Nuevo Deporte
+					</button>
+				</div>
+			</div>
+			{% endif %}
+			<div class="row">
+				<div class="table-responsive col-md-10 offset-md-1 mt-4">
+					<table id="dt-sports" class="table table-striped table-bordered table-hover" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Género</th>
+								<th>Tipo</th>
+								<th>Coordinador</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for sport in sports %}
+							<tr>
+								<td>{{ sport.name }}</td>
+								<td>{{ sport.get_gender_display }}</td>
+								<td>{{ sport.get_sport_type_display }}</td>
+								<td>{{ sport.coordinator }}</td>
+								<td class="text-center">
+									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+										{% if person.is_admin %}
+										<button type="button" class="btn text-center btn-info edit-sport-btn"
+											data-sport="{{sport.id}}">
+											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
+										</button>
+										<button type="button" class="btn text-center btn-danger delete-sport-btn"
+											data-toggle="modal" data-target="#delete-modal" data-sport="{{ sport.id }}"
+											data-name="" {{ sport }}>
+											<i class="fas fa-trash fa-sm pr-2" aria-hidden="true"></i> Borrar
+										</button>
+										{% endif %}
+										{% if sport.closed %}
+											El campeonato se ha cerrado
+										{% else %}
+											<button type="button" class="btn text-center btn-warning close-championship" data-sport="{{ sport.id }}">
+												<i class="fas fa-exclamation-triangle"></i> Cerrar campeonato
+											</button>
+										{% endif %}
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if person.is_admin %}
+	<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-10 col-12 mt-5 offset-md-1">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal"
+						id="create-event-btn">
+						Nuevo Evento
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="table-responsive col-md-10 offset-md-1 mt-4">
+					<table id="dt-events" class="table table-striped table-bordered table-hover" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Año</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for event in events %}
+							<tr>
+								<td> {{event.name}} </td>
+								<td> {{event.year}} </td>
+								<td class="text-center">
+									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+										{% comment %} <button type="button" class="btn text-center btn-info"
+											data-toggle="modal" data-target="#edit-modal">
+											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
+										</button> {% endcomment %}
+										<button type="button" class="btn text-center btn-danger delete-event-btn"
+											data-toggle="modal" data-target="#delete-modal">
+											<i class="fas fa-trash fa-sm pr-2" aria-hidden="true"></i> Borrar
+										</button>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="nav-locations" role="tabpanel" aria-labelledby="nav-contact-tab">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-10 col-12 mt-5 offset-md-1">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal"
+						id="create-location-btn">
+						Nuevo Lugar
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="table-responsive col-md-10 offset-md-1 mt-4">
+					<table id="dt-places" class="table table-striped table-bordered table-hover" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Dirección</th>
+								<th>Universidad</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for location in locations %}
+							<tr>
+								<td>{{location.name}}</td>
+								<td>{{location.address}}</td>
+								<td>{{location.university.short_name}}</td>
+								<td class="text-center">
+									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+										<button type="button" class="btn text-center btn-info edit-location-btn"
+											data-location="{{location.id}}">
+											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
+										</button>
+										<button type="button" class="btn text-center btn-danger delete-location-btn"
+											data-toggle="modal" data-target="#delete-modal"
+											data-location="{{location.id}}" data-name="{{location.name}}">
+											<i class="fas fa-trash fa-sm pr-2" aria-hidden="true"></i> Borrar
+										</button>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane fade" id="nav-universities" role="tabpanel" aria-labelledby="nav-contact-tab">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-10 col-12 mt-5 offset-md-1">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal"
+						id="create-uni-btn">
+						Nueva Universidad
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="table-responsive col-md-10 offset-md-1 mt-4">
+					<table id="dt-unis" class="table table-striped table-bordered table-hover" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Siglas</th>
+								<th>Ciudad</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for uni in universities %}
+							<tr>
+								<td> {{uni.name}} </td>
+								<td> {{uni.short_name}} </td>
+								<td> {{uni.city}} </td>
+								<td class="text-center">
+									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+										<button type="button" class="btn text-center btn-info edit-uni-btn"
+											data-uni="{{ uni.id }}">
+											<i class="fas fa-edit fa-sm pr-2" aria-hidden="true"></i> Editar
+										</button>
+										<button type="button" class="btn text-center btn-danger delete-uni-btn"
+											data-toggle="modal" data-target="#delete-modal" data-uni="{{uni.id}}"
+											data-name="{{uni.name}}">
+											<i class="fas fa-trash fa-sm pr-2" aria-hidden="true"></i> Borrar
+										</button>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog  modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Crear</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					Este es el modal de creación
+				</div>
+			</div>
+			<div class="modal-footer">
+				{% comment %} <button type="button" class="btn btn-primary">Guardar</button> {% endcomment %}
+				<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog  modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid" id="edit-modal-form">
+					Este es el modal de edición
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog  modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					Este es el modal de confirmar borrado
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Close Championship Modal -->
+<div class="modal fade" id="close-champ-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog  modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Cerrar campeonato</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid" id="close-championship-form">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- User Form -->
+<div class="mx-5" id="user-create-form" hidden>
+	<form method="POST" action="{% url 'administration:crear-usuario' %}">
+		{% csrf_token %}
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Nombres</span>
+			</div>
+			<input name="nombres" type="text" aria-label="Nombres" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Apellidos</span>
+			</div>
+			<input name="apellidos" type="text" aria-label="Apellidos" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">RUT</span>
+			</div>
+			<input name="rut" type="text" aria-label="RUT" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Email</span>
+			</div>
+			<input name="email" type="text" aria-label="Email" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Teléfono</span>
+			</div>
+			<input name="phone" type="text" aria-label="Teléfono" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text" for="user-university">Universidad</label>
+			</div>
+			<select class="browser-default custom-select" name="university">
+				<option selected> ------ </option>
+				{% for uni in universities %}
+				<option value="{{uni.id}}">{{ uni.name }} - {{uni.city}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text" for="user-event">Evento</label>
+			</div>
+			<select class="browser-default custom-select" name="event">
+				<option selected> ------ </option>
+				{% for event in events %}
+				<option value="{{event.id}}">{{ event.name }} - {{ event.year }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="row mb-3">
+			<div class="col">
+				<h5>Roles</h5>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-admin" name="is_admin">
+					<label class="custom-control-label" for="user-admin">Administrador</label>
+				</div>
+			</div>
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-organizer" name="is_organizer">
+					<label class="custom-control-label" for="user-organizer">Organizador</label>
+				</div>
+			</div>
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-uni-coordinator"
+						name="is_uni_coordinator">
+					<label class="custom-control-label" for="user-uni-coordinator">Coordinador Universidad</label>
+				</div>
+			</div>
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-sports-coordinator"
+						name="is_sports_coordinator">
+					<label class="custom-control-label" for="user-sports-coordinator">Coordinador Deporte</label>
+				</div>
+			</div>
+		</div>
+		<div class="md-form form-sm">
+			<button class="btn btn-info btn-block my-4" type="submit">Crear Usuario</button>
+		</div>
+	</form>
+</div>
+
+<!-- Event Form -->
+<div class="mx-5" id="event-create-form" hidden>
+	<!-- Material input name -->
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="event-name-addon">Nombre</span>
+		</div>
+		<input id="event-name" type="text" class="form-control" placeholder="Nombre" aria-label="Nombre"
+			aria-describedby="event-name-addon">
+	</div>
+
+	<!-- Material input subject -->
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="event-year-addon">Año</span>
+		</div>
+		<input id="event-year" type="text" class="form-control" placeholder="Año" aria-label="Año"
+			aria-describedby="event-year-addon">
+	</div>
+
+	<div class="md-form form-sm">
+		<button class="btn btn-info btn-block my-4" type="button" id="create-event">Crear Evento</button>
+	</div>
+</div>
+
+<!-- University Form -->
+<div class="mx-5" id="uni-create-form" hidden>
+	<form method="POST" action="{% url 'administration:crear-universidad' %}">
+		{% csrf_token %}
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="uni-name-addon">Nombre</span>
+			</div>
+			<input name="name" type="text" class="form-control" placeholder="Nombre Universidad"
+				aria-label="Nombre Universidad" aria-describedby="uni-name-addon">
+		</div>
+
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="uni-city-addon">Ciudad</span>
+			</div>
+			<input name="city" type="text" class="form-control" placeholder="Ciudad" aria-label="Ciudad"
+				aria-describedby="uni-city-addon">
+		</div>
+
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="uni-name-addon">Siglas</span>
+			</div>
+			<input name="short-name" type="text" class="form-control"
+				placeholder="Por ejmplo: UCH - Universidad de Chile" aria-label="Por ejmplo: UCH - Universidad d Chile"
+				aria-describedby="uni-name-addon">
+		</div>
+		{% comment %} <div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text">Coordinador</label>
+			</div>
+			<select class="browser-default custom-select" name="coordinator" required>
+				<option selected> ------ </option>
+				{% for coord in unis_coords %}
+				<option value="{{coord.id}}">{{ coord.name }}</option>
+				{% endfor %}
+			</select>
+		</div> {% endcomment %}
+		<div class="md-form form-sm">
+			<button class="btn btn-info btn-block my-4" type="submit" id="create-event">Crear Universidad</button>
+		</div>
+	</form>
+</div>
+
+<!-- Location Form -->
+<div class="mx-5" id="location-create-form" hidden>
+	<form method="POST" action="{% url 'administration:crear-lugar' %}">
+		{% csrf_token %}
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Nombre</span>
+			</div>
+			<input name="name" type="text" aria-label="Nombre" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Dirección</span>
+			</div>
+			<input name="address" type="text" aria-label="Dirección" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text" for="location-university">Universidad</label>
+			</div>
+			<select class="browser-default custom-select" name="university">
+				<option selected> ------ </option>
+				{% for uni in universities %}
+				<option value="{{uni.id}}">{{ uni.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="md-form form-sm">
+			<button class="btn btn-info btn-block my-4" type="submit">Crear Lugar</button>
+		</div>
+	</form>
+</div>
+
+<!-- Sport Form -->
+<div id="sport-create-form" class="mx-5" hidden>
+	<form method="POST" action="{% url 'administration:crear-deporte' %}">
+		{% csrf_token %}
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Nombre</span>
+			</div>
+			<input name="name" type="text" aria-label="Nombre" class="form-control">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text">Tipo</label>
+			</div>
+			<select class="browser-default custom-select" name="type" required>
+				<option selected> ------ </option>
+				{% for sport_type in sport_types %}
+				<option value="{{ sport_type.0 }}">{{ sport_type.1 }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text">Género</label>
+			</div>
+			<select class="browser-default custom-select" name="gender" required>
+				<option selected> ------ </option>
+				{% for gender in genders %}
+				<option value="{{ gender.0 }}">{{ gender.1 }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text">Coordinador</label>
+			</div>
+			<select class="browser-default custom-select" name="coordinator" required>
+				<option selected> ------ </option>
+				{% for person in sports_coords %}
+				<option value="{{person.id}}">{{ person }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="md-form form-sm">
+			<button class="btn btn-info btn-block my-4" type="submit">Crear Deporte</button>
+		</div>
+	</form>
+</div>
+
+<!-- Delete User Form-->
+<div class="text-center mx-5" id="user-delete-form" hidden>
+	<form method="POST" action="{% url 'administration:borrar-usuario' %}">
+		{% csrf_token %}
+		<h4><strong>¿Seguro que desea eliminar al usuario <span id="user-name"></span></strong>?</h4>
+		<input type="hidden" value="" name="user" id="delete-user-id">
+		<button class="btn btn-danger btn-block my-4" type="submit">Borrar Usuario</button>
+	</form>
+</div>
+
+<!-- Delete Sport Form-->
+<div class="text-center mx-5" id="sport-delete-form" hidden>
+	<form method="POST" action="{% url 'administration:borrar-deporte' %}">
+		{% csrf_token %}
+		<h4><strong>¿Seguro que desea eliminar el deporte <span id="sport-name"></span></strong>?</h4>
+		<input type="hidden" value="" name="sport" id="delete-sport-id">
+		<button class="btn btn-danger btn-block my-4" type="submit">Borrar deporte</button>
+	</form>
+</div>
+
+<!-- Delete Location Form-->
+<div class="text-center mx-5" id="location-delete-form" hidden>
+	<form method="POST" action="{% url 'administration:borrar-lugar' %}">
+		{% csrf_token %}
+		<h4><strong>¿Seguro que desea eliminar el lugar <span id="location-name"></span></strong>?</h4>
+		<input type="hidden" value="" name="location" id="delete-location-id">
+		<button class="btn btn-danger btn-block my-4" type="submit">Borrar Lugar</button>
+	</form>
+</div>
+
+<!-- Delete University Form-->
+<div class="text-center mx-5" id="uni-delete-form" hidden>
+	<form method="POST" action="{% url 'administration:borrar-universidad' %}">
+		{% csrf_token %}
+		<h4><strong>¿Seguro que desea eliminar la universidad <span id="uni-name"></span></strong>?</h4>
+		<input type="hidden" value="" name="university" id="delete-uni-id">
+		<button class="btn btn-danger btn-block my-4" type="submit">Borrar Universidad</button>
+	</form>
+</div>
+
+<script>
+	$('btn[id^="create-"]').click(function () {
+		$('[id$="create-form"]').prop('hidden', true)
+	})
+	$('#dt-users').DataTable({
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+		},
+		"paging": true,
+		"searching": true,
+		"bInfo": false,
+		"ordering": true
+	});
+
+	$('#dt-sports').DataTable({
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+		},
+		"paging": true,
+		"searching": true,
+		"bInfo": false,
+		"ordering": true
+	});
+
+	$('#dt-unis').DataTable({
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+		},
+		"paging": true,
+		"searching": true,
+		"bInfo": false,
+		"ordering": true
+	});
+
+	$('#dt-events').DataTable({
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+		},
+		"paging": true,
+		"searching": true,
+		"bInfo": false,
+		"ordering": true
+	});
+
+	$('#dt-places').DataTable({
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+		},
+		"paging": true,
+		"searching": true,
+		"bInfo": false,
+		"ordering": true
+	});
+
+	$('#create-uni-btn').click(function () {
+		$('[id$="create-form"]').prop('hidden', true)
+		let new_uni_form = $('#uni-create-form')
+		$('#create-modal .modal-body').html(new_uni_form)
+		new_uni_form.attr('hidden', false)
+	})
+
+	$('#create-event-btn').click(function () {
+		$('[id$="create-form"]').prop('hidden', true)
+		let new_event_form = $('#event-create-form')
+		$('#create-modal .modal-body').html(new_event_form)
+		new_event_form.attr('hidden', false)
+	})
+
+	$('#create-user-btn').click(function () {
+		$('[id$="create-form"]').prop('hidden', true)
+		let new_user_form = $('#user-create-form')
+		$('#create-modal .modal-body').html(new_user_form)
+		new_user_form.attr('hidden', false)
+	})
+
+	$('#create-location-btn').click(function () {
+		$('[id$="create-form"]').prop('hidden', true)
+		let new_location_form = $('#location-create-form')
+		$('#create-modal .modal-body').html(new_location_form)
+		new_location_form.attr('hidden', false)
+	})
+
+	$('#create-sport-btn').click(function () {
+		$('[id$="create-form"]').prop('hidden', true)
+		let new_sport_form = $('#sport-create-form')
+		$('#create-modal .modal-body').html(new_sport_form)
+		new_sport_form.attr('hidden', false)
+	})
+
+	$('.delete-user-btn').click(function () {
+		$('[id$="delete-form"]').prop('hidden', true)
+		$('#delete-user-id').val('')
+		$('#user-name').empty()
+		let user_id = $(this).data('user')
+		let user_name = $(this).data('user-name')
+		$('#delete-user-id').val(user_id)
+		$('#user-name').html(user_name)
+		let delete_user_form = $('#user-delete-form')
+
+		$('#delete-modal .modal-body').html(delete_user_form)
+		delete_user_form.attr('hidden', false)
+	})
+
+	$('.delete-sport-btn').click(function () {
+		$('[id$="delete-form"]').prop('hidden', true)
+		$('#delete-sport-id').val('')
+		$('#sport-name').empty()
+		let sport_id = $(this).data('sport')
+		let sport_name = $(this).data('name')
+		$('#delete-sport-id').val(sport_id)
+		$('#sport-name').html(sport_name)
+		let delete_sport_form = $('#sport-delete-form')
+
+		$('#delete-modal .modal-body').html(delete_sport_form)
+		delete_sport_form.attr('hidden', false)
+	})
+
+	$('.delete-uni-btn').click(function () {
+		$('[id$="delete-form"]').prop('hidden', true)
+		$('#delete-uni-id').val('')
+		$('#uni-name').empty()
+		let uni_id = $(this).data('uni')
+		let uni_name = $(this).data('name')
+		$('#delete-uni-id').val(uni_id)
+		$('#uni-name').html(uni_name)
+		let delete_uni_form = $('#uni-delete-form')
+
+		$('#delete-modal .modal-body').html(delete_uni_form)
+		delete_uni_form.attr('hidden', false)
+	})
+
+	$('.delete-location-btn').click(function () {
+		$('[id$="delete-form"]').prop('hidden', true)
+		$('#delete-location-id').val('')
+		$('#location-name').empty()
+		let location_id = $(this).data('location')
+		let location_name = $(this).data('name')
+		$('#delete-location-id').val(location_id)
+		$('#location-name').html(location_name)
+		let delete_location_form = $('#location-delete-form')
+
+		$('#delete-modal .modal-body').html(delete_location_form)
+		delete_location_form.attr('hidden', false)
+	})
+
+	$('.edit-user-btn').click(function () {
+		let btn = $(this)
+		let person = btn.data('user')
+		if (person) {
+			let url = "{% url 'administration:editar-usuario' %}"
+			getEditForm(person, url)
+		}
+	})
+
+	$('.edit-uni-btn').click(function () {
+		let btn = $(this)
+		let uni = btn.data('uni')
+		if (uni) {
+			let url = "{% url 'administration:editar-universidad' %}"
+			getEditForm(uni, url)
+		}
+	})
+
+	$('.edit-location-btn').click(function () {
+		let btn = $(this)
+		let location = btn.data('location')
+		if (location) {
+			let url = "{% url 'administration:editar-lugar' %}"
+			getEditForm(location, url)
+		}
+	})
+
+	$('.edit-sport-btn').click(function () {
+		let btn = $(this)
+		let sport = btn.data('sport')
+		if (sport) {
+			let url = "{% url 'administration:editar-deporte' %}"
+			getEditForm(sport, url)
+		}
+	})
+
+	function getEditForm(id, url) {
+		$('btn').prop('disabled', true)
+		$.ajax({
+				url: url,
+				data: {
+					csrfmiddlewaretoken: '{% csrf_token %}',
+					id: id
+				}
+			})
+			.done(function (data) {
+				$('#edit-modal-form').html(data)
+				$('#edit-modal').modal('show')
+			}).always(function () {
+				$('btn').prop('disabled', false)
+			})
+	}
+
+	$('.close-championship').on('click', function() {
+		sport_id = $(this).data('sport')
+		$.ajax({
+			url: "{% url 'sport:close-championship' %}",
+			data: {
+				csrfmiddlewaretoken: '{% csrf_token %}',
+				sport: sport_id
+			}
+		})
+		.done(function(data) {
+			$('#close-championship-form').html(data)
+			$('#close-champ-modal').modal('show')
+		})
+	})
+</script>
+{% endblock content %}

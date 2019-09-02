@@ -1,0 +1,218 @@
+[
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 1,
+        "fields": {
+            "sport_type": "A",
+            "place": 1,
+            "points": 2000
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 2,
+        "fields": {
+            "sport_type": "A",
+            "place": 2,
+            "points": 1200
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 3,
+        "fields": {
+            "sport_type": "A",
+            "place": 3,
+            "points": 720
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 4,
+        "fields": {
+            "sport_type": "A",
+            "place": 4,
+            "points": 360
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 5,
+        "fields": {
+            "sport_type": "A",
+            "place": 5,
+            "points": 180
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 6,
+        "fields": {
+            "sport_type": "A",
+            "place": 6,
+            "points": 90
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 7,
+        "fields": {
+            "sport_type": "A",
+            "place": 7,
+            "points": 50
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 8,
+        "fields": {
+            "sport_type": "A",
+            "place": 8,
+            "points": 20
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 9,
+        "fields": {
+            "sport_type": "B",
+            "place": 1,
+            "points": 1300
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 10,
+        "fields": {
+            "sport_type": "B",
+            "place": 2,
+            "points": 800
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 11,
+        "fields": {
+            "sport_type": "B",
+            "place": 3,
+            "points": 480
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 12,
+        "fields": {
+            "sport_type": "B",
+            "place": 4,
+            "points": 240
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 13,
+        "fields": {
+            "sport_type": "B",
+            "place": 5,
+            "points": 120
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 14,
+        "fields": {
+            "sport_type": "B",
+            "place": 6,
+            "points": 60
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 15,
+        "fields": {
+            "sport_type": "B",
+            "place": 7,
+            "points": 30
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 16,
+        "fields": {
+            "sport_type": "B",
+            "place": 8,
+            "points": 10
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 17,
+        "fields": {
+            "sport_type": "C",
+            "place": 1,
+            "points": 800
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 18,
+        "fields": {
+            "sport_type": "C",
+            "place": 2,
+            "points": 480
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 19,
+        "fields": {
+            "sport_type": "C",
+            "place": 3,
+            "points": 290
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 20,
+        "fields": {
+            "sport_type": "C",
+            "place": 4,
+            "points": 150
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 21,
+        "fields": {
+            "sport_type": "C",
+            "place": 5,
+            "points": 70
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 22,
+        "fields": {
+            "sport_type": "C",
+            "place": 6,
+            "points": 40
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 23,
+        "fields": {
+            "sport_type": "C",
+            "place": 7,
+            "points": 20
+        }
+    },
+    {
+        "model": "Sport.FinalSportPoints",
+        "pk": 24,
+        "fields": {
+            "sport_type": "C",
+            "place": 8,
+            "points": 0
+        }
+    }
+]

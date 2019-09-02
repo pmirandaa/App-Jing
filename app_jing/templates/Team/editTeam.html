@@ -1,0 +1,77 @@
+<div class="">
+    <form method="POST" action="{% url 'team:edit-team'%}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{team.id}}">
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="sport">Deporte</label>
+                    </div>
+                    <select class="browser-default custom-select" name="sport" required>
+                        <option value="{{team.sport.id}}">{{ team.sport.name }}
+                            ({{ team.sport.get_gender_display }})</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="university">Universidad</label>
+                    </div>
+                    <select class="browser-default custom-select" name="university" required>
+                        <option value="{{team.university.id}}">{{ team.university.short_name }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4>Seleccione jugador</h4>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="players">Jugador</label>
+                    </div>
+                    <select class="browser-default custom-select" name="players" id="edit-players-selector">
+                        <option value="" selected> ------ </option>
+                        {% for player in players %}
+                        <option class="uni-{{player.university.id}}" value="{{ player.id }}"
+                            {% if player in team_players %}hidden{% endif %}>
+                            {{ player.name }} {{ player.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3" id="edit-captain-selector">
+            <div class="col">
+                <h4>Capitán</h4>
+                <select class="browser-default custom-select" name="edit-captain">
+                    {% for player in team_players %}
+                    <option class="uni-{{player.university.id}}" value="{{player.id}}"
+                        {% if player == team.coordinator %}selected{% endif %}>
+                        {{player.name}} {{player.last_name}}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4>Jugadores</h4>
+                <div id="edit-player-list">
+                    {% for player in team_players %}
+                    <button id="player-btn" class="btn btn-light btn-block text-left mb-3 delete-btn" type="button"
+                        data-player="{{player.id}}">
+                        <i class="fas fa-times mr-5 delete-player"></i>
+                        {{ player.name }} {{ player.last_name }}
+                    </button>
+                    <input class="form-control" id="player-{{player.id}}" type="hidden" name="player[]"
+                        value="{{player.id}}">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="md-form form-sm">
+            <button class="btn btn-info btn-block my-4" type="submit">Actualizar Equipo</button>
+        </div>
+    </form>
+</div>

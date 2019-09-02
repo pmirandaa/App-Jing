@@ -1,0 +1,49 @@
+<div class="mx-5">
+    <form method="POST" action="{% url 'administration:editar-deporte' %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{sport.id}}">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nombre</span>
+            </div>
+            <input name="name" type="text" aria-label="Nombre" class="form-control" value="{{sport.name}}">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text">Tipo</label>
+            </div>
+            <select class="browser-default custom-select" name="type" required>
+                {% for sport_type in sport_types %}
+                <option value="{{ sport_type.0 }}" {% if sport.sport_type == sport_type.0 %}selected{% endif %}>
+                    {{ sport_type.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text">Género</label>
+            </div>
+            <select class="browser-default custom-select" name="gender" required>
+                {% for gender in genders %}
+                <option value="{{ gender.0 }}" {% if sport.gender == gender.0 %}selected{% endif %}>{{ gender.1 }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text">Coordinador</label>
+            </div>
+            <select class="browser-default custom-select" name="coordinator" required>
+                {% for person in sports_coords %}
+                <option value="{{person.id}}" {% if sport.coordinator == person %}selected{% endif %}>{{ person }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="md-form form-sm">
+            <button class="btn btn-info btn-block my-4" type="submit">Actualizar Deporte</button>
+        </div>
+    </form>
+</div>

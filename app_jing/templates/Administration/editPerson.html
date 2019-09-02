@@ -1,0 +1,92 @@
+<div class="mx-5" id="user-edit-form">
+	<form method="POST" action="{% url 'administration:editar-usuario' %}">
+		{% csrf_token %}
+        <input type="hidden" name="id" value="{{ person.id }}">
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Nombres</span>
+			</div>
+			<input name="nombres" type="text" aria-label="Nombres" class="form-control" value="{{ person.name }}">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Apellidos</span>
+			</div>
+			<input name="apellidos" type="text" aria-label="Apellidos" class="form-control" value="{{ person.last_name }}">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">RUT</span>
+			</div>
+			<input name="rut" type="text" aria-label="RUT" class="form-control" value="{{ person.rut }}">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Email</span>
+			</div>
+			<input name="email" type="text" aria-label="Email" class="form-control" value="{{ person.email }}">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Teléfono</span>
+			</div>
+			<input name="phone" type="text" aria-label="Teléfono" class="form-control" value="{{ person.phone_number }}">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text" for="user-university">Universidad</label>
+			</div>
+			<select class="browser-default custom-select" name="university" required>
+				{% for uni in universities %}
+				<option value="{{uni.id}}" {% if person.university.id == uni.id %}selected{% endif %}>{{ uni.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text" for="user-event">Evento</label>
+			</div>
+			<select class="browser-default custom-select" name="event" required>
+				{% for event in events %}
+				<option value="{{event.id}}" {% if person.event.id == event.id %}selected{% endif %}>{{ event.name }} - {{ event.year }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="row mb-3">
+			<div class="col">
+				<h5>Roles</h5>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-admin" name="is_admin" {% if person.is_admin %}checked{% endif %}>
+					<label class="custom-control-label" for="user-admin">Administrador</label>
+				</div>
+			</div>
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-organizer" name="is_organizer" {% if person.is_organizer %}checked{% endif %}>
+					<label class="custom-control-label" for="user-organizer">Organizador</label>
+				</div>
+			</div>
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-uni-coordinator"
+						name="is_uni_coordinator" {% if person.is_university_coordinator %}checked{% endif %}>
+					<label class="custom-control-label" for="user-uni-coordinator">Coordinador Universidad</label>
+				</div>
+			</div>
+			<div class="col-md-6 col-12">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="user-sports-coordinator"
+						name="is_sports_coordinator" {% if person.is_sports_coordinator %}checked{% endif %}>
+					<label class="custom-control-label" for="user-sports-coordinator">Coordinador Deporte</label>
+				</div>
+			</div>
+		</div>
+		<div class="md-form form-sm">
+			<button class="btn btn-info btn-block my-4" type="submit">Actualizar Usuario</button>
+		</div>
+	</form>
+</div>

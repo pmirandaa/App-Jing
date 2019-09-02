@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-12 col-md-7 mt-3">
+        <div class="row mb-3">
+            <div class="col-12 col-md-3">Deporte: </div>
+            <div class="col-12 col-md-9">{{ match.sport }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 col-md-3">Fecha: </div>
+            <div class="col-12 col-md-9">{{ match.date|date:'d-m-Y H:i' }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 col-md-3">Ganador: </div>
+            <div class="col-12 col-md-9">
+                {{ match.winner.university.short_name}}
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Universidad</th>
+                    <th scope="col">Marcador</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tm in match.teams.all %}
+                <tr>
+                    <td>{{ tm.team.university.short_name }}</td>
+                    <td>
+                        {{ tm.score}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
