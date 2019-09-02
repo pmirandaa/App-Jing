@@ -3,12 +3,14 @@ from django.views import View
 
 from django.http.response import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.urls import reverse
+from django.utils import timezone
 
 from Person.models import Person
 from Event.models import Event
 from University.models import University
 from Location.models import Location
 from Sport.models import Sport
+from Administration.models import Log
 
 
 class AdminPanel(View):
@@ -70,7 +72,8 @@ class AdminCreatePerson(View):
 
         person = Person(
             event=event,
-            name='{}, {}'.format(apellidos, nombres),
+            name=nombres,
+            last_name=apellidos,
             email=email,
             university=university,
             rut=rut,
@@ -83,6 +86,15 @@ class AdminCreatePerson(View):
 
         try:
             person.save()
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'create_person',
+                value_before = '-',
+                value_after = f'{person.name} {person.last_name}',
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             request.session['alert'] = {
                 'type': 'success',
                 'message': 'Usuario creado exitosamente'
@@ -138,17 +150,137 @@ class AdminEditPerson(View):
         person = Person.objects.get(id=person_id)
 
         if person:
-            person.event = event
-            person.name = nombres
-            person.last_name = apellidos
-            person.email = email
-            person.university = university
-            person.rut = rut
-            person.phone_number = phone
-            person.is_admin = is_admin
-            person.is_organizer = is_organizer
-            person.is_university_coordinator = is_university_coordinator
-            person.is_sports_coordinator = is_sports_coordinator
+            if person.event != event:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_event',
+                    value_before = str(person.event),
+                    value_after = str(Event.objects.get(pk=event)),
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.event = event
+
+            if person.name != nombres:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_name',
+                    value_before = person.name,
+                    value_after = nombres,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.name = nombres
+
+            if person.last_name != apellidos:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_last_name',
+                    value_before = person.last_name,
+                    value_after = apellidos,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.last_name = apellidos
+
+            if person.email != email:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_email',
+                    value_before = person.email,
+                    value_after = email,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.email = email
+
+            if person.university != university:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_university',
+                    value_before = str(person.university),
+                    value_after = str(University.objects.get(pk=university)),
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.university = university
+
+            if person.rut != rut:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_rut',
+                    value_before = person.rut,
+                    value_after = rut,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.rut = rut
+
+            if person.phone_number != phone:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_phone',
+                    value_before = person.phone_number,
+                    value_after = phone,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.phone_number = phone
+
+            if person.is_admin != is_admin:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_admin',
+                    value_before = person.is_admin,
+                    value_after = is_admin,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.is_admin = is_admin
+
+            if person.is_organizer != is_organizer:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_organizer',
+                    value_before = person.is_organizer,
+                    value_after = is_organizer,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                ) 
+                log.save()
+                person.is_organizer = is_organizer
+
+            if person.is_university_coordinator != is_university_coordinator:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_university_coordinator',
+                    value_before = person.is_university_coordinator,
+                    value_after = is_university_coordinator,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.is_university_coordinator = is_university_coordinator
+
+            if person.is_sports_coordinator != is_sports_coordinator:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_person_sports_coordinator',
+                    value_before = person.is_sports_coordinator,
+                    value_after = is_sports_coordinator,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                person.is_sports_coordinator = is_sports_coordinator
 
             try:
                 person.save()
@@ -180,6 +312,15 @@ class AdminDeletePerson(View):
 
         if person:
             if person != myself:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'delete_person',
+                    value_before = f'{person.name} {person.last_name}',
+                    value_after = 'None',
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
                 person.delete()
                 request.session['alert'] = {
                     'type': 'info',
@@ -212,6 +353,15 @@ class AdminCreateUniversity(View):
 
         try:
             university.save()
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'create_university',
+                value_before = 'None',
+                value_after = str(university),
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             request.session['alert'] = {
                 'type': 'success',
                 'message': 'Universidad creada exitosamente'
@@ -249,9 +399,41 @@ class AdminEditUniversity(View):
         uni = University.objects.get(id=uni_id)
 
         if uni:
-            uni.name = name
-            uni.city = city
-            uni.short_name = short_name
+            if uni.name != name:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_university_name',
+                    value_before = uni.name,
+                    value_after = name,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                uni.name = name
+
+            if uni.city != city:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_university_city',
+                    value_before = uni.city,
+                    value_after = city,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                uni.city = city
+
+            if uni.short_name != short_name:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_university_short_name',
+                    value_before = uni.short_name,
+                    value_after = short_name,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                uni.short_name = short_name
 
             try:
                 uni.save()
@@ -278,6 +460,15 @@ class AdminDeleteUniversity(View):
 
         if university:
             try:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'delete_university',
+                    value_before = str(university),
+                    value_after = 'None',
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
                 university.delete()
                 request.session['alert'] = {
                     'type': 'info',
@@ -307,6 +498,15 @@ class AdminCreateLocation(View):
 
         try:
             location.save()
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'create_location',
+                value_before = 'None',
+                value_after = str(location),
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             request.session['alert'] = {
                 'type': 'success',
                 'message': 'Lugar creado exitosamente'
@@ -348,9 +548,41 @@ class AdminEditLocation(View):
         location = Location.objects.get(id=location_id)
         if university and location:
 
-            location.name = name
-            location.address = address
-            location.university = university
+            if location.name != name:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_location_name',
+                    value_before = location.name,
+                    value_after = name,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                location.name = name
+
+            if location.address != address:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_location_address',
+                    value_before = location.address,
+                    value_after = address,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                location.address = address
+
+            if location.university != university:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_location_university',
+                    value_before = str(location.university),
+                    value_after = str(university),
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                location.university = university
 
             try:
                 location.save()
@@ -379,6 +611,15 @@ class AdminDeleteLocation(View):
 
         if location:
             try:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'delete_location',
+                    value_before = str(location),
+                    value_after = 'None',
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
                 location.delete()
                 request.session['alert'] = {
                     'type': 'info',
@@ -409,6 +650,15 @@ class AdminCreateSport(View):
 
         try:
             sport.save()
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'create_sport',
+                value_before = 'None',
+                value_after = str(sport),
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             request.session['alert'] = {
                 'type': 'success',
                 'message': 'Deporte creado exitosamente'
@@ -455,10 +705,53 @@ class AdminEditSport(View):
         coordinator = Person.objects.get(id=coord_id)
 
         if sport and coordinator:
-            sport.name = name
-            sport.gender = gender
-            sport.sport_type = sport_type
-            sport.coordinator = coordinator
+            if sport.name != name:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_sport_name',
+                    value_before = sport.name,
+                    value_after = name,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                sport.name = name
+
+            if sport.gender != gender:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_sport_gender',
+                    value_before = sport.gender,
+                    value_after = gender,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                sport.gender = gender
+
+            if sport.sport_type != sport_type:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_sport_type',
+                    value_before = sport.sport_type,
+                    value_after = sport_type,
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                sport.sport_type = sport_type
+
+            if sport.coordinator != coordinator:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'edit_sport_coordinator',
+                    value_before = str(sport.coordinator),
+                    value_after = str(coordinator),
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                sport.coordinator = coordinator
 
             try:
                 sport.save()
@@ -487,6 +780,15 @@ class AdminDeleteSport(View):
 
         if sport:
             try:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'delete_sport',
+                    value_before = str(sport),
+                    value_after = 'None',
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
                 sport.delete()
                 request.session['alert'] = {
                     'type': 'info',

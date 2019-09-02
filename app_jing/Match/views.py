@@ -13,6 +13,7 @@ from Person.models import Person
 from Team.models import Team
 from Match.models import Match, MatchTeam
 from Sport.models import Sport
+from Administration.models import Log
 
 # Create your views here.
 
@@ -94,6 +95,15 @@ class MatchView(View):
                     for m_t in match_teams:
                         m_t.delete()
                     match.delete()
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'create_match',
+                value_before = 'None',
+                value_after = str(match),
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
 
         redirect_url = reverse('match:matches-section')
         return HttpResponseRedirect(redirect_url)
@@ -106,6 +116,15 @@ class MatchStartView(View):
         match = Match.objects.get(id=match_id)
 
         if match is not None:
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'started_match',
+                value_before = match.state,
+                value_after = Match.PLAYING,
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             match.state = Match.PLAYING
             match.save()
 
@@ -143,6 +162,15 @@ class MatchFinishView(View):
                     redirect_url = reverse('match:matches-section')
                     return HttpResponseRedirect(redirect_url)
 
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'finished_match',
+                value_before = match.state,
+                value_after = Match.PLAYED,
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             match.state = Match.PLAYED
             winner = Team.objects.get(id=winner_id)
             match.winner = winner
@@ -183,6 +211,15 @@ class MatchCloseView(View):
                     redirect_url = reverse('match:matches-section')
                     return HttpResponseRedirect(redirect_url)
 
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'closed_match',
+                value_before = match.closed,
+                value_after = 'True',
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             match.state = Match.PLAYED
             match.closed = True
             winner = Team.objects.get(id=winner_id)
@@ -226,6 +263,16 @@ class MatchCommentView(View):
         match = Match.objects.get(pk=match_id)
         match_team = match.teams.get(pk=team_id)
 
+        doer = Person.objects.get(user=request.user)
+        log = Log(
+            task = 'match_add_comment',
+            value_before = 'None',
+            value_after = comment,
+            person= f'{doer.name} {doer.last_name}',
+            date= timezone.now()
+        )
+        log.save()
+
         match_team.comment = comment
         match_team.save()
 
@@ -240,6 +287,15 @@ class MatchDeleteView(View):
         match.teams.all().delete()
 
         if match is not None:
+            doer = Person.objects.get(user=request.user)
+            log = Log(
+                task = 'match_deleted',
+                value_before = str(match),
+                value_after = 'None',
+                person= f'{doer.name} {doer.last_name}',
+                date= timezone.now()
+            )
+            log.save()
             match.delete()
 
         redirect_url = reverse('match:matches-section')

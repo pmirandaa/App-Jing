@@ -14,7 +14,7 @@
                         {% if key == "place" %}
                             <input type="number" value="{{ value }}" name="{{ key }}_{{ place }}" class="form-control" />
                         {% else %}
-                            {% if key == "id" %}
+                            {% if key == "id" or key == "uni_id" %}
                                 <input type="hidden" value="{{ value }}" name="{{ key }}_{{ place }}" />
                             {% else %}
                                 <input type="hidden" value="{{ value }}" name="{{ key }}_{{ place }}" />

@@ -3,6 +3,7 @@ from django.views import View
 
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
+from django.utils import timezone
 
 from Person.models import Person
 from Team.models import Team, PlayerTeam
@@ -179,6 +180,15 @@ class TeamEditView(View):
                             player.is_player = True
                             players_to_save.append(player)
                             team_player = PlayerTeam(player=player, team=team)
+                            doer = Person.objects.get(user=request.user)
+                            log = Log(
+                                task = 'team_add_player',
+                                value_before = str(team),
+                                value_after = str(player),
+                                person= f'{doer.name} {doer.last_name}',
+                                date= timezone.now()
+                            )
+                            log.save()
                             team_players.append(team_player)
                         else:
                             request.session['alert'] = {
@@ -243,6 +253,15 @@ class TeamDeleteView(View):
 
         if team is not None:
             try:
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'team_deleted',
+                    value_before = str(team),
+                    value_after = 'None',
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
                 team.delete()
                 request.session['alert'] = {
                     'type': 'info',
