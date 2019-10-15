@@ -169,22 +169,45 @@ class GetQRAndCode(View):
         return random.randint(range_start, range_end)
 
     def post(self, request):
-        name = request.POST.get('item')
+        items = request.POST.get('item').strip().split(' ')
+        name = None
+        last_name = None
 
-        person = Person.objects.filter(name__iexact=name).first()
+        if len(items) == 2:
+            name = items[0]
+            last_name = items[1]
+
+        elif len(items) == 3:
+            name = items[0]
+            last_name = ' '.join(word for word in items[-2:])
+            
+        elif len(items) >= 4:
+            name = ' '.join(word for word in items[:2])
+            last_name = ' '.join(word for word in items[2:])
+
+        person = Person.objects.filter(
+            name__icontains=name,
+            last_name__icontains=last_name
+        ).first()
 
         code = self.random_with_N_digits(6)
 
-        PersonTemporaryCode.objects.create(
-            person=person,
-            code=code,
-            expiration_date=timezone.now() + datetime.timedelta(minutes=15)
-        )
+        if person is not None:
+            PersonTemporaryCode.objects.create(
+                person=person,
+                code=code,
+                expiration_date=timezone.now() + datetime.timedelta(minutes=15)
+            )
 
-        return HttpResponse(json.dumps({
-            "id": person.id,
-            "code": code
-        }), 'application/json')
+            return HttpResponse(json.dumps({
+                "id": person.id,
+                "code": code
+            }), 'application/json')
+
+        else:
+            return HttpResponse(json.dumps({
+                "code": 'No se pudo encontrar la persona'
+            }), 'application/json')
 
 
 class ValidateUser(View):
