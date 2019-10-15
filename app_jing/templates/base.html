@@ -240,17 +240,21 @@
             "item": item,
             "csrfmiddlewaretoken": '{{ csrf_token }}'
           }, function (data) {
+            $('#qrcode').html("")
             $('#validation-disclaimer').show()
             $('#code').text(data.code)
             $('#code-container').show()
-            var qrcode = new QRCode("qrcode", {
-              text: `${document.location.origin}{% url "person:validate" %}${data.id}`,
-              width: 300,
-              height: 300,
-              colorDark: "#000000",
-              colorLight: "#ffffff",
-              correctLevel: QRCode.CorrectLevel.H
-            });
+
+            if (data.id) {
+              var qrcode = new QRCode("qrcode", {
+                text: `${document.location.origin}{% url "person:validate" %}${data.id}`,
+                width: 300,
+                height: 300,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+              });
+            }
           })
         }
       });
