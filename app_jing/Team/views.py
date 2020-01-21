@@ -10,6 +10,7 @@ from Team.models import Team, PlayerTeam
 from Sport.models import Sport
 from University.models import University
 
+from Administration.models import Log
 
 class TeamHome(View):
     def get(self, request):
@@ -84,7 +85,7 @@ class TeamHome(View):
                         team.delete()
                         request.session['alert'] = {
                             'type': 'danger',
-                            'message': 'Ocurrió un error al crear el equipo'
+                            'message': 'Ocurrió un error al crear el equipo'    
                         }
                 saved_data = []
                 try:
@@ -225,7 +226,7 @@ class TeamEditView(View):
                         team.save()
                         request.session['alert'] = {
                             'type': 'success',
-                            'message': 'Equipo creado con éxito'
+                            'message': 'Equipo modificado con éxito'
                         }
                 except:
                     for data in saved_data:

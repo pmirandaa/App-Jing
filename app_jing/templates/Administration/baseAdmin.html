@@ -21,7 +21,7 @@ JING - Administración
 			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-locations" role="tab"
 				aria-controls="nav-contact" aria-selected="false">Lugares</a>
 			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-universities" role="tab"
-				aria-controls="nav-contact" aria-selected="false">Universidades</a>
+				aria-controls="nav-contact" aria-selected="false">Organizaciones</a>
 		{% endif %}
 	</div>
 </nav>
@@ -61,7 +61,7 @@ JING - Administración
 								<th>RUT</th>
 								<th>Nombre</th>
 								<th>Email</th>
-								<th>Universidad</th>
+								<th>Organización</th>
 								<th>Roles</th>
 								<th>Acciones</th>
 							</tr>
@@ -77,7 +77,7 @@ JING - Administración
 									<ul>
 										{% if person.is_admin %}<li>Administrador</li>{% endif %}
 										{% if person.is_organizer %}<li>Organizador</li>{% endif %}
-										{% if person.is_university_coordinator %}<li>Coord. Universidad</li>{% endif %}
+										{% if person.is_university_coordinator %}<li>Coord. Organización</li>{% endif %}
 										{% if person.is_sports_coordinator %}<li>Coord. Deporte</li>{% endif %}
 										{% if person.is_player %}<li>Deportista</li>{% endif %}
 										{% if person.is_coach %}<li>Entrenador</li>{% endif %}
@@ -233,7 +233,7 @@ JING - Administración
 							<tr>
 								<th>Nombre</th>
 								<th>Dirección</th>
-								<th>Universidad</th>
+								<th>Organización</th>
 								<th>Acciones</th>
 							</tr>
 						</thead>
@@ -270,7 +270,7 @@ JING - Administración
 				<div class="col-md-10 col-12 mt-5 offset-md-1">
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal"
 						id="create-uni-btn">
-						Nueva Universidad
+						Nueva Organización
 					</button>
 				</div>
 			</div>
@@ -444,7 +444,7 @@ JING - Administración
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<label class="input-group-text" for="user-university">Universidad</label>
+				<label class="input-group-text" for="user-university">Organización</label>
 			</div>
 			<select class="browser-default custom-select" name="university">
 				<option selected> ------ </option>
@@ -486,7 +486,7 @@ JING - Administración
 				<div class="custom-control custom-checkbox">
 					<input type="checkbox" class="custom-control-input" id="user-uni-coordinator"
 						name="is_uni_coordinator">
-					<label class="custom-control-label" for="user-uni-coordinator">Coordinador Universidad</label>
+					<label class="custom-control-label" for="user-uni-coordinator">Coordinador Organización</label>
 				</div>
 			</div>
 			<div class="col-md-6 col-12">
@@ -536,7 +536,7 @@ JING - Administración
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="uni-name-addon">Nombre</span>
 			</div>
-			<input name="name" type="text" class="form-control" placeholder="Nombre Universidad"
+			<input name="name" type="text" class="form-control" placeholder="Nombre Organización"
 				aria-label="Nombre Universidad" aria-describedby="uni-name-addon">
 		</div>
 
@@ -553,7 +553,7 @@ JING - Administración
 				<span class="input-group-text" id="uni-name-addon">Siglas</span>
 			</div>
 			<input name="short-name" type="text" class="form-control"
-				placeholder="Por ejmplo: UCH - Universidad de Chile" aria-label="Por ejmplo: UCH - Universidad d Chile"
+				placeholder="Por ejemplo: UCH - Universidad de Chile" aria-label="Por ejemplo: UCH - Universidad de Chile"
 				aria-describedby="uni-name-addon">
 		</div>
 		{% comment %} <div class="input-group mb-3">
@@ -568,7 +568,7 @@ JING - Administración
 			</select>
 		</div> {% endcomment %}
 		<div class="md-form form-sm">
-			<button class="btn btn-info btn-block my-4" type="submit" id="create-event">Crear Universidad</button>
+			<button class="btn btn-info btn-block my-4" type="submit" id="create-event">Crear Organización</button>
 		</div>
 	</form>
 </div>
@@ -591,7 +591,7 @@ JING - Administración
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<label class="input-group-text" for="location-university">Universidad</label>
+				<label class="input-group-text" for="location-university">Organización</label>
 			</div>
 			<select class="browser-default custom-select" name="university">
 				<option selected> ------ </option>
@@ -689,9 +689,9 @@ JING - Administración
 <div class="text-center mx-5" id="uni-delete-form" hidden>
 	<form method="POST" action="{% url 'administration:borrar-universidad' %}">
 		{% csrf_token %}
-		<h4><strong>¿Seguro que desea eliminar la universidad <span id="uni-name"></span></strong>?</h4>
+		<h4><strong>¿Seguro que desea eliminar la organización <span id="uni-name"></span></strong>?</h4>
 		<input type="hidden" value="" name="university" id="delete-uni-id">
-		<button class="btn btn-danger btn-block my-4" type="submit">Borrar Universidad</button>
+		<button class="btn btn-danger btn-block my-4" type="submit">Borrar Organización</button>
 	</form>
 </div>
 

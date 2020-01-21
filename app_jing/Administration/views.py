@@ -12,6 +12,9 @@ from Location.models import Location
 from Sport.models import Sport
 from Administration.models import Log
 
+from django.core.validators import EmailValidator
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 class AdminPanel(View):
 
@@ -67,25 +70,73 @@ class AdminCreatePerson(View):
         university_id = request.POST.get('university')
         phone = request.POST.get('phone').strip()
 
-        event = Event.objects.get(id=event_id)
-        university = University.objects.get(id=university_id)
-
-        person = Person(
-            event=event,
-            name=nombres,
-            last_name=apellidos,
-            email=email,
-            university=university,
-            rut=rut,
-            phone_number=phone,
-            is_admin=is_admin,
-            is_organizer=is_organizer,
-            is_university_coordinator=is_university_coordinator,
-            is_sports_coordinator=is_sports_coordinator
-        )
-
         try:
+            event = Event.objects.get(id=event_id)
+            university = University.objects.get(id=university_id)
+
+            AdminCreatePerson.validateCharField(nombres, 'nombres', 2, 100)
+            AdminCreatePerson.validateCharField(apellidos, 'apellidos', 2, 100)
+            AdminCreatePerson.validateCharField(email, 'correo electronico', 3, 60)
+            AdminCreatePerson.validateCharField(phone, 'telefono', 3, 20)
+
+            ev = EmailValidator('correo invalido')
+            ev(email)
+
+            person = Person(
+                event=event,
+                name=nombres,
+                last_name=apellidos,
+                email=email,
+                university=university,
+                rut=rut,
+                phone_number=phone,
+                is_admin=is_admin,
+                is_organizer=is_organizer,
+                is_university_coordinator=is_university_coordinator,
+                is_sports_coordinator=is_sports_coordinator
+            )
             person.save()
+
+        except IntegrityError as inst:
+            print(type(inst))
+            print(inst.args)
+            if "Person_person_email" in inst.args[0]:
+                request.session['alert'] = {
+                    'type': 'warning',
+                    'message': 'Ocurrió un error al crear el usuario: correo duplicado'
+                }
+            if "Person_person_rut" in inst.args[0]:
+                request.session['alert'] = {
+                    'type': 'warning',
+                    'message': 'Ocurrió un error al crear el usuario: rut duplicado'
+                }
+
+        except ValueError:
+            person.delete()
+            if event_id == "------" and university_id == "------":
+                request.session['alert'] = {
+                    'type': 'warning',
+                    'message': 'Debes indicar una universidad y un evento al crear un usuario'    
+                }
+            elif university_id == "------":
+                request.session['alert'] = {
+                    'type': 'warning',
+                    'message': 'Debes indicar una universidad al crear un usuario'    
+                }
+            else:
+                request.session['alert'] = {
+                    'type': 'warning',
+                    'message': 'Debes indicar un evento al crear un usuario'    
+                }
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al crear el usuario: ' + inst.args[0]
+            }
+
+        else:
             doer = Person.objects.get(user=request.user)
             log = Log(
                 task = 'create_person',
@@ -99,15 +150,17 @@ class AdminCreatePerson(View):
                 'type': 'success',
                 'message': 'Usuario creado exitosamente'
             }
-        except:
-            person.delete()
-            request.session['alert'] = {
-                'type': 'danger',
-                'message': 'Ocurrió un error al crear el usuario'
-            }
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)
+
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 
 class AdminEditPerson(View):
@@ -149,153 +202,180 @@ class AdminEditPerson(View):
 
         person = Person.objects.get(id=person_id)
 
-        if person:
-            if person.event != event:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_event',
-                    value_before = str(person.event),
-                    value_after = str(Event.objects.get(pk=event)),
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.event = event
+        try:
+            AdminEditPerson.validateCharField(nombres, 'nombres', 2, 100)
+            AdminEditPerson.validateCharField(apellidos, 'apellidos', 2, 100)
+            AdminEditPerson.validateCharField(email, 'correo electronico', 3, 60)
+            ev = EmailValidator('correo invalido')
+            ev(email)
+            AdminEditPerson.validateCharField(rut, 'RUT', 3, 13)
+            AdminEditPerson.validateCharField(phone, 'telefono', 3, 20)
 
-            if person.name != nombres:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_name',
-                    value_before = person.name,
-                    value_after = nombres,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.name = nombres
 
-            if person.last_name != apellidos:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_last_name',
-                    value_before = person.last_name,
-                    value_after = apellidos,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.last_name = apellidos
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al editar el usuario: ' + inst.args[0]
+            }
 
-            if person.email != email:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_email',
-                    value_before = person.email,
-                    value_after = email,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.email = email
+        else:
+            if person:
+                if person.event != event:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_event',
+                        value_before = str(person.event),
+                        value_after = str(Event.objects.get(pk=event.id)),
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.event = event
 
-            if person.university != university:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_university',
-                    value_before = str(person.university),
-                    value_after = str(University.objects.get(pk=university)),
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.university = university
+                if person.name != nombres:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_name',
+                        value_before = person.name,
+                        value_after = nombres,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.name = nombres
 
-            if person.rut != rut:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_rut',
-                    value_before = person.rut,
-                    value_after = rut,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.rut = rut
+                if person.last_name != apellidos:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_last_name',
+                        value_before = person.last_name,
+                        value_after = apellidos,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.last_name = apellidos
 
-            if person.phone_number != phone:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_phone',
-                    value_before = person.phone_number,
-                    value_after = phone,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.phone_number = phone
+                if person.email != email:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_email',
+                        value_before = person.email,
+                        value_after = email,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.email = email
 
-            if person.is_admin != is_admin:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_admin',
-                    value_before = person.is_admin,
-                    value_after = is_admin,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.is_admin = is_admin
+                if person.university != university:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_university',
+                        value_before = str(person.university),
+                        value_after = str(University.objects.get(pk=university.id)),
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.university = university
 
-            if person.is_organizer != is_organizer:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_organizer',
-                    value_before = person.is_organizer,
-                    value_after = is_organizer,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                ) 
-                log.save()
-                person.is_organizer = is_organizer
+                if person.rut != rut:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_rut',
+                        value_before = person.rut,
+                        value_after = rut,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.rut = rut
 
-            if person.is_university_coordinator != is_university_coordinator:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_university_coordinator',
-                    value_before = person.is_university_coordinator,
-                    value_after = is_university_coordinator,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.is_university_coordinator = is_university_coordinator
+                if person.phone_number != phone:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_phone',
+                        value_before = person.phone_number,
+                        value_after = phone,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.phone_number = phone
 
-            if person.is_sports_coordinator != is_sports_coordinator:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_person_sports_coordinator',
-                    value_before = person.is_sports_coordinator,
-                    value_after = is_sports_coordinator,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                person.is_sports_coordinator = is_sports_coordinator
+                if person.is_admin != is_admin:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_admin',
+                        value_before = person.is_admin,
+                        value_after = is_admin,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.is_admin = is_admin
 
-            try:
-                person.save()
-                request.session['alert'] = {
-                    'type': 'info',
-                    'message': 'Usuario editado exitosamente'
-                }
-            except:
-                request.session['alert'] = {
-                    'type': 'danger',
-                    'message': 'Ocurrió un error al editar el usuario'
-                }
+                if person.is_organizer != is_organizer:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_organizer',
+                        value_before = person.is_organizer,
+                        value_after = is_organizer,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    ) 
+                    log.save()
+                    person.is_organizer = is_organizer
+
+                if person.is_university_coordinator != is_university_coordinator:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_university_coordinator',
+                        value_before = person.is_university_coordinator,
+                        value_after = is_university_coordinator,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.is_university_coordinator = is_university_coordinator
+
+                if person.is_sports_coordinator != is_sports_coordinator:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_person_sports_coordinator',
+                        value_before = person.is_sports_coordinator,
+                        value_after = is_sports_coordinator,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    person.is_sports_coordinator = is_sports_coordinator
+
+                try:
+                    person.save()
+                    request.session['alert'] = {
+                        'type': 'info',
+                        'message': 'Usuario editado exitosamente'
+                    }
+                except:
+                    request.session['alert'] = {
+                        'type': 'danger',
+                        'message': 'Ocurrió un error al editar el usuario'
+                    }
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)
+
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 
 class AdminDeletePerson(View):
@@ -347,35 +427,57 @@ class AdminCreateUniversity(View):
         city = request.POST.get('city')
         short_name = request.POST.get('short-name')
 
-        university = University(
-            name=name, city=city, short_name=short_name
-        )
-
         try:
-            university.save()
-            doer = Person.objects.get(user=request.user)
-            log = Log(
-                task = 'create_university',
-                value_before = 'None',
-                value_after = str(university),
-                person= f'{doer.name} {doer.last_name}',
-                date= timezone.now()
+            AdminCreateUniversity.validateCharField(name, 'nombre', 3, 100)
+            AdminCreateUniversity.validateCharField(city, 'ciudad', 2, 30)
+            AdminCreateUniversity.validateCharField(short_name, 'siglas', 1, 10)
+
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al crear la organización: ' + inst.args[0]
+            }
+
+        else:
+
+            university = University(
+                name=name, city=city, short_name=short_name
             )
-            log.save()
-            request.session['alert'] = {
-                'type': 'success',
-                'message': 'Universidad creada exitosamente'
-            }
-        except:
-            request.session['alert'] = {
-                'type': 'danger',
-                'message': 'Ocurrió un error al crear la universidad'
-            }
-            university.delete()
+
+            try:
+                university.save()
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'create_university',
+                    value_before = 'None',
+                    value_after = str(university),
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                request.session['alert'] = {
+                    'type': 'success',
+                    'message': 'Organización creada exitosamente'
+                }
+            except:
+                request.session['alert'] = {
+                    'type': 'danger',
+                    'message': 'Ocurrió un error al crear la organización'
+                }
+                university.delete()
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)
 
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 class AdminEditUniversity(View):
     def get(self, request):
@@ -398,57 +500,80 @@ class AdminEditUniversity(View):
 
         uni = University.objects.get(id=uni_id)
 
-        if uni:
-            if uni.name != name:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_university_name',
-                    value_before = uni.name,
-                    value_after = name,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                uni.name = name
+        try:
+            AdminEditUniversity.validateCharField(name, 'nombre', 3, 100)
+            AdminEditUniversity.validateCharField(city, 'ciudad', 2, 30)
+            AdminEditUniversity.validateCharField(short_name, 'siglas', 1, 10)
 
-            if uni.city != city:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_university_city',
-                    value_before = uni.city,
-                    value_after = city,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                uni.city = city
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al actualizar la organización: ' + inst.args[0]
+            }
 
-            if uni.short_name != short_name:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_university_short_name',
-                    value_before = uni.short_name,
-                    value_after = short_name,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                uni.short_name = short_name
+        else:
 
-            try:
-                uni.save()
-                request.session['alert'] = {
-                    'type': 'info',
-                    'message': 'Universidad editada exitosamente'
-                }
-            except:
-                request.session['alert'] = {
-                    'type': 'danger',
-                    'message': 'Ocurrió un error al actualizar la universidad'
-                }
+            if uni:
+                if uni.name != name:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_university_name',
+                        value_before = uni.name,
+                        value_after = name,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    uni.name = name
+
+                if uni.city != city:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_university_city',
+                        value_before = uni.city,
+                        value_after = city,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    uni.city = city
+
+                if uni.short_name != short_name:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_university_short_name',
+                        value_before = uni.short_name,
+                        value_after = short_name,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    uni.short_name = short_name
+
+                try:
+                    uni.save()
+                    request.session['alert'] = {
+                        'type': 'info',
+                        'message': 'Organización editada exitosamente'
+                    }
+                except:
+                    request.session['alert'] = {
+                        'type': 'danger',
+                        'message': 'Ocurrió un error al actualizar la organización'
+                    }
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)
+
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 
 class AdminDeleteUniversity(View):
@@ -472,12 +597,12 @@ class AdminDeleteUniversity(View):
                 university.delete()
                 request.session['alert'] = {
                     'type': 'info',
-                    'message': 'Universidad eliminada exitosamente'
+                    'message': 'Organización eliminada exitosamente'
                 }
             except:
                 request.session['alert'] = {
                     'type': 'danger',
-                    'message': 'Ocurrió un error al eliminar la universidad'
+                    'message': 'Ocurrió un error al eliminar la organización'
                 }
 
         redirect_url = reverse('administration:administracion-section')
@@ -490,36 +615,61 @@ class AdminCreateLocation(View):
         address = request.POST.get('address')
         uni_id = request.POST.get('university')
 
-        university = University.objects.get(id=uni_id)
-
-        location = Location(
-            name=name, address=address, university=university
-        )
-
         try:
-            location.save()
-            doer = Person.objects.get(user=request.user)
-            log = Log(
-                task = 'create_location',
-                value_before = 'None',
-                value_after = str(location),
-                person= f'{doer.name} {doer.last_name}',
-                date= timezone.now()
+            AdminCreateLocation.validateCharField(name, 'nombre', 2, 100)
+            AdminCreateLocation.validateCharField(address, 'dirección', 2, 200)
+
+            if uni_id == "------":
+                raise ValueError('debe elegir una organización')
+
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al crear el lugar: ' + inst.args[0]
+            }
+
+        else:
+
+            university = University.objects.get(id=uni_id)
+
+            location = Location(
+                name=name, address=address, university=university
             )
-            log.save()
-            request.session['alert'] = {
-                'type': 'success',
-                'message': 'Lugar creado exitosamente'
-            }
-        except:
-            location.delete()
-            request.session['alert'] = {
-                'type': 'danger',
-                'message': 'Ocurrió un error al crear el lugar'
-            }
+
+            try:
+                location.save()
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'create_location',
+                    value_before = 'None',
+                    value_after = str(location),
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                request.session['alert'] = {
+                    'type': 'success',
+                    'message': 'Lugar creado exitosamente'
+                }
+            except:
+                location.delete()
+                request.session['alert'] = {
+                    'type': 'danger',
+                    'message': 'Ocurrió un error al crear el lugar'
+                }
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)
+
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 
 class AdminEditLocation(View):
@@ -544,63 +694,86 @@ class AdminEditLocation(View):
         address = request.POST.get('address')
         uni_id = request.POST.get('university')
 
-        university = University.objects.get(id=uni_id)
-        location = Location.objects.get(id=location_id)
-        if university and location:
+        try:
+            AdminCreateLocation.validateCharField(name, 'nombre', 2, 100)
+            AdminCreateLocation.validateCharField(address, 'dirección', 2, 200)
 
-            if location.name != name:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_location_name',
-                    value_before = location.name,
-                    value_after = name,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                location.name = name
+            if uni_id == "------":
+                raise ValueError('debe elegir una organización')
 
-            if location.address != address:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_location_address',
-                    value_before = location.address,
-                    value_after = address,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                location.address = address
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al actualizar la organización: ' + inst.args[0]
+            }
 
-            if location.university != university:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_location_university',
-                    value_before = str(location.university),
-                    value_after = str(university),
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                location.university = university
+        else:
 
-            try:
-                location.save()
-                request.session['alert'] = {
-                    'type': 'info',
-                    'message': 'Lugar editado exitosamente'
-                }
-            except:
-                request.session['alert'] = {
-                    'type': 'danger',
-                    'message': 'Ocurrió un error al editar el lugar'
-                }
+            university = University.objects.get(id=uni_id)
+            location = Location.objects.get(id=location_id)
 
-            redirect_url = reverse('administration:administracion-section')
-            return HttpResponseRedirect(redirect_url)
+            if university and location:
 
-        return HttpResponseNotFound()
+                if location.name != name:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_location_name',
+                        value_before = location.name,
+                        value_after = name,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    location.name = name
 
+                if location.address != address:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_location_address',
+                        value_before = location.address,
+                        value_after = address,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    location.address = address
+
+                if location.university != university:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_location_university',
+                        value_before = str(location.university),
+                        value_after = str(university),
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    location.university = university
+
+                try:
+                    location.save()
+                    request.session['alert'] = {
+                        'type': 'info',
+                        'message': 'Lugar editado exitosamente'
+                    }
+                except:
+                    request.session['alert'] = {
+                        'type': 'danger',
+                        'message': 'Ocurrió un error al editar el lugar'
+                    }
+
+        redirect_url = reverse('administration:administracion-section')
+        return HttpResponseRedirect(redirect_url)
+ 
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 class AdminDeleteLocation(View):
     def post(self, request):
@@ -642,36 +815,66 @@ class AdminCreateSport(View):
         sport_type = request.POST.get('type')
         coord_id = request.POST.get('coordinator')
 
-        coordinator = Person.objects.get(id=coord_id)
-
-        sport = Sport(
-            name=name, gender=gender, sport_type=sport_type, coordinator=coordinator
-        )
-
         try:
-            sport.save()
-            doer = Person.objects.get(user=request.user)
-            log = Log(
-                task = 'create_sport',
-                value_before = 'None',
-                value_after = str(sport),
-                person= f'{doer.name} {doer.last_name}',
-                date= timezone.now()
+            AdminCreateSport.validateCharField(name, 'nombre', 2, 100)
+
+            if gender == "------":
+                raise ValueError('debe indicar un género')
+
+            if sport_type == "------":
+                raise ValueError('debe indicar el tipo de deporte')
+
+            if coord_id == "------":
+                raise ValueError('debe indicar un coordinador')
+
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al crear el deporte: ' + inst.args[0]
+            }
+
+        else:
+
+            coordinator = Person.objects.get(id=coord_id)
+
+            sport = Sport(
+                name=name, gender=gender, sport_type=sport_type, coordinator=coordinator
             )
-            log.save()
-            request.session['alert'] = {
-                'type': 'success',
-                'message': 'Deporte creado exitosamente'
-            }
-        except:
-            sport.delete()
-            request.session['alert'] = {
-                'type': 'danger',
-                'message': 'Ocurrió un error al crear el deporte'
-            }
+
+            try:
+                sport.save()
+                doer = Person.objects.get(user=request.user)
+                log = Log(
+                    task = 'create_sport',
+                    value_before = 'None',
+                    value_after = str(sport),
+                    person= f'{doer.name} {doer.last_name}',
+                    date= timezone.now()
+                )
+                log.save()
+                request.session['alert'] = {
+                    'type': 'success',
+                    'message': 'Deporte creado exitosamente'
+                }
+            except:
+                sport.delete()
+                request.session['alert'] = {
+                    'type': 'danger',
+                    'message': 'Ocurrió un error al crear el deporte'
+                }
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)
+
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 
 class AdminEditSport(View):
@@ -701,74 +904,93 @@ class AdminEditSport(View):
         sport_type = request.POST.get('type')
         coord_id = request.POST.get('coordinator')
 
-        sport = Sport.objects.get(id=sport_id)
-        coordinator = Person.objects.get(id=coord_id)
+        try:
+            AdminCreateLocation.validateCharField(name, 'nombre', 2, 100)
 
-        if sport and coordinator:
-            if sport.name != name:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_sport_name',
-                    value_before = sport.name,
-                    value_after = name,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                sport.name = name
+        except Exception as inst:
+            print(type(inst))
+            print(inst.args)
+            request.session['alert'] = {
+                'type': 'warning',
+                'message': 'Ocurrió un error al actualizar el deporte: ' + inst.args[0]
+            }
 
-            if sport.gender != gender:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_sport_gender',
-                    value_before = sport.gender,
-                    value_after = gender,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                sport.gender = gender
+        else:
 
-            if sport.sport_type != sport_type:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_sport_type',
-                    value_before = sport.sport_type,
-                    value_after = sport_type,
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                sport.sport_type = sport_type
+            sport = Sport.objects.get(id=sport_id)
+            coordinator = Person.objects.get(id=coord_id)
 
-            if sport.coordinator != coordinator:
-                doer = Person.objects.get(user=request.user)
-                log = Log(
-                    task = 'edit_sport_coordinator',
-                    value_before = str(sport.coordinator),
-                    value_after = str(coordinator),
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
-                )
-                log.save()
-                sport.coordinator = coordinator
+            if sport and coordinator:
+                if sport.name != name:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_sport_name',
+                        value_before = sport.name,
+                        value_after = name,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    sport.name = name
 
-            try:
-                sport.save()
-                request.session['alert'] = {
-                    'type': 'info',
-                    'message': 'Deporte editado exitosamente'
-                }
-            except:
-                request.session['alert'] = {
-                    'type': 'danger',
-                    'message': 'Ocurrió un error al editar el deporte'
-                }
+                if sport.gender != gender:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_sport_gender',
+                        value_before = sport.gender,
+                        value_after = gender,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    sport.gender = gender
 
-            redirect_url = reverse('administration:administracion-section')
-            return HttpResponseRedirect(redirect_url)
+                if sport.sport_type != sport_type:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_sport_type',
+                        value_before = sport.sport_type,
+                        value_after = sport_type,
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    sport.sport_type = sport_type
 
-        return HttpResponseNotFound()
+                if sport.coordinator != coordinator:
+                    doer = Person.objects.get(user=request.user)
+                    log = Log(
+                        task = 'edit_sport_coordinator',
+                        value_before = str(sport.coordinator),
+                        value_after = str(coordinator),
+                        person= f'{doer.name} {doer.last_name}',
+                        date= timezone.now()
+                    )
+                    log.save()
+                    sport.coordinator = coordinator
+
+                try:
+                    sport.save()
+                    request.session['alert'] = {
+                        'type': 'info',
+                        'message': 'Deporte editado exitosamente'
+                    }
+                except:
+                    request.session['alert'] = {
+                        'type': 'danger',
+                        'message': 'Ocurrió un error al editar el deporte'
+                    }
+
+        redirect_url = reverse('administration:administracion-section')
+        return HttpResponseRedirect(redirect_url)
+
+    def validateCharField(field, name, minLen, maxLen):
+        if field == "":
+            raise ValidationError(name + ' no puede ser vacio')
+        if len(field) < minLen:
+            raise ValidationError(name + ' demasiado corto')
+        if len(field) > maxLen:
+            raise ValidationError(name + ' demasiado largo')
 
 
 class AdminDeleteSport(View):
@@ -802,3 +1024,5 @@ class AdminDeleteSport(View):
 
         redirect_url = reverse('administration:administracion-section')
         return HttpResponseRedirect(redirect_url)
+
+

@@ -6,37 +6,38 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text">Nombres</span>
 			</div>
-			<input name="nombres" type="text" aria-label="Nombres" class="form-control" value="{{ person.name }}">
+			<input name="nombres" type="text" aria-label="Nombres" class="form-control" value="{{ person.name }}" required>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text">Apellidos</span>
 			</div>
-			<input name="apellidos" type="text" aria-label="Apellidos" class="form-control" value="{{ person.last_name }}">
+			<input name="apellidos" type="text" aria-label="Apellidos" class="form-control" value="{{ person.last_name }}" required>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text">RUT</span>
 			</div>
-			<input name="rut" type="text" aria-label="RUT" class="form-control" value="{{ person.rut }}">
+			<input name="rut" type="text" aria-label="RUT" class="form-control" value="{{ person.rut }}" required>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text">Email</span>
 			</div>
-			<input name="email" type="text" aria-label="Email" class="form-control" value="{{ person.email }}">
+			<input name="email" type="text" aria-label="Email" class="form-control" value="{{ person.email }}" required>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text">Teléfono</span>
 			</div>
-			<input name="phone" type="text" aria-label="Teléfono" class="form-control" value="{{ person.phone_number }}">
+			<input name="phone" type="text" aria-label="Teléfono" class="form-control" value="{{ person.phone_number }}" required>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<label class="input-group-text" for="user-university">Universidad</label>
 			</div>
 			<select class="browser-default custom-select" name="university" required>
+                <option selected value=""> ------ </option>
 				{% for uni in universities %}
 				<option value="{{uni.id}}" {% if person.university.id == uni.id %}selected{% endif %}>{{ uni.name }}</option>
 				{% endfor %}
@@ -47,6 +48,7 @@
 				<label class="input-group-text" for="user-event">Evento</label>
 			</div>
 			<select class="browser-default custom-select" name="event" required>
+                <option selected value=""> ------ </option>
 				{% for event in events %}
 				<option value="{{event.id}}" {% if person.event.id == event.id %}selected{% endif %}>{{ event.name }} - {{ event.year }}</option>
 				{% endfor %}

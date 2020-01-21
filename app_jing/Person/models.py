@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from Event.models import Event
 from University.models import University
 
+from django.core.validators import validate_email
 
 class Person(models.Model):
     user = models.ForeignKey(
@@ -13,9 +14,9 @@ class Person(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(unique=True, validators=[validate_email])
     university = models.ForeignKey(University, on_delete=models.PROTECT)
-    rut = models.CharField(max_length=13)
+    rut = models.CharField(max_length=13, unique=True)
     phone_number = models.CharField(max_length=20)
     emergency_phone_number = models.CharField(max_length=20, null=True)
     is_admin = models.BooleanField(default=False)
