@@ -89,6 +89,14 @@ WSGI_APPLICATION = 'app_jing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+'''
 if os.getenv('GAE_APPLICATION', None):
     DATABASES = {
         'default': {
@@ -109,7 +117,7 @@ else:
             'HOST': '35.235.115.168',
         }
     }
-
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -155,15 +163,19 @@ STATICFILES_DIRS = [
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = "https://storage.googleapis.com/app-jing-media2/"
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media')
+
+GRAPH_MODELS = {
+  'app_labels': ["Match", "Team", "Location", "Person", "Sport", "Message", "News", "Event", "University"],
+}
 
 
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'app-jing-media2'
+#DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+#GS_BUCKET_NAME = 'app-jing-media2'
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, "App_Jing-75f3b8e6a824.json")
-)
+#GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+#    os.path.join(BASE_DIR, "App_Jing-75f3b8e6a824.json")
+#)
 
 
 SESSION_COOKIE_AGE = 36000
