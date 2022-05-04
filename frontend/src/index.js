@@ -4,6 +4,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 import 'index.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -11,21 +12,26 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import App from 'App';
 import reportWebVitals from 'reportWebVitals';
+import News from 'pages/News';
+import Messages from 'pages/Messages';
+import Info from 'pages/Info';
+import Matches from 'pages/Matches';
+import Teams from 'pages/Teams';
+import Admin from 'pages/Admin';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} >
+          <Route index element={<News />} />
+          <Route path="personas" element={<Info/>} />
+          <Route path="partidos" element={<Matches/>} />
+          <Route path="equipos" element={<Teams/>} />
+          <Route path="mensajes" element={<Messages/>} />
+          <Route path="administracion" element={<Admin/>} />
         </Route>
-        <Route
-          path="*"
-          element={
-            <main style={{ padding: "1rem" }}>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        />
+        <Route path="*" element={<Navigate to="/" replace={true} />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
