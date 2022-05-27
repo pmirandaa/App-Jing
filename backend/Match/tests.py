@@ -27,7 +27,7 @@ class MatchTest(APITestCase):
             "date": "2022-05-21T03:40",
             "teams": [{"team_id": 1}, {"team_id": 2}],
             "sport": 1,
-            # This below shouldn't do anything
+            # This below should not cause changes
             "state": "MIF",
             "closed": True,
             "time_closed": "2021-12-21T04:09:50.726000-03:00",
@@ -35,7 +35,7 @@ class MatchTest(APITestCase):
         }
         expected = {
             "id": matches_count + 1,
-            "location": 2,
+            "location": 1,
             "event": 1,
             "length": 0,
             "date": "2022-05-21T03:40:00-04:00",
@@ -73,7 +73,7 @@ class MatchTest(APITestCase):
             "length": 60,
             "date": "2022-05-22T03:40",
             "sport": 2,
-            # This below shouldn't do anything
+            # This below should not cause changes
             "state": "MTB",
             "closed": False,
             "time_closed": "2022-01-01T06:00:00.000Z",
@@ -139,12 +139,28 @@ class MatchTest(APITestCase):
     # Start Match
     # ===========
 
-    @skip
     def test_start_match(self):
-        url = '/api/matches/2/start'
+        url = '/api/matches/2/start/'
         expected = {
             "id": 2,
+            "teams": [
+                {
+                    "match_team_id": 3,
+                    "team_id": 1,
+                    "score": 7,
+                    "comment": ""
+                },
+                {
+                    "match_team_id": 4,
+                    "team_id": 2,
+                    "score": 9,
+                    "comment": ""
+                }
+            ],
             "state": "MIC",
+            "closed": False,
+            "time_closed": None,
+            "winner": None
         }
         response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -153,39 +169,32 @@ class MatchTest(APITestCase):
         self.assertFalse(match.closed)
         self.assertIsNone(match.time_closed)
 
-    @skip
     def test_start_match_already_started(self):
-        url = '/api/matches/3/start'
-        expected = {
-            "id": 3,
-            "state": "MIC",
-        }
+        url = '/api/matches/3/start/'
+        expected_code = 'already_started'
         response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
-        self.assertJSONEqual(response.content, expected)
-        match = Match.objects.get(id=3)
-        self.assertFalse(match.closed)
-        self.assertIsNone(match.time_closed)
+        self.assertEqual(response.data['code'], expected_code)
 
-    @skip
     def test_start_match_already_finished(self):
-        url = '/api/matches/1/start'
-        expected = {
-            "id": 1,
-            "state": "MIF",
-            "closed": True,
-            "time_closed": "2021-12-21T07:09:50.726Z",
-        }
+        url = '/api/matches/4/start/'
+        expected_code = 'already_finished'
         response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
-        self.assertJSONEqual(response.content, expected)
+        self.assertEqual(response.data['code'], expected_code)
+
+    def test_start_match_already_closed(self):
+        url = '/api/matches/1/start/'
+        expected_code = 'already_closed'
+        response = self.client.post(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
+        self.assertEqual(response.data['code'], expected_code)
 
     # Finish Match
     # ============
 
-    @skip
     def test_finish_match(self):
-        url = '/api/matches/3/finish'
+        url = '/api/matches/3/finish/'
         data = {
             "teams": [{"team_id": 1, "score": 7, "comment": "team 1 comment"},
                       {"team_id": 2, "score": 8, "comment": "team 2 comment"}],
@@ -197,20 +206,18 @@ class MatchTest(APITestCase):
                 {
                     "match_team_id": 5,
                     "team_id": 1,
-                    "match": 3,
                     "score": 7,
                     "comment": "team 1 comment"
                 },
                 {
                     "match_team_id": 6,
                     "team_id": 2,
-                    "match": 3,
                     "score": 8,
                     "comment": "team 2 comment"
                 }
             ],
             "state": "MIF",
-            "closed": True,
+            "closed": False,
             "winner": 2,
         }
         response = self.client.post(url, data, format='json')
@@ -221,55 +228,43 @@ class MatchTest(APITestCase):
         self.assertIsNotNone(response_json.pop('time_closed'))
         self.assertEqual(response_json, expected)
 
-    @skip
     def test_finish_match_already_finished(self):
-        url = '/api/matches/1/finish'
-        data = {
-            "teams": [{"team_id": 1, "score": 7, "comment": "team 1 comment"},
-                      {"team_id": 2, "score": 8, "comment": "team 2 comment"}],
-            "winner": 2,
-        }
-        expected = {
-            "id": 1,
-            "state": "MIF",
-            "closed": True,
-            "time_closed": "2021-12-21T07:09:50.726Z",
-        }
-        response = self.client.post(url, data, format='json')
+        url = '/api/matches/4/finish/'
+        expected_code = 'already_finished'
+        response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
-        self.assertJSONEqual(response.content, expected)
-        # Scores and winner should not have changed
-        match = Match.objects.get(id=1)
-        self.assertEqual(match.match_teams[0].score, 1)
-        self.assertEqual(match.match_teams[1].score, 2)
-        self.assertEqual(match.winner, 1)
+        self.assertEqual(response.data['code'], expected_code)
+
+    def test_finish_match_already_closed(self):
+        url = '/api/matches/1/finish/'
+        expected_code = 'already_closed'
+        response = self.client.post(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
+        self.assertEqual(response.data['code'], expected_code)
 
     # Close Match
     # ===========
 
-    @skip
     def test_close_match(self):
-        url = '/api/matches/4/close'
+        url = '/api/matches/4/close/'
         data = {
-            "teams": [{"team_id": 1, "score": 7, "comment": "team 1 comment"},
-                      {"team_id": 2, "score": 8, "comment": "team 2 comment"}],
+            "teams": [{"team_id": 1, "score": 9, "comment": "team 1 comment"},
+                      {"team_id": 2, "score": 10, "comment": "team 2 comment"}],
             "winner": 2,
         }
         expected = {
             "id": 4,
             "teams": [
                 {
-                    "match_team_id": 5,
+                    "match_team_id": 7,
                     "team_id": 1,
-                    "match": 4,
-                    "score": 7,
+                    "score": 9,
                     "comment": "team 1 comment"
                 },
                 {
-                    "match_team_id": 6,
+                    "match_team_id": 8,
                     "team_id": 2,
-                    "match": 4,
-                    "score": 8,
+                    "score": 10,
                     "comment": "team 2 comment"
                 }
             ],
@@ -285,25 +280,12 @@ class MatchTest(APITestCase):
         self.assertIsNotNone(response_json.pop('time_closed'))
         self.assertEqual(response_json, expected)
 
-    @skip
     def test_close_match_already_closed(self):
-        url = '/api/matches/1/close'
-        data = {
-            "teams": [{"team_id": 1, "score": 7, "comment": "team 1 comment"},
-                      {"team_id": 2, "score": 8, "comment": "team 2 comment"}],
-            "winner": 2,
-        }
-        expected = {
-            "id": 1,
-            "state": "MIF",
-            "closed": True,
-            "time_closed": "2021-12-21T07:09:50.726Z",
-        }
-        response = self.client.post(url, data, format='json')
+        url = '/api/matches/1/close/'
+        expected_code = 'already_closed'
+        response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
-        self.assertJSONEqual(response.content, expected)
-        # Scores and winner should not have changed
-        match = Match.objects.get(id=1)
-        self.assertEqual(match.match_teams[0].score, 1)
-        self.assertEqual(match.match_teams[1].score, 2)
-        self.assertEqual(match.winner, 1)
+        self.assertEqual(response.data['code'], expected_code)
+
+    def test_comment_match_team(self):
+        url = '/api/matches/1/close/'

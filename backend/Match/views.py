@@ -1,12 +1,12 @@
+from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import render
 from django.views import View
 
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
-from django.db import connection
 
-from rest_framework import status, mixins
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -14,7 +14,8 @@ from rest_framework.viewsets import ModelViewSet
 from Person.models import Person
 from Team.models import Team
 from Match.models import Match
-from .serializers import MatchInfoSerializer, MatchTeamSerializer, MatchCreateSerializer, MatchUpdateSerializer
+from .exceptions import AlreadyFinished, AlreadyClosed, AlreadyStarted
+from .serializers import MatchInfoSerializer, MatchStatusSerializer, MatchCreateSerializer, MatchUpdateSerializer
 from Administration.models import Log
 
 
@@ -22,6 +23,7 @@ class MatchViewSet(ModelViewSet):
     read_serializer_class = MatchInfoSerializer
     create_serializer_class = MatchCreateSerializer
     update_serializer_class = MatchUpdateSerializer
+    status_serializer_class = MatchStatusSerializer
     queryset = Match.objects.all()
 
     def get_serializer_class(self, *args, **kwargs):
@@ -47,16 +49,62 @@ class MatchViewSet(ModelViewSet):
         """
         return self.list(request)
 
-    @action(methods=['POST'], detail=True)
-    def finish(self, request):
-        pass
+    @action(detail=True, methods=['POST'])
+    def start(self, request, pk):
+        match = self.get_object()
+        if match.closed:
+            raise AlreadyClosed()
+        elif match.state == 'MIF' or match.time_closed:
+            raise AlreadyFinished()
+        elif match.state == 'MIC':
+            raise AlreadyStarted()
+        elif match.state == 'MTB':
+            data = {'state': 'MIC'}
+            serializer = self.status_serializer_class(
+                match, data=data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+        return Response(status=status.HTTP_409_CONFLICT)
+
+    @action(detail=True, methods=['POST'])
+    def finish(self, request, pk):
+        match = self.get_object()
+        if match.closed:
+            raise AlreadyClosed()
+        elif match.state == 'MIF' or match.time_closed:
+            raise AlreadyFinished()
+        elif match.state in ['MTB', 'MIC']:
+            data = {'state': 'MIF', 'time_closed': datetime.now()}
+            data = {**data, **request.data}
+            serializer = self.status_serializer_class(
+                match, data=data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+        return Response(status=status.HTTP_409_CONFLICT)
+
+    @action(detail=True, methods=['POST'])
+    def close(self, request, pk):
+        match = self.get_object()
+        if match.closed:
+            raise AlreadyClosed()
+        data = {'state': 'MIF', 'closed': True}
+        if not match.time_closed:
+            data['time_closed'] = datetime.now()
+        data = {**data, **request.data}
+        serializer = self.status_serializer_class(
+            match, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     # def create(self, request):
     #     create_serializer = self.get_serializer(data=request.data)
     #     create_serializer.is_valid(raise_exception=True)
     #     match_instance = create_serializer.save()
     #     read_serializer = self.read_serializer_class(match_instance)
-    #     return Response(read_serializer.data, status=status.HTTP_304_NOT_MODIFIED)
+    #     return Response(read_serializer.data, status=status.HTTP_201_CREATED)
 
     # def update(self, request, *args, **kwargs):
     #     partial = kwargs.pop('partial', False)
@@ -74,6 +122,8 @@ class MatchViewSet(ModelViewSet):
     #     read_serializer = self.get_serializer(match_instance)
     #     return Response(read_serializer.data)
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
 
 class MatchStartView(View):
     def post(self, request):
