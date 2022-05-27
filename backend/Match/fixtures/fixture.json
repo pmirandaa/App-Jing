@@ -1,0 +1,733 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$320000$bPBvLTojrM9FEY3socWDLu$IMWPNCTHlXU08AsdMhA7Ac99jVJGawPc1tH7cJGXHrM=",
+            "last_login": "2022-05-25T06:28:27.643Z",
+            "is_superuser": true,
+            "username": "scisneros",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-09-09T20:55:29.763Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$320000$b1pjloadq1PJSTf2Qpytl3$OivCaLOxdu/IH7YySI4FCA0kT0TFCDwPis0LmFgCFXE=",
+            "last_login": "2022-05-19T09:27:21.814Z",
+            "is_superuser": false,
+            "username": "test",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2022-05-19T05:44:14.907Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "Event.event",
+        "pk": 1,
+        "fields": {
+            "name": "Jing 2022",
+            "year": 2022,
+            "logo": "events/teddy-bear.png"
+        }
+    },
+    {
+        "model": "Event.event",
+        "pk": 2,
+        "fields": {
+            "name": "Jing 2021",
+            "year": 2021,
+            "logo": "events/teddy-bear.png"
+        }
+    },
+    {
+        "model": "Location.location",
+        "pk": 1,
+        "fields": {
+            "name": "La Cancha",
+            "address": "qwe 123",
+            "university": 1
+        }
+    },
+    {
+        "model": "Location.location",
+        "pk": 2,
+        "fields": {
+            "name": "Piscina",
+            "address": "zxc 789",
+            "university": 2
+        }
+    },
+    {
+        "model": "Match.match",
+        "pk": 1,
+        "fields": {
+            "location": 1,
+            "event": 1,
+            "length": 90,
+            "date": "2021-12-22T18:00:00Z",
+            "state": "MIF",
+            "sport": 1,
+            "closed": true,
+            "time_closed": "2021-12-21T07:09:50.726Z",
+            "winner": 1
+        }
+    },
+    {
+        "model": "Match.match",
+        "pk": 2,
+        "fields": {
+            "location": 2,
+            "event": 1,
+            "length": 80,
+            "date": "2022-05-21T07:40:00Z",
+            "state": "MTB",
+            "sport": 1,
+            "closed": false,
+            "time_closed": null,
+            "winner": null
+        }
+    },
+    {
+        "model": "Match.match",
+        "pk": 3,
+        "fields": {
+            "location": 1,
+            "event": 1,
+            "length": 90,
+            "date": "2021-12-22T18:00:00Z",
+            "state": "MIC",
+            "sport": 1,
+            "closed": false,
+            "time_closed": null,
+            "winner": null
+        }
+    },
+    {
+        "model": "Match.match",
+        "pk": 4,
+        "fields": {
+            "location": 1,
+            "event": 1,
+            "length": 90,
+            "date": "2021-12-22T18:00:00Z",
+            "state": "MIF",
+            "sport": 1,
+            "closed": false,
+            "time_closed": null,
+            "winner": 1
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 1,
+        "fields": {
+            "team": 1,
+            "match": 1,
+            "score": 1,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 2,
+        "fields": {
+            "team": 2,
+            "match": 1,
+            "score": 2,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 3,
+        "fields": {
+            "team": 1,
+            "match": 2,
+            "score": 7,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 4,
+        "fields": {
+            "team": 2,
+            "match": 2,
+            "score": 9,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 5,
+        "fields": {
+            "team": 1,
+            "match": 3,
+            "score": 4,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 6,
+        "fields": {
+            "team": 2,
+            "match": 3,
+            "score": 5,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 7,
+        "fields": {
+            "team": 1,
+            "match": 4,
+            "score": 4,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 8,
+        "fields": {
+            "team": 2,
+            "match": 4,
+            "score": 5,
+            "comment": ""
+        }
+    },
+    {
+        "model": "Message.message",
+        "pk": 1,
+        "fields": {
+            "sender": 2,
+            "reciever": 1,
+            "event": 1,
+            "subject": "Asd",
+            "body": "Zxc",
+            "is_read": true,
+            "date": "2022-05-04T12:01:16.446Z",
+            "deleted": false
+        }
+    },
+    {
+        "model": "News.newscategory",
+        "pk": 1,
+        "fields": {
+            "name": "Anuncios",
+            "icon": "🔔",
+            "color": "blue",
+            "btn_class": "btn-primary",
+            "event": 1
+        }
+    },
+    {
+        "model": "News.news",
+        "pk": 1,
+        "fields": {
+            "title": "",
+            "short_story": "¡Hemos concluido la versión 2020 de los JING! 🎉",
+            "date": "2021-12-21T10:29:01.404Z",
+            "publisher": 1,
+            "body": "¡Hemos concluido la versión 2020 de los JING! 🎉\r\nGracias a las universidades y a los participantes que promovieron un ambiente grato en las competencias.\r\nHa sido toda un aventura este año, pero se logró y fue posible gracias a las personas que dieron todo por hacer posible esto juegos.❤️\r\n¡Nos vemos en la próxima versión! ✌🏻",
+            "category": 1,
+            "picture": "news/129033318_403015194230336_145316373917594397_n.jpg",
+            "event": 1
+        }
+    },
+    {
+        "model": "Person.person",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "event": 1,
+            "name": "Sebastián",
+            "last_name": "Cisneros",
+            "email": "asd@asd.asd",
+            "university": 1,
+            "rut": "18932156-2",
+            "phone_number": "1234567",
+            "emergency_phone_number": "1234567",
+            "is_admin": true,
+            "is_organizer": false,
+            "is_university_coordinator": false,
+            "is_sports_coordinator": false,
+            "is_player": false,
+            "is_coach": false,
+            "has_avatar": false,
+            "pending_messages": -1
+        }
+    },
+    {
+        "model": "Person.person",
+        "pk": 2,
+        "fields": {
+            "user": null,
+            "event": 1,
+            "name": "Yop",
+            "last_name": "Yop",
+            "email": "zxc@zxc.zxc",
+            "university": 3,
+            "rut": "1-9",
+            "phone_number": "12345678",
+            "emergency_phone_number": null,
+            "is_admin": true,
+            "is_organizer": true,
+            "is_university_coordinator": true,
+            "is_sports_coordinator": true,
+            "is_player": false,
+            "is_coach": false,
+            "has_avatar": false,
+            "pending_messages": 0
+        }
+    },
+    {
+        "model": "Person.person",
+        "pk": 3,
+        "fields": {
+            "user": null,
+            "event": 1,
+            "name": "111",
+            "last_name": "111",
+            "email": "asdf@asdf.asdf",
+            "university": 1,
+            "rut": "2-7",
+            "phone_number": "321654987",
+            "emergency_phone_number": "1",
+            "is_admin": false,
+            "is_organizer": false,
+            "is_university_coordinator": false,
+            "is_sports_coordinator": false,
+            "is_player": true,
+            "is_coach": false,
+            "has_avatar": false,
+            "pending_messages": 0
+        }
+    },
+    {
+        "model": "Person.person",
+        "pk": 4,
+        "fields": {
+            "user": null,
+            "event": 1,
+            "name": "Juana",
+            "last_name": "Perez",
+            "email": "zxc@zxc.com",
+            "university": 2,
+            "rut": "3-5",
+            "phone_number": "123",
+            "emergency_phone_number": null,
+            "is_admin": false,
+            "is_organizer": false,
+            "is_university_coordinator": false,
+            "is_sports_coordinator": false,
+            "is_player": true,
+            "is_coach": false,
+            "has_avatar": false,
+            "pending_messages": 0
+        }
+    },
+    {
+        "model": "Person.person",
+        "pk": 5,
+        "fields": {
+            "user": null,
+            "event": 1,
+            "name": "Gabriel",
+            "last_name": "Boric",
+            "email": "123@zxc.asd",
+            "university": 2,
+            "rut": "4-3",
+            "phone_number": "123",
+            "emergency_phone_number": null,
+            "is_admin": false,
+            "is_organizer": false,
+            "is_university_coordinator": false,
+            "is_sports_coordinator": false,
+            "is_player": false,
+            "is_coach": false,
+            "has_avatar": false,
+            "pending_messages": 0
+        }
+    },
+    {
+        "model": "Person.persontemporarycode",
+        "pk": 1,
+        "fields": {
+            "person": 3,
+            "code": 947418,
+            "expiration_date": "2021-12-21T11:53:05.322Z"
+        }
+    },
+    {
+        "model": "Sport.sport",
+        "pk": 1,
+        "fields": {
+            "name": "Fútbol",
+            "gender": "FEM",
+            "sport_type": "A",
+            "coordinator": 2,
+            "closed": true
+        }
+    },
+    {
+        "model": "Sport.sport",
+        "pk": 2,
+        "fields": {
+            "name": "Básquetbol",
+            "gender": "MIX",
+            "sport_type": "A",
+            "coordinator": 2,
+            "closed": false
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 1,
+        "fields": {
+            "sport_type": "A",
+            "place": 1,
+            "points": 2000
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 2,
+        "fields": {
+            "sport_type": "A",
+            "place": 2,
+            "points": 1200
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 3,
+        "fields": {
+            "sport_type": "A",
+            "place": 3,
+            "points": 720
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 4,
+        "fields": {
+            "sport_type": "A",
+            "place": 4,
+            "points": 360
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 5,
+        "fields": {
+            "sport_type": "A",
+            "place": 5,
+            "points": 180
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 6,
+        "fields": {
+            "sport_type": "A",
+            "place": 6,
+            "points": 90
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 7,
+        "fields": {
+            "sport_type": "A",
+            "place": 7,
+            "points": 50
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 8,
+        "fields": {
+            "sport_type": "A",
+            "place": 8,
+            "points": 20
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 9,
+        "fields": {
+            "sport_type": "B",
+            "place": 1,
+            "points": 1300
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 10,
+        "fields": {
+            "sport_type": "B",
+            "place": 2,
+            "points": 800
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 11,
+        "fields": {
+            "sport_type": "B",
+            "place": 3,
+            "points": 480
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 12,
+        "fields": {
+            "sport_type": "B",
+            "place": 4,
+            "points": 240
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 13,
+        "fields": {
+            "sport_type": "B",
+            "place": 5,
+            "points": 120
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 14,
+        "fields": {
+            "sport_type": "B",
+            "place": 6,
+            "points": 60
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 15,
+        "fields": {
+            "sport_type": "B",
+            "place": 7,
+            "points": 30
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 16,
+        "fields": {
+            "sport_type": "B",
+            "place": 8,
+            "points": 10
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 17,
+        "fields": {
+            "sport_type": "C",
+            "place": 1,
+            "points": 800
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 18,
+        "fields": {
+            "sport_type": "C",
+            "place": 2,
+            "points": 480
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 19,
+        "fields": {
+            "sport_type": "C",
+            "place": 3,
+            "points": 290
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 20,
+        "fields": {
+            "sport_type": "C",
+            "place": 4,
+            "points": 150
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 21,
+        "fields": {
+            "sport_type": "C",
+            "place": 5,
+            "points": 70
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 22,
+        "fields": {
+            "sport_type": "C",
+            "place": 6,
+            "points": 40
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 23,
+        "fields": {
+            "sport_type": "C",
+            "place": 7,
+            "points": 20
+        }
+    },
+    {
+        "model": "Sport.finalsportpoints",
+        "pk": 24,
+        "fields": {
+            "sport_type": "C",
+            "place": 8,
+            "points": 0
+        }
+    },
+    {
+        "model": "Team.team",
+        "pk": 1,
+        "fields": {
+            "coordinator": 3,
+            "university": 1,
+            "place": 1,
+            "event_score": 2000,
+            "sport": 1,
+            "event": 1
+        }
+    },
+    {
+        "model": "Team.team",
+        "pk": 2,
+        "fields": {
+            "coordinator": 4,
+            "university": 2,
+            "place": 2,
+            "event_score": 1200,
+            "sport": 1,
+            "event": 1
+        }
+    },
+    {
+        "model": "Team.team",
+        "pk": 3,
+        "fields": {
+            "coordinator": 2,
+            "university": 3,
+            "place": 0,
+            "event_score": 0,
+            "sport": 1,
+            "event": 1
+        }
+    },
+    {
+        "model": "Team.playerteam",
+        "pk": 1,
+        "fields": {
+            "player": 3,
+            "team": 1
+        }
+    },
+    {
+        "model": "Team.playerteam",
+        "pk": 2,
+        "fields": {
+            "player": 4,
+            "team": 2
+        }
+    },
+    {
+        "model": "University.university",
+        "pk": 1,
+        "fields": {
+            "name": "Universidad de Chile",
+            "city": "Santiago",
+            "overall_score": 2000,
+            "logo": "",
+            "map": "",
+            "short_name": "UCH"
+        }
+    },
+    {
+        "model": "University.university",
+        "pk": 2,
+        "fields": {
+            "name": "Universidad Católica",
+            "city": "Santiago",
+            "overall_score": 1200,
+            "logo": "",
+            "map": "",
+            "short_name": "PUC"
+        }
+    },
+    {
+        "model": "University.university",
+        "pk": 3,
+        "fields": {
+            "name": "Universidad de Concepción",
+            "city": "Concepción",
+            "overall_score": 0,
+            "logo": "",
+            "map": "",
+            "short_name": "UdeC"
+        }
+    },
+    {
+        "model": "University.university",
+        "pk": 4,
+        "fields": {
+            "name": "Universidad de asd",
+            "city": "Concepción",
+            "overall_score": 0,
+            "logo": "",
+            "map": "",
+            "short_name": "UdeC"
+        }
+    },
+    {
+        "model": "University.universityevent",
+        "pk": 1,
+        "fields": {
+            "university": 1,
+            "event": 1,
+            "is_host": true
+        }
+    },
+    {
+        "model": "University.universityevent",
+        "pk": 2,
+        "fields": {
+            "university": 3,
+            "event": 1,
+            "is_host": false
+        }
+    }
+]
