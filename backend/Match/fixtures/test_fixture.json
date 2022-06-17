@@ -381,7 +381,7 @@
             "name": "Fútbol",
             "gender": "FEM",
             "sport_type": "A",
-            "coordinator": 2,
+            "coordinator": 1,
             "closed": true
         }
     },
@@ -661,6 +661,14 @@
         "pk": 2,
         "fields": {
             "player": 4,
+            "team": 2
+        }
+    },
+    {
+        "model": "Team.playerteam",
+        "pk": 2,
+        "fields": {
+            "player": 5,
             "team": 2
         }
     },

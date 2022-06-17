@@ -1,83 +1,66 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from Event.models import Event
+from Placeholder.models import Placeholder
 
 
-class EventTest(APITestCase):
+class PlaceholderTest(APITestCase):
     fixtures = ['test_fixture.json']
 
-    # Get Event instance and list
+    # Get Placeholder instance and list
     # =====================
 
     def setUp(self):
         self.client.login(username='scisneros', password='123')
 
-    def test_get_events_list(self):
-        url = '/api/events/'
+    def test_get_placeholders_list(self):
+        url = '/api/placeholders/'
         expected = [
             {
                 "id": 1,
-                "name": "Jing 2022",
-                "year": 2022,
-                "logo": "events/teddy-bear.png"
             },
             {
                 "id": 2,
-                "name": "Jing 2021",
-                "year": 2021,
-                "logo": "events/teddy-bear.png"
+            },
+            {
+                "id": 3,
             }
         ]
         response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
-    def test_get_event_instance(self):
-        url = '/api/events/1/'
+    def test_get_placeholder_instance(self):
+        url = '/api/placeholders/1/'
         expected = {
             "id": 1,
-            "name": "Jing 2022",
-            "year": 2022,
-            "logo": "events/teddy-bear.png"
         }
         response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
-    # Create and update Event
+    # Create and update Placeholder
     # ======================
 
-    def test_create_event(self):
-        url = '/api/events/'
-        events_count = Event.objects.count()
+    def test_create_placeholder(self):
+        url = '/api/placeholders/'
+        placeholders_count = Placeholder.objects.count()
         data = {
-            "name": "Jing 2023",
-            "year": 2023,
         }
         expected = {
-            "id": events_count + 1,
-            "name": "Jing 2023",
-            "year": 2023,
-            "logo": ""
+            "id": placeholders_count + 1,
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Event.objects.count(), events_count + 1)
+        self.assertEqual(Placeholder.objects.count(), placeholders_count + 1)
         self.assertJSONEqual(response.content, expected)
 
-    def test_update_event(self):
-        url = '/api/events/1'
+    def test_update_placeholder(self):
+        url = '/api/placeholders/1'
         data = {
-            "name": "Jing 2024",
-            "year": 2024,
-            # TODO: Update logo
         }
         expected = {
             "id": 1,
-            "name": "Jing 2024",
-            "year": 2024,
-            "logo": "events/teddy-bear.png"
         }
         response = self.client.patch(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -1,6 +1,4 @@
 import json
-from re import match
-from unittest import skip
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -8,7 +6,7 @@ from Match.models import Match, MatchTeam
 
 
 class MatchTest(APITestCase):
-    fixtures = ['fixture.json']
+    fixtures = ['test_fixture.json']
 
     def setUp(self):
         self.client.login(username='scisneros', password='123')
