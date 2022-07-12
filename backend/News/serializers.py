@@ -1,8 +1,13 @@
 from rest_framework import serializers
-from .models import TODO
+from .models import News, NewsCategory
 
 
-class TODOSerializer(serializers.ModelSerializer):
+class NewsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TODO
-        fields = ('id')
+        model = News
+        fields = ('__all__')
+
+class NewsCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewsCategory
+        fields = ('__all__')

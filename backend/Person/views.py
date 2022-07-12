@@ -10,13 +10,15 @@ from django.shortcuts import render
 from django.views import View
 from django.urls import reverse
 from django.utils import timezone
-from django.core import serializers
+
+from rest_framework import viewsets
 
 from University.models import UniversityEvent
 
 from Person.models import Person
 from Person.models import PersonAvatar
 from Person.models import PersonTemporaryCode
+from Person.serializers import PersonSerializer
 
 from Match.models import Match
 
@@ -30,7 +32,9 @@ import datetime
 import random
 import json
 
-
+class PersonViewSet(viewsets.ModelViewSet):
+    serializer_class = PersonSerializer
+    queryset = Person.objects.all()
 class RegisterView(View):
 
     def post(self, request):

@@ -5,10 +5,13 @@ from django.views import View
 from django.urls import reverse
 from django.shortcuts import render
 
+from rest_framework import viewsets
+
 from Person.models import Person
 from Person.models import PersonAvatar
 
 from Message.models import Message
+from Message.serializers import MessageSerializer
 from Event.models import Event
 
 from University.models import University
@@ -19,6 +22,9 @@ from Sport.models import Sport
 import json
 import ast
 
+class MessageViewSet(viewsets.ModelViewSet):
+    serializer_class = MessageSerializer
+    queryset = Message.objects.all()
 
 class HomeMessages(View):
 

@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import TODO
+from .models import Message
 
 
-class TODOSerializer(serializers.ModelSerializer):
+class MessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TODO
-        fields = ('id')
+        model = Message
+        fields = ('__all__')

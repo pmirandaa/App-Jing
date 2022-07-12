@@ -19,17 +19,32 @@ from django.urls import include
 
 from rest_framework import routers
 
+from Administration.views import LogViewSet
 from Authentication.views import UserViewSet
 from Event.views import EventViewSet
 from Location.views import LocationViewSet
 from Match.views import MatchViewSet
+from Message.views import MessageViewSet
+from News.views import NewsViewSet, NewsCategoryViewSet
+from Person.views import PersonViewSet
+from Sport.views import SportViewSet, FinalSportPointsViewSet
+from Team.views import TeamViewSet, PlayerTeamViewSet
 from University.views import UniversityViewSet
 
 
 router = routers.DefaultRouter()
+router.register('logs', LogViewSet, 'logs')
 router.register('events', EventViewSet, 'events')
 router.register('locations', LocationViewSet, 'locations')
 router.register('matches', MatchViewSet, 'matches')
+router.register('messages', MessageViewSet, 'messages')
+router.register('news', NewsViewSet, 'news')
+router.register('news_categories', NewsCategoryViewSet, 'news_categories')
+router.register('persons', PersonViewSet, 'persons')
+router.register('sports', SportViewSet, 'sports')
+router.register('final_sport_points', FinalSportPointsViewSet, 'final_sport_points')
+router.register('teams', TeamViewSet, 'teams')
+router.register('player_teams', PlayerTeamViewSet, 'player_teams')
 router.register('universities', UniversityViewSet, 'universities')
 router.register('users', UserViewSet, 'users')
 

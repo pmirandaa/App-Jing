@@ -1,8 +1,13 @@
 from rest_framework import serializers
-from .models import TODO
+from .models import Sport, FinalSportPoints
 
 
-class TODOSerializer(serializers.ModelSerializer):
+class SportSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TODO
-        fields = ('id')
+        model = Sport
+        fields = ('__all__')
+
+class FinalSportPointsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FinalSportPoints
+        fields = ('__all__')

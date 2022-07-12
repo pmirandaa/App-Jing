@@ -12,14 +12,25 @@ from django.db.models import Q
 
 from django.views import View
 
+from rest_framework import viewsets
+
 from Team.models import Team
 from Match.models import Match
 from Match.models import MatchTeam
 from Sport.models import Sport
 from Sport.models import FinalSportPoints
+from Sport.serializers import SportSerializer, FinalSportPointsSerializer
 from University.models import University
 from Person.models import Person
 from Administration.models import Log
+
+class SportViewSet(viewsets.ModelViewSet):
+    serializer_class = SportSerializer
+    queryset = Sport.objects.all()
+
+class FinalSportPointsViewSet(viewsets.ModelViewSet):
+    serializer_class = FinalSportPointsSerializer
+    queryset = FinalSportPoints.objects.all()
 
 class GetScoresView(View):
 

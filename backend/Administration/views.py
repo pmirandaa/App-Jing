@@ -12,7 +12,7 @@ from University.serializers import UniversitySerializer
 from Location.models import Location
 from Sport.models import Sport
 from Administration.models import Log
-from Administration.serializers import AdminSerializer
+from Administration.serializers import LogSerializer
 
 from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
@@ -20,7 +20,12 @@ from django.db import IntegrityError
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
+
+class LogViewSet(ModelViewSet):
+    serializer_class = LogSerializer
+    queryset = Log.objects.all()
 
 
 class AdminPanelView(APIView):
@@ -30,7 +35,8 @@ class AdminPanelView(APIView):
         person = None
         # people = PersonSerializer(Person.objects.all(), many=True)
         # events = EventSerializer(Event.objects.all(), many=True)
-        universities = UniversitySerializer(University.objects.all(), many=True)
+        universities = UniversitySerializer(
+            University.objects.all(), many=True)
         # locations = LocationSerializer(Location.objects.all(), many=True)
         # sports = SportSerializer(Sport.objects.all(), many=True)
         sport_types = Sport.SPORT_TYPE
@@ -45,19 +51,19 @@ class AdminPanelView(APIView):
 
         data = {
             "name": request.user.username,
-            #"people": people,
-            #"events": events,
+            # "people": people,
+            # "events": events,
             "universities": universities.data,
-            #"locations": locations,
-            #"person": person,
-            #"sports": sports,
+            # "locations": locations,
+            # "person": person,
+            # "sports": sports,
             "sport_types": sport_types,
             "genders": genders,
-            #"sports_coords": sport_coords,
-            #"unis_coords": unis_coords,
-            #"alert": request.session.pop('alert', None)
+            # "sports_coords": sport_coords,
+            # "unis_coords": unis_coords,
+            # "alert": request.session.pop('alert', None)
         }
-        return Response(data, status=400)
+        return Response(data)
 
 
 class AdminCreatePerson(View):

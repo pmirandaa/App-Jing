@@ -5,12 +5,23 @@ from django.http.response import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 
+from rest_framework import viewsets
+
 from Person.models import Person
 from Team.models import Team, PlayerTeam
+from Team.serializers import TeamSerializer, PlayerTeamSerializer
 from Sport.models import Sport
 from University.models import University
 
 from Administration.models import Log
+
+class TeamViewSet(viewsets.ModelViewSet):
+    serializer_class = TeamSerializer
+    queryset = Team.objects.all()
+
+class PlayerTeamViewSet(viewsets.ModelViewSet):
+    serializer_class = PlayerTeamSerializer
+    queryset = PlayerTeam.objects.all()
 
 class TeamHome(View):
     def get(self, request):

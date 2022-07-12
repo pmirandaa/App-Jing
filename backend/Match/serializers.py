@@ -80,15 +80,11 @@ class MatchSerializer(serializers.ModelSerializer):
         for mt_data in match_teams_data:
             mt_id = mt_data.pop('id', None)
             mt_team = mt_data.get('team', None)
-            print("data:",mt_data)
-            print("ids:",mt_id, mt_team)
             if mt_id:
                 mt_instance = match_instance.match_teams.filter(id=mt_id)
             else:
-                print("match_teams:",match_instance.match_teams)
                 mt_instance = match_instance.match_teams.filter(
                     team=mt_team)
-            print("instance:",mt_instance)
             if mt_instance is not None:
                 mt_instance.update(**mt_data)
 
@@ -167,7 +163,7 @@ class MatchUpdateSerializer(MatchSerializer):
         read_only_fields = ['closed', 'time_closed', 'state', 'winner']
 
     def update(self, instance, validated_data):
-        match_teams = validated_data.pop('match_teams', [])  
+        match_teams = validated_data.pop('match_teams', [])
         # Update directly editable attributes
         if validated_data:
             for attr, value in validated_data.items():

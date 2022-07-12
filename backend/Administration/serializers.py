@@ -7,6 +7,8 @@ from .models import Log
 class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Log
+        fields = '__all__'
+
 
 class AdminSerializer(serializers.Serializer):
     name = serializers.CharField()

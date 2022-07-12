@@ -5,13 +5,23 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.utils import timezone
 
+from rest_framework import viewsets
+
 from Person.models import Person
 from Person.models import PersonAvatar
 from Event.models import Event
 from News.models import NewsCategory
 from News.models import News
+from News.serializers import NewsSerializer
+from News.serializers import NewsCategorySerializer
 
+class NewsViewSet(viewsets.ModelViewSet):
+    serializer_class = NewsSerializer
+    queryset = News.objects.all()
 
+class NewsCategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = NewsCategorySerializer
+    queryset = NewsCategory.objects.all()
 class HomeNews(View):
 
     def get(self, request):
