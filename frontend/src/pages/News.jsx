@@ -1,10 +1,7 @@
 import {
-  MDBBtn,
-  MDBModal,
-  MDBModalBody,
-  MDBModalFooter,
-  MDBModalHeader,
-} from "mdbreact";
+  Button,
+  Modal
+} from "react-bootstrap";
 import { useEffect, useState } from "react";
 
 export default function News() {
@@ -20,12 +17,12 @@ export default function News() {
             Ultimas Noticias
           </h2>
           {/* {% if person.is_organizer or person.is_admin %} */}
-          <MDBBtn
+          <Button
             onClick={toggleAddNewsModal}
             class="btn btn-danger btn-circle my-auto ml-5"
           >
-            <i class="fas fa-plus"></i>
-          </MDBBtn>
+            +
+          </Button>
           {/* {% endif %} */}
         </div>
         <div class="d-flex">
@@ -113,7 +110,7 @@ export default function News() {
         </h3>
         {/* {% endif %} */}
       </section>
-      <MDBModal isOpen={addNewsModal} toggle={setAddNewsModal} size="xl">
+      <Modal isOpen={addNewsModal} toggle={setAddNewsModal} size="xl">
         <div class="modal-body">
           <button
             type="button"
@@ -210,7 +207,7 @@ export default function News() {
             </div>
           </form>
         </div>
-      </MDBModal>
+      </Modal>
     </div>
   );
 }

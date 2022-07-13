@@ -1,0 +1,29 @@
+.section {
+    flex-direction: row;
+    flex-basis: 33.3333%;
+}
+
+.left {
+    justify-content: flex-start;
+}
+
+.mid {
+    justify-content: center;
+}
+
+.mid :global(.nav-link) {
+    background-color: rgba(0,0,0,0.05);
+    color: white;
+    min-width: 50%;
+    text-align: center;
+    margin: 0 4px;
+    font-size: 1.125rem;
+}
+
+.mid :global(.nav-link.active), .mid :global(.nav-link):hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.right {
+    justify-content: flex-end;
+}
