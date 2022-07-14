@@ -29,6 +29,8 @@ ReactDOM.render(
           <Route path="mensajes" element={<Messages/>} />
           <Route path="administracion" element={<Admin/>} />
         </Route>
+        
+        <Route path="/hola" element={<Teams />} />
         <Route path="*" element={<Navigate to="/" replace={true} />} />
       </Routes>
     </BrowserRouter>
