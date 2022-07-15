@@ -19,6 +19,7 @@ export default function MatchesTable(props) {
     <Table striped variant="light">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Fecha</th>
           <th>Hora</th>
           <th>Lugar</th>
@@ -31,6 +32,7 @@ export default function MatchesTable(props) {
       <tbody>
         {props.matches.map((match) => (
           <tr key={match.id}>
+            <td>{match.id}</td>
             <td>{moment(match.date).format("ddd DD-MM-YY")}</td>
             <td>{moment(match.date).format("HH:mm")}</td>
             <td>{match.location.name}</td>

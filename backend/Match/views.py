@@ -26,6 +26,27 @@ class MatchViewSet(ModelViewSet):
     status_serializer_class = MatchStatusSerializer
     queryset = Match.objects.all()
 
+    def get_queryset(self):
+        queryset = self.queryset
+        my_matches = self.request.query_params.get('my_matches')
+        participants = self.request.query_params.get('participants')
+        state = self.request.query_params.get('state')
+        sport = self.request.query_params.get('sport')
+        location = self.request.query_params.get('location')
+        if my_matches is not None:
+            user = self.request.user
+            queryset = queryset.filter(match_teams__team__playerteam__player__exact=user.id)
+        if participants is not None:
+            participants_list = participants.split(',')
+            queryset = queryset.filter(match_teams__team__in=participants_list)
+        if state is not None:
+            queryset = queryset.filter(state__exact=state)
+        if sport is not None:
+            queryset = queryset.filter(sport__exact=sport)
+        if location is not None:
+            queryset = queryset.filter(location__exact=location)
+        return queryset
+
     def get_serializer_class(self, *args, **kwargs):
         if self.action == 'create':
             serializer_class = self.create_serializer_class
