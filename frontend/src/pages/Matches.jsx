@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ import styles from "./Matches.module.css";
 import SidebarPage from "pages/wrapper/SidebarPage";
 import MatchesTable from "components/table/MatchesTable";
 import LoadingOverlay from "components/loading/LoadingOverlay";
+import { EventContext } from "contexts/EventContext";
 
 function sleeper(ms) {
   return function (x) {
@@ -15,6 +16,7 @@ function sleeper(ms) {
 }
 
 export default function Matches() {
+  const { event } = useContext(EventContext);
   const [filters, setFilters] = useState({});
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +35,9 @@ export default function Matches() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8000/api/matches/?${searchParams.toString()}`)
+      .get(
+        `http://localhost:8000/api/matches/?event=${event}&${searchParams.toString()}`
+      )
       .then(sleeper(500))
       .then((response) => {
         setMatches(response.data.results);
@@ -41,15 +45,21 @@ export default function Matches() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [searchParams])
+  }, [searchParams, event]);
 
   return (
     <SidebarPage
       sidebar={<MatchesSidebar filters={filters} setFilters={setFilters} />}
     >
       <h1>Partidos</h1>
+      <h4>Evento {event}</h4>
       {isLoading && <LoadingOverlay />}
-      <MatchesTable matches={matches} />
+      
+      {matches.length > 0 ? (
+        <MatchesTable matches={matches} />
+      ) : (
+        <p className="text-center lead">No se encontraron partidos con los criterios seleccionados</p>
+      )}
     </SidebarPage>
   );
 }

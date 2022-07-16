@@ -1,0 +1,24 @@
+/* Trick used to force a 1:1 image. */
+/* It relies on the fact that percentage values on paddings are always based on their */
+/* parent's width, even on vertical paddings. */
+.wrap {
+  position: relative;
+  align-self: center;
+  width: 40px;
+  /* This pseudo-class makes a content-less block with 0 height and 100% padding-bottom, */
+  /* making its box height equal to 100% the parent's width (thus making it a square). */
+}
+.wrap::after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+.pic {
+  /* img will be absolutely positioned, relative to wrapper, and use its entire squared space. */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+}

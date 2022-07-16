@@ -28,11 +28,14 @@ class MatchViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
+        event = self.request.query_params.get('event')
         my_matches = self.request.query_params.get('my_matches')
         participants = self.request.query_params.get('participants')
         state = self.request.query_params.get('state')
         sport = self.request.query_params.get('sport')
         location = self.request.query_params.get('location')
+        if event is not None:
+            queryset = queryset.filter(event__exact=event)
         if my_matches is not None:
             user = self.request.user
             queryset = queryset.filter(match_teams__team__playerteam__player__exact=user.id)
