@@ -41,7 +41,7 @@ class MatchViewSet(ModelViewSet):
             queryset = queryset.filter(match_teams__team__playerteam__player__exact=user.id)
         if participants is not None:
             participants_list = participants.split(',')
-            queryset = queryset.filter(match_teams__team__in=participants_list)
+            queryset = queryset.filter(match_teams__team__university__in=participants_list)
         if state is not None:
             queryset = queryset.filter(state__exact=state)
         if sport is not None:

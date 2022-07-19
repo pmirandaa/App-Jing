@@ -37,9 +37,14 @@ export default function MatchesSidebar(props) {
         onChange={handleChangeForm}
       >
         <option value="">Sin filtrar</option>
-        <option value="1">UCH</option>
+        <option value="1">UAI STGO</option>
         <option value="2">PUC</option>
-        <option value="3">UdeC</option>
+        <option value="3">UANDES</option>
+        <option value="4">USM CC</option>
+        <option value="5">UDEC</option>
+        <option value="6">UAI VIÑA</option>
+        <option value="7">USM STGO</option>
+        <option value="8">UCH</option>
       </FormSelect>
 
       <FormSelect
