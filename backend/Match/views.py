@@ -48,6 +48,7 @@ class MatchViewSet(ModelViewSet):
             queryset = queryset.filter(sport__exact=sport)
         if location is not None:
             queryset = queryset.filter(location__exact=location)
+        queryset = queryset.order_by('date')
         return queryset
 
     def get_serializer_class(self, *args, **kwargs):
