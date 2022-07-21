@@ -16,7 +16,7 @@ export default function MatchesTable(props) {
   }
 
   return (
-    <Table striped variant="light">
+    <Table striped variant="light" className="mt-4">
       <thead>
         <tr>
           <th>ID</th>
@@ -36,7 +36,7 @@ export default function MatchesTable(props) {
             <td>{moment(match.date).format("ddd DD-MM-YY")}</td>
             <td>{moment(match.date).format("HH:mm")}</td>
             <td>{match.location.name}</td>
-            <td>{match.sport}</td>
+            <td>{match.sport.name}</td>
             <td>
               <ul>
                 {match.teams.map((team) => (

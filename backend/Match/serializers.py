@@ -5,6 +5,8 @@ from pkg_resources import require
 from rest_framework import serializers
 
 from Location.serializers import LocationSerializer
+from Event.serializers import EventSerializer
+from Sport.serializers import SportSerializer
 from Team.models import Team
 
 from .models import Match, MatchTeam
@@ -95,8 +97,8 @@ class MatchInfoSerializer(MatchSerializer):
     details on a single query.
     """
     location = LocationSerializer(read_only=True)
-    # event = EventSerializer(read_only=True)
-    # sport = SportSerializer(read_only=True)
+    event = EventSerializer(read_only=True)
+    sport = SportSerializer(read_only=True)
     teams = MatchTeamInfoSerializer(
         many=True, read_only=True, source='match_teams')
 
