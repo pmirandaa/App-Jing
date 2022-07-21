@@ -8,7 +8,6 @@ import styles from "./NavBarSection.module.css";
 
 export default function NavBarRightSection() {
   const { event, setEvent } = useContext(EventContext)
-  console.log(event)
 
   return (
     <Nav className={`${styles.section} ${styles.right}`}>
