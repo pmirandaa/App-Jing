@@ -4,16 +4,16 @@ import Col from 'react-bootstrap/Col';
 
 import styles from "./SidebarPage.module.css";
 
-export default function SidebarPage(props) {
+export default function SidebarPage({sidebar, children, rootRef, ...props}) {
   return (
-    <Container fluid className={styles.root}>
+    <Container fluid className={styles.root} ref={rootRef} {...props}>
       <Row className={styles.wrapper}>
         <Col xs="2" className={styles.sidebar}>
-            {props.sidebar}
+            {sidebar}
         </Col>
 
         <Col className={styles.content}>
-          {props.children}
+          {children}
         </Col>
       </Row>
     </Container>

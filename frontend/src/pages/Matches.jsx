@@ -1,9 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import {
-  createSearchParams,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import MatchesSidebar from "components/sidebar/MatchesSidebar";
@@ -12,11 +8,9 @@ import SidebarPage from "pages/wrapper/SidebarPage";
 import MatchesTable from "components/table/MatchesTable";
 import LoadingOverlay from "components/loading/LoadingOverlay";
 import { EventContext } from "contexts/EventContext";
-import {
-  useIsFirstRender,
-  usePrevious,
-} from "utils/hooks";
+import { useIsFirstRender, usePrevious } from "utils/hooks";
 import { paramsToObject } from "utils/utils";
+import TablePagination from "components/pagination/TablePagination";
 
 function sleeper(ms) {
   return function (x) {
@@ -34,9 +28,10 @@ export default function Matches() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const prevPage = usePrevious(currentPage);
-  // const [pageSize, setPageSize] = useState(10);
-  const [_, setTotalCount] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
 
+  const rootRef = useRef();
   const isFirstRender = useIsFirstRender();
 
   function doSearch(params) {
@@ -47,6 +42,7 @@ export default function Matches() {
       .then((response) => {
         setMatches(response.data.results);
         setTotalCount(response.data.count);
+        rootRef.current.scrollTo(0, 0);
       })
       .finally(() => {
         setIsLoading(false);
@@ -57,9 +53,10 @@ export default function Matches() {
   useEffect(() => {
     if (isFirstRender) return;
     let searchFilters = { event: event, ...filters, page: currentPage };
-    if (prevPage === currentPage || prevPage === undefined)
-      searchFilters["page"] = 1;
-
+    if (currentPage != 1 && prevPage === currentPage) {
+      setCurrentPage(1);
+      return;
+    }
     let searchParams = createSearchParams(searchFilters);
     navigate("?" + searchParams.toString());
 
@@ -73,16 +70,31 @@ export default function Matches() {
     setFilters(filters);
   }, []);
 
+  const paginationEl = (
+    <TablePagination
+      current={currentPage}
+      size={pageSize}
+      count={totalCount}
+      setCurrent={setCurrentPage}
+      className="justify-content-center"
+    />
+  );
+
   return (
     <SidebarPage
       sidebar={<MatchesSidebar filters={filters} setFilters={setFilters} />}
+      rootRef={rootRef}
     >
       <h1>Partidos</h1>
       <h4>Evento {event}</h4>
       {isLoading && <LoadingOverlay />}
 
       {matches.length > 0 ? (
-        <MatchesTable matches={matches} />
+        <>
+          {paginationEl}
+          <MatchesTable matches={matches} />
+          {paginationEl}
+        </>
       ) : (
         <p className="text-center lead">
           No se encontraron partidos con los criterios seleccionados
