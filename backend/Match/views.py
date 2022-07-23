@@ -2,6 +2,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import render
 from django.views import View
+from django.db.models import Count
 
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
@@ -10,6 +11,8 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+from utils.utils import is_valid_param
 
 from Person.models import Person
 from Team.models import Team
@@ -34,21 +37,25 @@ class MatchViewSet(ModelViewSet):
         state = self.request.query_params.get('state')
         sport = self.request.query_params.get('sport')
         location = self.request.query_params.get('location')
-        if event is not None:
+        if is_valid_param(event):
             queryset = queryset.filter(event__exact=event)
-        if my_matches is not None:
+        if is_valid_param(my_matches):
             user = self.request.user
-            queryset = queryset.filter(match_teams__team__playerteam__player__exact=user.id)
-        if participants is not None:
+            queryset = queryset.filter(
+                match_teams__team__playerteam__player__exact=user.id)
+        if is_valid_param(participants):
             participants_list = participants.split(',')
-            queryset = queryset.filter(match_teams__team__university__in=participants_list)
-        if state is not None:
+            print("participants")
+            queryset = queryset.filter(match_teams__team__university__in=participants_list).annotate(
+                num_participants=Count('match_teams')).filter(num_participants=len(participants_list))
+        if is_valid_param(state):
             queryset = queryset.filter(state__exact=state)
-        if sport is not None:
+        if is_valid_param(sport):
             queryset = queryset.filter(sport__exact=sport)
-        if location is not None:
+        if is_valid_param(location):
             queryset = queryset.filter(location__exact=location)
         queryset = queryset.order_by('date')
+        print("run")
         return queryset
 
     def get_serializer_class(self, *args, **kwargs):
@@ -149,6 +156,7 @@ class MatchViewSet(ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
+
 
 class MatchStartView(View):
     def post(self, request):

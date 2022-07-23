@@ -14,6 +14,7 @@ class MatchAdmin(admin.ModelAdmin):
 class MatchTeamAdmin(admin.ModelAdmin):
     list_display = ('team', 'score', 'Winner', 'has_comment')
     search_fields = ('team__university__short_name', 'team__coordinator__name', 'score')
+    autocomplete_fields = ['match', 'team']
 
     def has_comment(self, obj):
         return len(obj.comment) > 0
