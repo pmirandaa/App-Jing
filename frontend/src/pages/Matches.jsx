@@ -9,7 +9,7 @@ import MatchesTable from "components/table/MatchesTable";
 import LoadingOverlay from "components/loading/LoadingOverlay";
 import { EventContext } from "contexts/EventContext";
 import { useIsFirstRender, usePrevious } from "utils/hooks";
-import { paramsToObject } from "utils/utils";
+import { objectWithArraysToParams, paramsToObject } from "utils/utils";
 import TablePagination from "components/pagination/TablePagination";
 
 function sleeper(ms) {
@@ -52,15 +52,18 @@ export default function Matches() {
 
   useEffect(() => {
     if (isFirstRender) return;
-    let searchFilters = { event: event, ...filters, page: currentPage };
+    const searchFilters = { event: event, ...filters, page: currentPage };
+    console.log(filters)
     if (currentPage != 1 && prevPage === currentPage) {
       setCurrentPage(1);
       return;
     }
-    let searchParams = createSearchParams(searchFilters);
-    navigate("?" + searchParams.toString());
+    const searchParams = objectWithArraysToParams(searchFilters);
+    const stringParams = searchParams.toString()
+    const decodedParams = decodeURIComponent(stringParams)
+    navigate("?" + decodedParams);
 
-    doSearch(searchParams);
+    doSearch(stringParams);
   }, [event, currentPage, filters]);
 
   useEffect(() => {
