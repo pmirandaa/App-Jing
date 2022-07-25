@@ -9,17 +9,12 @@ import MatchesTable from "components/table/MatchesTable";
 import LoadingOverlay from "components/loading/LoadingOverlay";
 import { EventContext } from "contexts/EventContext";
 import { useIsFirstRender, usePrevious } from "utils/hooks";
-import { objectWithArraysToParams, paramsToObject } from "utils/utils";
+import { objectWithArraysToParams, paramsToObject, sleeper } from "utils/utils";
 import TablePagination from "components/pagination/TablePagination";
 
-function sleeper(ms) {
-  return function (x) {
-    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
-  };
-}
 
 export default function Matches() {
-  const { event } = useContext(EventContext);
+  const { event, setEvent } = useContext(EventContext);
   const [filters, setFilters] = useState({});
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -68,7 +63,8 @@ export default function Matches() {
 
   useEffect(() => {
     const params = paramsToObject(location.search);
-    const { page, ...filters } = params;
+    const { event, page, ...filters } = params;
+    if (event) setEvent(event);
     if (page) setCurrentPage(page);
     setFilters(filters);
   }, []);

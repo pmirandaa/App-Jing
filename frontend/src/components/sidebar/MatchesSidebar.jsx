@@ -1,13 +1,20 @@
+import axios from "axios";
 import FormSelect from "components/form/FormSelect";
+import { EventContext } from "contexts/EventContext";
+import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
+import { sleeper } from "utils/utils";
 
 import styles from "./MatchesSidebar.module.css";
 
 export default function MatchesSidebar({ filters, setFilters }) {
+  const { event } = useContext(EventContext);
+  const [participantsOptions, setParticipantsOptions] = useState([]);
+
   const updateFilters = (name, value) => {
     let newFilters = { ...filters };
-    console.log(value, value == [])
+    console.log(value, value == []);
     if (!value || (Array.isArray(value) && value.length === 0)) {
       delete newFilters[name];
     } else {
@@ -29,16 +36,33 @@ export default function MatchesSidebar({ filters, setFilters }) {
     updateFilters(action.name, result);
   };
 
-  const participantsOptions = [
-    {value: "1", label: "UAI STGO"},
-    {value: "2", label: "PUC"},
-    {value: "3", label: "UANDES"},
-    {value: "4", label: "USM CC"},
-    {value: "5", label: "UDEC"},
-    {value: "6", label: "UAI VIÑA"},
-    {value: "7", label: "USM STGO"},
-    {value: "8", label: "UCH"},
+  const participantsOptionsConstants = [
+    { value: "1", label: "UAI STGO" },
+    { value: "2", label: "PUC" },
+    { value: "3", label: "UANDES" },
+    { value: "4", label: "USM CC" },
+    { value: "5", label: "UDEC" },
+    { value: "6", label: "UAI VIÑA" },
+    { value: "7", label: "USM STGO" },
+    { value: "8", label: "UCH" },
   ];
+
+  useEffect(() => {
+    if (event === undefined) return;
+    const fetch = axios
+      .get(`http://localhost:8000/api/matches/filters/?event=${event}`)
+      .then(sleeper(500))
+      .then((response) => {
+        const options = [];
+        response.data.participants.forEach((element) => {
+          options.push({ value: element.id, label: element.short_name });
+        });
+        setParticipantsOptions(options);
+      })
+      .finally(() => {
+        //setIsLoading(false);
+      });
+  }, [event]);
 
   return (
     <div className={styles.root}>
@@ -54,15 +78,21 @@ export default function MatchesSidebar({ filters, setFilters }) {
         </Form>
       </Form.Group>
 
+      <Form.Label htmlFor="participants">Participantes</Form.Label>
       <Select
-        defaultValue={[participantsOptions[1], participantsOptions[2]]}
         isMulti
-        label="Participantes"
+        placeholder="Sin filtrar"
         name="participants"
+        inputId="participants"
         options={participantsOptions}
         className="basic-multi-select"
         classNamePrefix="select"
         onChange={handleMultiSelect}
+        value={participantsOptions.filter((o) => {
+          if (filters.participants)
+            return filters.participants.includes(o.value);
+          else return false;
+        })}
       />
 
       {/* <FormSelect

@@ -20,7 +20,7 @@ import Teams from 'pages/Teams';
 import Admin from 'pages/Admin';
 
 function App() {
-  const [event, setEvent] = useState(1);
+  const [event, setEvent] = useState();
   const location = useLocation();
 
   return (

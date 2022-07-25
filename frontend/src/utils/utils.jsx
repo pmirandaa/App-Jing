@@ -4,7 +4,8 @@ export function paramsToObject(string) {
   const searchParams = createSearchParams(string);
   const result = {};
   for (const [key, value] of searchParams.entries()) {
-    let parsed = isNaN(+value) ? value : +value;
+    let parsed = value;
+    if (value.includes(',')) parsed = value.split(',')
     result[key] = parsed;
   }
   return result;
@@ -27,4 +28,10 @@ export function clamp(value, min, max) {
   if (value < min) return min;
   if (value > max) return max;
   return value;
+}
+
+export function sleeper(ms) {
+  return function (x) {
+    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
+  };
 }

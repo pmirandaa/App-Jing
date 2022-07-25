@@ -17,8 +17,9 @@ from utils.utils import is_valid_param
 from Person.models import Person
 from Team.models import Team
 from Match.models import Match
+from University.models import University, UniversityEvent
 from .exceptions import AlreadyFinished, AlreadyClosed, AlreadyStarted
-from .serializers import MatchInfoSerializer, MatchStatusSerializer, MatchCreateSerializer, MatchUpdateSerializer
+from .serializers import MatchInfoSerializer, MatchStatusSerializer, MatchCreateSerializer, MatchUpdateSerializer, MatchFiltersSerializer
 from Administration.models import Log
 
 
@@ -130,6 +131,17 @@ class MatchViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+    @action(detail=False)
+    def filters(self, request):
+        data = {}
+        event = self.request.query_params.get('event')
+        if is_valid_param(event):
+            participants = University.objects.filter(universityevent__event__exact=event).values_list('pk','short_name')
+            data["participants"] = [{"id": x[0], "short_name": x[1]} for x in participants]
+            #data["participants"] = UniversityEvent.objects.filter(event=event).values_list('university', flat=True)
+        return Response(data)
+
 
     # def create(self, request):
     #     create_serializer = self.get_serializer(data=request.data)
