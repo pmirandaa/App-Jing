@@ -3,11 +3,9 @@ import { EventContext } from "contexts/EventContext";
 import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
-import { sleeper } from "utils/utils";
+import { sleeper } from "utils";
 
-import styles from "./MatchesSidebar.module.css";
-
-export default function MatchesSidebar({ filters, setFilters }) {
+export default function TeamsSidebar({ filters, setFilters }) {
   const { event } = useContext(EventContext);
   const [participantsOptions, setParticipantsOptions] = useState([]);
   const [stateOptions, setStateOptions] = useState([]);
@@ -44,7 +42,7 @@ export default function MatchesSidebar({ filters, setFilters }) {
   useEffect(() => {
     if (event === undefined) return;
     const fetch = axios
-      .get(`http://localhost:8000/api/matches/filters/?event=${event}`)
+      .get(`http://localhost:8000/api/teams/filters/?event=${event}`)
       .then(sleeper(500))
       .then((response) => {
         setParticipantsOptions(response.data.participants ?? []);
@@ -59,7 +57,7 @@ export default function MatchesSidebar({ filters, setFilters }) {
   }, [event]);
 
   return (
-    <div className={styles.root}>
+    <div>
       <Form.Group className="mb-3" controlId="filterMyMatches">
         <Form>
           <Form.Check

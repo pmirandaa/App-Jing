@@ -1,6 +1,6 @@
-import TeamsSidebar from "components/sidebar/TeamsSidebar";
-import TeamsTable from "components/table/TeamsTable";
-import TableSearchPage from "./wrapper/TableSearchPage";
+import TeamsSidebar from "pages/Teams/TeamsSidebar";
+import TeamsTable from "pages/Teams/TeamsTable";
+import TableSearchPage from "../wrapper/TableSearchPage";
 
 export default function Teams() {
   return (

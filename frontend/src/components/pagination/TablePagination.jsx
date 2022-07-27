@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
-import { clamp } from "utils/utils";
+import { clamp } from "utils";
 
 export default function TablePagination({
   current,

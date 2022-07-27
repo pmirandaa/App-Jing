@@ -7,7 +7,7 @@ import SidebarPage from "pages/wrapper/SidebarPage";
 import LoadingOverlay from "components/loading/LoadingOverlay";
 import { EventContext } from "contexts/EventContext";
 import { usePrevious } from "utils/hooks";
-import { capitalize, objectWithArraysToParams, paramsToObject } from "utils/utils";
+import { capitalize, objectWithArraysToParams, paramsToObject } from "utils";
 import TablePagination from "components/pagination/TablePagination";
 
 export default function TableSearchPage({SidebarComponent, TableComponent, apiUrl, label, ...props}) {
