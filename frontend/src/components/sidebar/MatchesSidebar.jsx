@@ -1,5 +1,4 @@
 import axios from "axios";
-import FormSelect from "components/form/FormSelect";
 import { EventContext } from "contexts/EventContext";
 import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
@@ -11,10 +10,12 @@ import styles from "./MatchesSidebar.module.css";
 export default function MatchesSidebar({ filters, setFilters }) {
   const { event } = useContext(EventContext);
   const [participantsOptions, setParticipantsOptions] = useState([]);
+  const [stateOptions, setStateOptions] = useState([]);
+  const [sportOptions, setSportOptions] = useState([]);
+  const [locationOptions, setLocationOptions] = useState([]);
 
   const updateFilters = (name, value) => {
     let newFilters = { ...filters };
-    console.log(value, value == []);
     if (!value || (Array.isArray(value) && value.length === 0)) {
       delete newFilters[name];
     } else {
@@ -27,25 +28,18 @@ export default function MatchesSidebar({ filters, setFilters }) {
     updateFilters(e.target.name, e.target.checked ?? e.target.value);
   };
 
-  const handleMultiSelect = (options, action) => {
-    const result = [];
-    options.forEach((option) => {
-      result.push(option.value);
-    });
-    console.log(result, action.name);
-    updateFilters(action.name, result);
+  const handleSelect = (options, action) => {
+    console.log(options, action)
+    if (Array.isArray(options)) {
+      const result = [];
+      options.forEach((option) => {
+        result.push(option.value);
+      });
+      updateFilters(action.name, result);
+    } else {
+      updateFilters(action.name, options != null ? options.value : null);
+    }
   };
-
-  const participantsOptionsConstants = [
-    { value: "1", label: "UAI STGO" },
-    { value: "2", label: "PUC" },
-    { value: "3", label: "UANDES" },
-    { value: "4", label: "USM CC" },
-    { value: "5", label: "UDEC" },
-    { value: "6", label: "UAI VIÑA" },
-    { value: "7", label: "USM STGO" },
-    { value: "8", label: "UCH" },
-  ];
 
   useEffect(() => {
     if (event === undefined) return;
@@ -53,11 +47,11 @@ export default function MatchesSidebar({ filters, setFilters }) {
       .get(`http://localhost:8000/api/matches/filters/?event=${event}`)
       .then(sleeper(500))
       .then((response) => {
-        const options = [];
-        response.data.participants.forEach((element) => {
-          options.push({ value: element.id, label: element.short_name });
-        });
-        setParticipantsOptions(options);
+        setParticipantsOptions(response.data.participants ?? []);
+        setStateOptions(response.data.state ?? []);
+        setSportOptions(response.data.sport ?? []);
+        setLocationOptions(response.data.location ?? []);
+        console.log(response.data.participants);
       })
       .finally(() => {
         //setIsLoading(false);
@@ -87,64 +81,52 @@ export default function MatchesSidebar({ filters, setFilters }) {
         options={participantsOptions}
         className="basic-multi-select"
         classNamePrefix="select"
-        onChange={handleMultiSelect}
+        onChange={handleSelect}
         value={participantsOptions.filter((o) => {
-          if (filters.participants)
-            return filters.participants.includes(o.value);
-          else return false;
+          return Array.isArray(filters.participants)
+            ? filters.participants.includes(o.value)
+            : filters.participants === o.value;
         })}
       />
 
-      {/* <FormSelect
-        label="Participantes"
-        name="participants"
-        onChange={handleChangeForm}
-        value={filters.participants}
-      >
-        <option value="">Sin filtrar</option>
-        <option value="1">UAI STGO</option>
-        <option value="2">PUC</option>
-        <option value="3">UANDES</option>
-        <option value="4">USM CC</option>
-        <option value="5">UDEC</option>
-        <option value="6">UAI VIÑA</option>
-        <option value="7">USM STGO</option>
-        <option value="8">UCH</option>
-      </FormSelect> */}
-
-      <FormSelect
-        label="Estado"
+      <Form.Label htmlFor="state">Estado</Form.Label>
+      <Select
+        isClearable
+        placeholder="Sin filtrar"
         name="state"
-        onChange={handleChangeForm}
-        value={filters.state}
-      >
-        <option value="">Sin filtrar</option>
-        <option value="MTB">MTB</option>
-        <option value="MIC">MIC</option>
-        <option value="MIF">MIF</option>
-      </FormSelect>
+        inputId="state"
+        options={stateOptions}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        onChange={handleSelect}
+        value={stateOptions.find((o) => o.value === filters.state) ?? null}
+      />
 
-      <FormSelect
-        label="Deporte"
+      <Form.Label htmlFor="sport">Deporte</Form.Label>
+      <Select
+        isClearable
+        placeholder="Sin filtrar"
         name="sport"
-        onChange={handleChangeForm}
-        value={filters.sport}
-      >
-        <option value="">Sin filtrar</option>
-        <option value="1">Fútbol</option>
-        <option value="2">Básquetbol</option>
-      </FormSelect>
+        inputId="sport"
+        options={sportOptions}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        onChange={handleSelect}
+        value={sportOptions.find((o) => o.value === filters.sport) ?? null}
+      />
 
-      <FormSelect
-        label="Lugar"
+      <Form.Label htmlFor="location">Lugar</Form.Label>
+      <Select
+        isClearable
+        placeholder="Sin filtrar"
         name="location"
-        onChange={handleChangeForm}
-        value={filters.location}
-      >
-        <option value="">Sin filtrar</option>
-        <option value="1">La Cancha</option>
-        <option value="2">Piscina</option>
-      </FormSelect>
+        inputId="location"
+        options={locationOptions}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        onChange={handleSelect}
+        value={locationOptions.find((o) => o.value === filters.location) ?? null}
+      />
     </div>
   );
 }

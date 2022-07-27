@@ -4,11 +4,12 @@ export function paramsToObject(string) {
   const searchParams = createSearchParams(string);
   const result = {};
   for (const [key, value] of searchParams.entries()) {
-    let parsed = value;
-    if (value.includes(',')) parsed = value.split(',')
-    result[key] = parsed;
+    let splitValue = value;
+    if (value.includes(',')) splitValue = value.split(',')
+    result[key] = splitValue;
   }
-  return result;
+  const parsedResult = deepParseInt(result)
+  return parsedResult;
 }
 
 export function objectWithArraysToParams(obj) {
@@ -28,6 +29,19 @@ export function clamp(value, min, max) {
   if (value < min) return min;
   if (value > max) return max;
   return value;
+}
+
+export function deepParseInt(obj) {
+  if (typeof obj === 'string') {
+    return isNaN(obj) ? obj : parseInt(obj);
+  }
+  if (typeof obj === 'object') {
+    return Object.keys(obj).reduce((acc, key) => {
+      acc[key] = deepParseInt(obj[key]);
+      return acc;
+    }, Array.isArray(obj) ? [] : {});
+  }
+  return obj;
 }
 
 export function sleeper(ms) {

@@ -1,7 +1,10 @@
 from datetime import datetime
+from time import sleep
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.db.models import Count
 
 from django.http.response import HttpResponseRedirect
@@ -14,12 +17,14 @@ from rest_framework.viewsets import ModelViewSet
 
 from utils.utils import is_valid_param
 
-from Person.models import Person
-from Team.models import Team
+from Location.models import Location
 from Match.models import Match
+from Person.models import Person
+from Sport.models import Sport
+from Team.models import Team
 from University.models import University, UniversityEvent
 from .exceptions import AlreadyFinished, AlreadyClosed, AlreadyStarted
-from .serializers import MatchInfoSerializer, MatchStatusSerializer, MatchCreateSerializer, MatchUpdateSerializer, MatchFiltersSerializer
+from .serializers import MatchInfoSerializer, MatchStatusSerializer, MatchCreateSerializer, MatchUpdateSerializer
 from Administration.models import Log
 
 
@@ -29,6 +34,10 @@ class MatchViewSet(ModelViewSet):
     update_serializer_class = MatchUpdateSerializer
     status_serializer_class = MatchStatusSerializer
     queryset = Match.objects.all()
+
+    def dispatch(self, request, *args, **kwargs):
+        sleep(2)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = self.queryset
@@ -132,16 +141,30 @@ class MatchViewSet(ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
+    @method_decorator(cache_page(60))
     @action(detail=False)
     def filters(self, request):
         data = {}
         event = self.request.query_params.get('event')
         if is_valid_param(event):
-            participants = University.objects.filter(universityevent__event__exact=event).values_list('pk','short_name')
-            data["participants"] = [{"id": x[0], "short_name": x[1]} for x in participants]
+            participants = University.objects.filter(
+                universityevent__event__exact=event).values('pk', 'short_name')
+            data["participants"] = [
+                {"value": x["pk"], "label": x["short_name"]} for x in participants]
+            data["state"] = [{"value": x[0], "label": x[1]}
+                             for x in Match.MATCH_STATE]
+            sports = Sport.objects.all().values('pk', 'name')
+            data["sport"] = [{"value": x["pk"], "label": x["name"]}
+                             for x in sports]
+            data["gender"] = [{"value": x[0], "label": x[1]}
+                              for x in Sport.SPORT_GENDER]
+            data["sport_type"] = [{"value": x[0], "label": x[1]}
+                                  for x in Sport.SPORT_TYPE]
+            locations = Location.objects.all().values('pk', 'name')
+            data["location"] = [{"value": x["pk"], "label": x["name"]}
+                                for x in locations]
             #data["participants"] = UniversityEvent.objects.filter(event=event).values_list('university', flat=True)
         return Response(data)
-
 
     # def create(self, request):
     #     create_serializer = self.get_serializer(data=request.data)
