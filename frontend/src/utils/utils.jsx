@@ -49,3 +49,7 @@ export function sleeper(ms) {
     return new Promise((resolve) => setTimeout(() => resolve(x), ms));
   };
 }
+
+export function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

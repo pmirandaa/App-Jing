@@ -1,20 +1,7 @@
 import Table from "react-bootstrap/Table";
 import moment from "moment";
 
-export default function MatchesTable(props) {
-  let matchDate;
-  let matchLocation;
-  let matchSport;
-  let matchTeam;
-  let matchState;
-  if (props.matches[0]) {
-    matchDate = props.matches[0].date;
-    matchLocation = props.matches[0].location.name;
-    matchSport = props.matches[0].sport;
-    matchTeam = props.matches[0].teams[0].team_university_short_name;
-    matchState = props.matches[0].state;
-  }
-
+export default function MatchesTable({ rows, ...props }) {
   return (
     <Table striped variant="light" className="mt-4">
       <thead>
@@ -30,21 +17,21 @@ export default function MatchesTable(props) {
         </tr>
       </thead>
       <tbody>
-        {props.matches.map((match) => (
-          <tr key={match.id}>
-            <td>{match.id}</td>
-            <td>{moment(match.date).format("ddd DD-MM-YY")}</td>
-            <td>{moment(match.date).format("HH:mm")}</td>
-            <td>{match.location.name}</td>
-            <td>{match.sport.name}</td>
+        {rows.map((row) => (
+          <tr key={row.id}>
+            <td>{row.id}</td>
+            <td>{moment(row.date).format("ddd DD-MM-YY")}</td>
+            <td>{moment(row.date).format("HH:mm")}</td>
+            <td>{row.location.name}</td>
+            <td>{row.sport.name}</td>
             <td>
               <ul>
-                {match.teams.map((team) => (
+                {row.teams.map((team) => (
                   <li key={team.team_id}>{team.team_university_short_name}</li>
                 ))}
               </ul>
             </td>
-            <td>{match.state}</td>
+            <td>{row.state}</td>
             <td className="text-center">
               {/* {% if person.is_admin or person.is_organizer or person.is_sports_coordinator or person.is_coach%} */}
               <form method="POST" action="{% url 'match:start' %}">
