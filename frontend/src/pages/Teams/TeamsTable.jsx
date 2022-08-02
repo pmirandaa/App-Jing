@@ -19,11 +19,11 @@ export default function TeamsTable({ rows, ...props }) {
         {rows.map((team) => (
           <tr key={team.id}>
             <td>{team.id}</td>
-            <td>{team.sport}</td>
-            <td>{team.university}</td>
+            <td>{team.sport?.name}</td>
+            <td>{team.university.name}</td>
             <td>{team.sport?.gender}</td>
-            <td>{team.sport?.type}</td>
-            <td>{team.coordinator}</td>
+            <td>{team.sport?.sport_type}</td>
+            <td>{team.coordinator?.name} {team.coordinator?.last_name}</td>
             <td></td>
           </tr>
         ))}

@@ -40,9 +40,9 @@ export default function MatchesSidebar({ filters, setFilters }) {
   };
 
   useEffect(() => {
-    if (event === undefined) return;
+    if (!event) return;
     const fetch = axios
-      .get(`http://localhost:8000/api/matches/filters/?event=${event}`)
+      .get(`http://localhost:8000/api/matches/filters/?event=${event.id}`)
       .then(sleeper(500))
       .then((response) => {
         setParticipantsOptions(response.data.participants ?? []);

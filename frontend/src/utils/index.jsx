@@ -53,3 +53,7 @@ export function sleeper(ms) {
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export function unaccent(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}

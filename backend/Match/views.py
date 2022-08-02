@@ -36,7 +36,7 @@ class MatchViewSet(ModelViewSet):
     queryset = Match.objects.all()
 
     def dispatch(self, request, *args, **kwargs):
-        sleep(2)
+        sleep(0.5)
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -65,7 +65,6 @@ class MatchViewSet(ModelViewSet):
         if is_valid_param(location):
             queryset = queryset.filter(location__exact=location)
         queryset = queryset.order_by('date')
-        print("run")
         return queryset
 
     def get_serializer_class(self, *args, **kwargs):

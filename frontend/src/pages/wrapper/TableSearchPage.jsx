@@ -10,7 +10,12 @@ import { usePrevious } from "utils/hooks";
 import { capitalize, objectWithArraysToParams, paramsToObject } from "utils";
 import TablePagination from "components/pagination/TablePagination";
 
-export default function TableSearchPage({SidebarComponent, TableComponent, apiUrl, label, ...props}) {
+export default function TableSearchPage({
+  SidebarComponent,
+  TableComponent,
+  apiUrl,
+  label,
+}) {
   const { event, setEvent } = useContext(EventContext);
   const [filters, setFilters] = useState({});
   const [rows, setRows] = useState([]);
@@ -36,9 +41,8 @@ export default function TableSearchPage({SidebarComponent, TableComponent, apiUr
   }, []);
 
   useEffect(() => {
-    if (event === undefined || location.pathname !== pathnameRef.current)
-      return;
-      
+    if (!event || location.pathname !== pathnameRef.current) return;
+
     // Load filters from URL
     if (alreadyChanged) {
       setAlreadyChanged(false);
@@ -83,12 +87,12 @@ export default function TableSearchPage({SidebarComponent, TableComponent, apiUr
   }, [location.search]);
 
   useEffect(() => {
-    if (event === undefined) return;
+    if (!event) return;
     if (alreadyChanged) {
       setAlreadyChanged(false);
     } else {
       setAlreadyChanged(true);
-      const searchFilters = { event: event, ...filters, page: currentPage };
+      const searchFilters = { event: event.id, ...filters, page: currentPage };
       if (currentPage !== 1 && prevPage === currentPage) {
         setCurrentPage(1);
         return;
@@ -116,7 +120,7 @@ export default function TableSearchPage({SidebarComponent, TableComponent, apiUr
       rootRef={rootRef}
     >
       <h1>{capitalize(label)}</h1>
-      <h4>Evento {event}</h4>
+      <h4>{event?.name}</h4>
       {isLoading && <LoadingOverlay />}
 
       {rows.length > 0 ? (
@@ -132,9 +136,7 @@ export default function TableSearchPage({SidebarComponent, TableComponent, apiUr
       )}
 
       {event === undefined && (
-        <p className="text-center lead">
-          No se ha seleccionado un evento
-        </p>
+        <p className="text-center lead">No se ha seleccionado un evento</p>
       )}
     </SidebarPage>
   );

@@ -7,10 +7,10 @@ import { sleeper } from "utils";
 
 export default function TeamsSidebar({ filters, setFilters }) {
   const { event } = useContext(EventContext);
-  const [participantsOptions, setParticipantsOptions] = useState([]);
-  const [stateOptions, setStateOptions] = useState([]);
   const [sportOptions, setSportOptions] = useState([]);
-  const [locationOptions, setLocationOptions] = useState([]);
+  const [universityOptions, setUniversityOptions] = useState([]);
+  const [genderOptions, setGenderOptions] = useState([]);
+  const [sportTypeOptions, setSportTypeOptions] = useState([]);
 
   const updateFilters = (name, value) => {
     let newFilters = { ...filters };
@@ -27,7 +27,7 @@ export default function TeamsSidebar({ filters, setFilters }) {
   };
 
   const handleSelect = (options, action) => {
-    console.log(options, action)
+    console.log(options, action);
     if (Array.isArray(options)) {
       const result = [];
       options.forEach((option) => {
@@ -40,16 +40,15 @@ export default function TeamsSidebar({ filters, setFilters }) {
   };
 
   useEffect(() => {
-    if (event === undefined) return;
+    if (!event) return;
     const fetch = axios
-      .get(`http://localhost:8000/api/teams/filters/?event=${event}`)
+      .get(`http://localhost:8000/api/teams/filters/?event=${event.id}`)
       .then(sleeper(500))
       .then((response) => {
-        setParticipantsOptions(response.data.participants ?? []);
-        setStateOptions(response.data.state ?? []);
         setSportOptions(response.data.sport ?? []);
-        setLocationOptions(response.data.location ?? []);
-        console.log(response.data.participants);
+        setUniversityOptions(response.data.universities ?? []);
+        setGenderOptions(response.data.gender ?? []);
+        setSportTypeOptions(response.data.sport_type ?? []);
       })
       .finally(() => {
         //setIsLoading(false);
@@ -58,48 +57,6 @@ export default function TeamsSidebar({ filters, setFilters }) {
 
   return (
     <div>
-      <Form.Group className="mb-3" controlId="filterMyMatches">
-        <Form>
-          <Form.Check
-            name="my_matches"
-            type="switch"
-            label="Mostrar solo mis partidos"
-            onChange={handleChangeForm}
-            checked={filters.my_matches}
-          />
-        </Form>
-      </Form.Group>
-
-      <Form.Label htmlFor="participants">Participantes</Form.Label>
-      <Select
-        isMulti
-        placeholder="Sin filtrar"
-        name="participants"
-        inputId="participants"
-        options={participantsOptions}
-        className="basic-multi-select"
-        classNamePrefix="select"
-        onChange={handleSelect}
-        value={participantsOptions.filter((o) => {
-          return Array.isArray(filters.participants)
-            ? filters.participants.includes(o.value)
-            : filters.participants === o.value;
-        })}
-      />
-
-      <Form.Label htmlFor="state">Estado</Form.Label>
-      <Select
-        isClearable
-        placeholder="Sin filtrar"
-        name="state"
-        inputId="state"
-        options={stateOptions}
-        className="basic-multi-select"
-        classNamePrefix="select"
-        onChange={handleSelect}
-        value={stateOptions.find((o) => o.value === filters.state) ?? null}
-      />
-
       <Form.Label htmlFor="sport">Deporte</Form.Label>
       <Select
         isClearable
@@ -113,17 +70,44 @@ export default function TeamsSidebar({ filters, setFilters }) {
         value={sportOptions.find((o) => o.value === filters.sport) ?? null}
       />
 
-      <Form.Label htmlFor="location">Lugar</Form.Label>
+      <Form.Label htmlFor="university">Universidad</Form.Label>
       <Select
         isClearable
         placeholder="Sin filtrar"
-        name="location"
-        inputId="location"
-        options={locationOptions}
+        name="university"
+        inputId="university"
+        options={universityOptions}
+        classNamePrefix="select"
+        onChange={handleSelect}
+        value={universityOptions.find((o) => o.value === filters.university) ?? null}
+      />
+
+      <Form.Label htmlFor="gender">Género</Form.Label>
+      <Select
+        isClearable
+        placeholder="Sin filtrar"
+        name="gender"
+        inputId="gender"
+        options={genderOptions}
         className="basic-multi-select"
         classNamePrefix="select"
         onChange={handleSelect}
-        value={locationOptions.find((o) => o.value === filters.location) ?? null}
+        value={genderOptions.find((o) => o.value === filters.gender) ?? null}
+      />
+
+      <Form.Label htmlFor="sport_type">Tipo de deporte</Form.Label>
+      <Select
+        isClearable
+        placeholder="Sin filtrar"
+        name="sport_type"
+        inputId="sport_type"
+        options={sportTypeOptions}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        onChange={handleSelect}
+        value={
+          sportTypeOptions.find((o) => o.value === filters.sport_type) ?? null
+        }
       />
     </div>
   );

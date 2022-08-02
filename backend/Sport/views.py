@@ -1,3 +1,4 @@
+from time import sleep
 from django.shortcuts import render
 
 from django.http.response import HttpResponse
@@ -26,7 +27,12 @@ from Administration.models import Log
 
 class SportViewSet(viewsets.ModelViewSet):
     serializer_class = SportSerializer
+    pagination_class = None
     queryset = Sport.objects.all()
+
+    def dispatch(self, request, *args, **kwargs):
+        sleep(0.5)
+        return super().dispatch(request, *args, **kwargs)
 
 class FinalSportPointsViewSet(viewsets.ModelViewSet):
     serializer_class = FinalSportPointsSerializer

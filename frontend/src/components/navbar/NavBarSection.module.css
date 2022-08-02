@@ -1,6 +1,5 @@
 .section {
     flex-direction: row;
-    flex-basis: 33.3333%;
 }
 
 .left {
@@ -14,7 +13,7 @@
 .mid :global(.nav-link) {
     background-color: rgba(0,0,0,0.05);
     color: white;
-    min-width: 50%;
+    width: 12em;
     text-align: center;
     margin: 0 4px;
     font-size: 1.125rem;

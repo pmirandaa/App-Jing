@@ -1,11 +1,17 @@
+from time import sleep
 from django.shortcuts import render
 from django.views import View
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from utils.utils import is_valid_param
 
 from Person.models import Person
 from Team.models import Team, PlayerTeam
@@ -15,13 +21,59 @@ from University.models import University
 
 from Administration.models import Log
 
+
 class TeamViewSet(viewsets.ModelViewSet):
     serializer_class = TeamSerializer
     queryset = Team.objects.all()
 
+    def dispatch(self, request, *args, **kwargs):
+        sleep(0.5)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = self.queryset
+        event = self.request.query_params.get('event')
+        sport = self.request.query_params.get('sport')
+        university = self.request.query_params.get('university')
+        gender = self.request.query_params.get('gender')
+        sport_type = self.request.query_params.get('sport_type')
+        if is_valid_param(event):
+            queryset = queryset.filter(event__exact=event)
+        if is_valid_param(sport):
+            queryset = queryset.filter(sport__exact=sport)
+        if is_valid_param(university):
+            queryset = queryset.filter(university__exact=university)
+        if is_valid_param(gender):
+            queryset = queryset.filter(sport__gender__exact=gender)
+        if is_valid_param(sport_type):
+            queryset = queryset.filter(sport__sport_type__exact=sport_type)
+        queryset = queryset.order_by('sport')
+        return queryset
+    
+    @method_decorator(cache_page(60))
+    @action(detail=False)
+    def filters(self, request):
+        data = {}
+        event = self.request.query_params.get('event')
+        if is_valid_param(event):
+            universities = University.objects.filter(
+                universityevent__event__exact=event).values('pk', 'short_name')
+            data["universities"] = [
+                {"value": x["pk"], "label": x["short_name"]} for x in universities]
+            sports = Sport.objects.all().values('pk', 'name')
+            data["sport"] = [{"value": x["pk"], "label": x["name"]}
+                             for x in sports]
+            data["gender"] = [{"value": x[0], "label": x[1]}
+                              for x in Sport.SPORT_GENDER]
+            data["sport_type"] = [{"value": x[0], "label": x[1]}
+                                  for x in Sport.SPORT_TYPE]
+        return Response(data)
+
+
 class PlayerTeamViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerTeamSerializer
     queryset = PlayerTeam.objects.all()
+
 
 class TeamHome(View):
     def get(self, request):
@@ -96,7 +148,7 @@ class TeamHome(View):
                         team.delete()
                         request.session['alert'] = {
                             'type': 'danger',
-                            'message': 'Ocurrió un error al crear el equipo'    
+                            'message': 'Ocurrió un error al crear el equipo'
                         }
                 saved_data = []
                 try:
@@ -194,11 +246,11 @@ class TeamEditView(View):
                             team_player = PlayerTeam(player=player, team=team)
                             doer = Person.objects.get(user=request.user)
                             log = Log(
-                                task = 'team_add_player',
-                                value_before = str(team),
-                                value_after = str(player),
-                                person= f'{doer.name} {doer.last_name}',
-                                date= timezone.now()
+                                task='team_add_player',
+                                value_before=str(team),
+                                value_after=str(player),
+                                person=f'{doer.name} {doer.last_name}',
+                                date=timezone.now()
                             )
                             log.save()
                             team_players.append(team_player)
@@ -267,11 +319,11 @@ class TeamDeleteView(View):
             try:
                 doer = Person.objects.get(user=request.user)
                 log = Log(
-                    task = 'team_deleted',
-                    value_before = str(team),
-                    value_after = 'None',
-                    person= f'{doer.name} {doer.last_name}',
-                    date= timezone.now()
+                    task='team_deleted',
+                    value_before=str(team),
+                    value_after='None',
+                    person=f'{doer.name} {doer.last_name}',
+                    date=timezone.now()
                 )
                 log.save()
                 team.delete()
