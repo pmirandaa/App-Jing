@@ -33,6 +33,7 @@ export default function TableSearchPage({
   const abortControllerRef = useRef(new AbortController());
   const pathnameRef = useRef(location.pathname);
   const keepLoading = useRef(false);
+  const isFirstRender = useIsFirstRender();
 
   useEffect(() => {
     return () => {
@@ -76,6 +77,8 @@ export default function TableSearchPage({
       .then((response) => {
         setRows(response.data.results);
         setTotalCount(response.data.count);
+        setPageSize(response.data.page_size);
+        setCurrentPage(response.data.current);
         rootRef.current.scrollTo(0, 0);
       })
       .finally(() => {
