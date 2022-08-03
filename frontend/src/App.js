@@ -33,7 +33,6 @@ function App() {
     if (Number.isInteger(event)) {
       axios
         .get(`http://localhost:8000/api/events/${event}/`)
-        .then(sleeper(500))
         .then((response) => {
           const res = response.data;
           _setEvent({ id: res.id, name: res.name });

@@ -6,8 +6,8 @@ import axios from "axios";
 import SidebarPage from "pages/wrapper/SidebarPage";
 import LoadingOverlay from "components/loading/LoadingOverlay";
 import { EventContext } from "contexts/EventContext";
-import { usePrevious } from "utils/hooks";
-import { capitalize, objectWithArraysToParams, paramsToObject } from "utils";
+import { useIsFirstRender, usePrevious } from "utils/hooks";
+import { capitalize, objectToParamsString, paramsStringToObject } from "utils";
 import TablePagination from "components/pagination/TablePagination";
 
 export default function TableSearchPage({
@@ -26,7 +26,7 @@ export default function TableSearchPage({
 
   const [currentPage, setCurrentPage] = useState(1);
   const prevPage = usePrevious(currentPage);
-  const [pageSize /* , setPageSize */] = useState(10);
+  const [pageSize, setPageSize] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
 
   const rootRef = useRef();
@@ -37,6 +37,7 @@ export default function TableSearchPage({
   useEffect(() => {
     return () => {
       abortControllerRef.current.abort();
+      setIsLoading(false);
     };
   }, []);
 
@@ -47,12 +48,18 @@ export default function TableSearchPage({
     if (alreadyChanged) {
       setAlreadyChanged(false);
     } else {
+      const params = paramsStringToObject(location.search);
+      const { event: eventParam, page: pageParam, ...filtersParam } = params;
+      if (eventParam === undefined || pageParam === undefined) {
+        params.event = eventParam ?? event.id;
+        params.page = pageParam ?? 1;
+        navigate("?" + objectToParamsString(params), { replace: true });
+        return;
+      }
+      if (eventParam !== event.id) setEvent(eventParam);
+      setCurrentPage(pageParam);
+      setFilters(filtersParam);
       setAlreadyChanged(true);
-      const params = paramsToObject(location.search);
-      const { event: eventParam, page, ...filters } = params;
-      if (eventParam) setEvent(eventParam);
-      setCurrentPage(page ?? 1);
-      setFilters(filters);
     }
 
     //// Fetch:
@@ -79,28 +86,26 @@ export default function TableSearchPage({
       })
       .catch((error) => {
         if (axios.isCancel(error)) {
-          console.log("canceled");
+          // do nothing
         } else {
           throw error;
         }
       });
-  }, [location.search]);
+  }, [location]);
 
   useEffect(() => {
-    if (!event) return;
+    if (!event || isFirstRender) return;
     if (alreadyChanged) {
       setAlreadyChanged(false);
     } else {
-      setAlreadyChanged(true);
       const searchFilters = { event: event.id, ...filters, page: currentPage };
+      console.log(currentPage, prevPage);
       if (currentPage !== 1 && prevPage === currentPage) {
         setCurrentPage(1);
         return;
       }
-      const searchParams = objectWithArraysToParams(searchFilters);
-      const stringParams = searchParams.toString();
-      const decodedParams = decodeURIComponent(stringParams);
-      navigate("?" + decodedParams);
+      navigate("?" + objectToParamsString(searchFilters));
+      setAlreadyChanged(true);
     }
   }, [event, currentPage, filters]);
 

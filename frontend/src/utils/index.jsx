@@ -1,6 +1,6 @@
 import { createSearchParams } from "react-router-dom";
 
-export function paramsToObject(string) {
+export function paramsStringToObject(string) {
   const searchParams = createSearchParams(string);
   const result = {};
   for (const [key, value] of searchParams.entries()) {
@@ -12,7 +12,7 @@ export function paramsToObject(string) {
   return parsedResult;
 }
 
-export function objectWithArraysToParams(obj) {
+export function objectToParamsString(obj) {
   const result = {};
   for (const [key, value] of Object.entries(obj)) {
     if (Array.isArray(value)) {
@@ -21,7 +21,8 @@ export function objectWithArraysToParams(obj) {
       result[key] = value;
     }
   }
-  return createSearchParams(result);
+  const searchParams = createSearchParams(result);
+  return decodeURIComponent(searchParams.toString());
 }
 
 export function clamp(value, min, max) {
