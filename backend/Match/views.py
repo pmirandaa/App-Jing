@@ -15,7 +15,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from utils.utils import is_valid_param
+from utils.utils import is_valid_param, bool_param
 
 from Location.models import Location
 from Match.models import Match
@@ -47,6 +47,7 @@ class MatchViewSet(ModelViewSet):
         state = self.request.query_params.get('state')
         sport = self.request.query_params.get('sport')
         location = self.request.query_params.get('location')
+        is_closed = bool_param(self.request.query_params.get('is_closed'))
         if is_valid_param(event):
             queryset = queryset.filter(event__exact=event)
         if is_valid_param(my_matches):
@@ -64,6 +65,8 @@ class MatchViewSet(ModelViewSet):
             queryset = queryset.filter(sport__exact=sport)
         if is_valid_param(location):
             queryset = queryset.filter(location__exact=location)
+        if is_valid_param(is_closed):
+            queryset = queryset.filter(closed=is_closed)
         queryset = queryset.order_by('date')
         return queryset
 
