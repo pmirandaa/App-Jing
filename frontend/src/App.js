@@ -8,13 +8,13 @@ import {
 } from "react-router-dom";
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { Provider as AlertProvider } from 'react-alert'
 
 import NavBar from "components/navbar/NavBar";
 import { EventContext } from "contexts/EventContext";
 
 import News from 'pages/News';
 import Messages from 'pages/Messages';
-import Info from 'pages/Info';
 import Matches from 'pages/Matches';
 import Teams from 'pages/Teams';
 import Admin from 'pages/Admin';
@@ -22,8 +22,8 @@ import Persons from "pages/Persons";
 import Results from "pages/Results";
 import Events from "pages/Events";
 import axios from "axios";
-import { sleeper } from "utils";
 import Maps from "pages/Maps";
+import Alert from "components/alert/Alert";
 
 function App() {
   const [event, _setEvent] = useState({ id: 5, name: "JING 2022" });
@@ -46,27 +46,29 @@ function App() {
 
   return (
     <EventContext.Provider value={{ event, setEvent }}>
-      <div className={styles.root}>
-        <NavBar />
-        <TransitionGroup component={null} exit={false}>
-          <CSSTransition key={location.pathname} classNames="fade" timeout={0}>
-            <Routes location={location}>
-              <Route index element={<News />} />
-              <Route path="personas" element={<Persons />} />
-              <Route path="partidos" element={<Matches />} />
-              <Route path="equipos" element={<Teams />} />
-              <Route path="mensajes" element={<Messages />} />
-              <Route path="administracion" element={<Admin />} />
-              <Route path="resultados" element={<Results />} />
-              <Route path="eventos" element={<Events />} />
-              <Route path="mapa" element={<Maps />} />
+      <AlertProvider template={Alert} timeout={10000} position="bottom center">
+        <div className={styles.root}>
+          <NavBar />
+          <TransitionGroup component={null} exit={false}>
+            <CSSTransition key={location.pathname} classNames="fade" timeout={0}>
+              <Routes location={location}>
+                <Route index element={<News />} />
+                <Route path="personas" element={<Persons />} />
+                <Route path="partidos" element={<Matches />} />
+                <Route path="equipos" element={<Teams />} />
+                <Route path="mensajes" element={<Messages />} />
+                <Route path="administracion" element={<Admin />} />
+                <Route path="resultados" element={<Results />} />
+                <Route path="eventos" element={<Events />} />
+                <Route path="mapa" element={<Maps />} />
 
-              <Route path="/hola" element={<Teams />} />
-              <Route path="*" element={<Navigate to="/" replace={true} />} />
-            </Routes>
-          </CSSTransition>
-        </TransitionGroup>
-      </div>
+                <Route path="/hola" element={<Teams />} />
+                <Route path="*" element={<Navigate to="/" replace={true} />} />
+              </Routes>
+            </CSSTransition>
+          </TransitionGroup>
+        </div>
+      </AlertProvider>
     </EventContext.Provider>
   );
 }
