@@ -35,6 +35,39 @@ export default function TableSearchPage({
   const keepLoading = useRef(false);
   const isFirstRender = useIsFirstRender();
 
+  function fetchData({ scrollToTop = true } = {}) {
+    // Abort previous request
+    abortControllerRef.current.abort();
+    abortControllerRef.current = new AbortController();
+    // Prevent previous request from setting loading off when canceled
+    if (isLoading) keepLoading.current = true;
+    setIsLoading(true);
+    axios
+      .get(`http://localhost:8000${apiUrl}${location.search}`, {
+        signal: abortControllerRef.current.signal,
+      })
+      .then((response) => {
+        setRows(response.data.results);
+        setTotalCount(response.data.count);
+        setPageSize(response.data.page_size);
+        setCurrentPage(response.data.current);
+        if (scrollToTop) rootRef.current.scrollTo(0, 0);
+      })
+      .finally(() => {
+        if (!keepLoading.current) {
+          setIsLoading(false);
+        }
+        keepLoading.current = false;
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          // do nothing
+        } else {
+          throw error;
+        }
+      });
+  }
+
   useEffect(() => {
     return () => {
       abortControllerRef.current.abort();
@@ -63,37 +96,7 @@ export default function TableSearchPage({
       setAlreadyChanged(true);
     }
 
-    //// Fetch:
-    // Abort previous request
-    abortControllerRef.current.abort();
-    abortControllerRef.current = new AbortController();
-    // Prevent previous request from setting loading off when canceled
-    if (isLoading) keepLoading.current = true;
-    setIsLoading(true);
-    axios
-      .get(`http://localhost:8000${apiUrl}${location.search}`, {
-        signal: abortControllerRef.current.signal,
-      })
-      .then((response) => {
-        setRows(response.data.results);
-        setTotalCount(response.data.count);
-        setPageSize(response.data.page_size);
-        setCurrentPage(response.data.current);
-        rootRef.current.scrollTo(0, 0);
-      })
-      .finally(() => {
-        if (!keepLoading.current) {
-          setIsLoading(false);
-        }
-        keepLoading.current = false;
-      })
-      .catch((error) => {
-        if (axios.isCancel(error)) {
-          // do nothing
-        } else {
-          throw error;
-        }
-      });
+    fetchData();
   }, [location]);
 
   useEffect(() => {
@@ -134,7 +137,7 @@ export default function TableSearchPage({
       {rows.length > 0 ? (
         <>
           {paginationEl}
-          <TableComponent rows={rows} />
+          <TableComponent rows={rows} fetchData={fetchData} />
           {paginationEl}
         </>
       ) : (
