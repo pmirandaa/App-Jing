@@ -27,6 +27,7 @@ from Match.views import MatchViewSet
 from Message.views import MessageViewSet
 from News.views import NewsViewSet, NewsCategoryViewSet
 from Person.views import PersonViewSet
+from Placement.views import EventPlacementViewSet, SportPlacementViewSet
 from Sport.views import SportViewSet, FinalSportPointsViewSet
 from Team.views import TeamViewSet, PlayerTeamViewSet
 from University.views import UniversityViewSet
@@ -47,6 +48,8 @@ router.register('teams', TeamViewSet, 'teams')
 router.register('player_teams', PlayerTeamViewSet, 'player_teams')
 router.register('universities', UniversityViewSet, 'universities')
 router.register('users', UserViewSet, 'users')
+router.register('placements/event', EventPlacementViewSet, 'event_placements')
+router.register('placements/sport', SportPlacementViewSet, 'sport_placements')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

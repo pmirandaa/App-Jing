@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'Message',
     'News',
     'Person',
+    'Placement',
     'Sport',
     'Team',
     'University',
@@ -146,9 +147,9 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
+    #'DEFAULT_PERMISSION_CLASSES': [
+    #    'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    #],
     'EXCEPTION_HANDLER': 'utils.exception_handler.custom_exception_handler',
     'DEFAULT_PAGINATION_CLASS': 'pagination.CustomPagination',
     'PAGE_SIZE': 50
