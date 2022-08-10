@@ -15,13 +15,13 @@ data.append(admin_person)
 
 # Events
 data_events = []
-for loc in range(5):
+for i in range(5):
     event = {
         "model": "Event.event",
-        "pk": loc+1,
+        "pk": i+1,
         "fields": {
-            "name": f"JING {2018+loc}",
-            "year": 2018+loc,
+            "name": f"JING {2018+i}",
+            "year": 2018+i,
             "logo": ""
         }
     }
@@ -209,7 +209,6 @@ for eve in data_events:
                     "coordinator": 1,
                     "university": uni["pk"],
                     "place": 0,
-                    "event_score": 0,
                     "sport": spo["pk"],
                     "event": eve["pk"],
                 }
@@ -245,10 +244,10 @@ for eve in data_events:
         day = random.randint(15, 17)
         hour = random.randint(9, 19)
         minutes = random.choice(["00", "15", "30", "45"])
-        date = f"2022-07-{day}T{hour}:{minutes}:00Z"
-        state = random.choice(["MTB", "MIF", "MIC"])
+        date = f"{eve['fields']['year']}-07-{day}T{hour}:{minutes}:00Z"
         sport = random.randint(1, len(data_sports))
-        closed = random.choice([True, False])
+        played = random.choice([True, False])
+        closed = False if not played else random.choice([True, False])
         match_count += 1
         match = {
             "model": "Match.match",
@@ -256,23 +255,24 @@ for eve in data_events:
             "fields": {
                 "location": random.randint(1, len(data_locations)),
                 "event": random.randint(1, len(data_events)),
-                "length": random.randint(6, 12)*10,
-                "date": date,
-                "state": state,
                 "sport": sport,
+                "date": date,
+                "played": played,
                 "closed": closed,
-                "time_closed": "2022-07-16T07:09:50.726Z" if closed else None,
-                "winner": None
+                "time_finished": "2022-07-16T07:09:50.726Z" if closed else None,
+                "comment": "",
             }
         }
 
-        n_players = random.choices([2, 4, 8], weights=[7, 2, 1])[0]
+        n_teams = random.choices([2, 4, 8], weights=[7, 2, 1])[0]
         used_teams = []
         used_universities = []
-        team = random.choice(data_teams)
-        for np in range(n_players):
-            while (team["pk"] in used_teams) or (team["fields"]["university"] in used_universities):
-                team = random.choice(data_teams)
+        eligible_teams = [tm for tm in data_teams if tm["fields"]["sport"] == sport]
+        team = None
+        scores = [random.randint(0, 10) for _ in range(n_teams)]
+        for nt in range(n_teams):
+            while (team is None) or (team["pk"] in used_teams) or (team["fields"]["university"] in used_universities):
+                team = random.choice(eligible_teams)
             used_teams.append(team["pk"])
             used_universities.append(team["fields"]["university"])
             mt_count += 1
@@ -282,14 +282,37 @@ for eve in data_events:
                 "fields": {
                     "team": team["pk"],
                     "match": match_count,
-                    "score": random.randint(0, 10),
-                    "comment": ""
+                    "score": scores[nt],
+                    "comment": "Lorem ipsum dolor sit amet" if played and random.random() < 0.3 else "",
+                    "is_winner": scores[nt] == max(scores)
                 }
             }
             data_match_teams.append(match_team)
         data_matches.append(match)
 data.extend(data_matches)
 data.extend(data_match_teams)
+
+# FinalSportPoints
+data_sport_points = []
+points_dict = {
+    "A": {"1": 2000, "2": 1200, "3": 720, "4": 360, "5": 180, "6": 90, "7": 50, "8": 20},
+    "B": {"1": 1300, "2": 800, "3": 480, "4": 240, "5": 120, "6": 60, "7": 30, "8": 10},
+    "C": {"1": 800, "2": 480, "3": 290, "4": 150, "5": 70, "6": 40, "7": 20, "8": 0}
+}
+spts_count = 0
+for sport_type in points_dict:
+    for place in points_dict[sport_type]:
+        spts_count += 1
+        data_sport_points.append({
+            "model": "Sport.finalsportpoints",
+            "pk": spts_count,
+            "fields": {
+                "sport_type": sport_type,
+                "place": place,
+                "points": points_dict[sport_type][place]
+            }
+        })
+data.extend(data_sport_points)
 
 print(len(data))
 with open('backend\data_generator\generated_fixture.json', 'w', encoding='utf-8') as f:
