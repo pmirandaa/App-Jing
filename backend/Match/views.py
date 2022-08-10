@@ -57,7 +57,6 @@ class MatchViewSet(ModelViewSet):
                 match_teams__team__playerteam__player=user.id)
         if is_valid_param(participants):
             participants_list = participants.split(',')
-            print("participants")
             queryset = queryset.filter(match_teams__team__university__in=participants_list).annotate(
                 num_participants=Count('match_teams')).filter(num_participants=len(participants_list))
         if is_valid_param(played):
