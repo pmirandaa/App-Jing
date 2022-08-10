@@ -38,7 +38,7 @@ class EventPlacementViewSet(ModelViewSet):
             event_instance = Event.objects.get(pk=event_pk)
         except Event.DoesNotExist:
             raise NotFound("Event not found.")
-        
+
         universities_qs = University.objects.filter(
             universityevent__event__exact=event_pk)
 
@@ -75,7 +75,8 @@ class EventPlacementViewSet(ModelViewSet):
 
         event_placements = [{'event': event_pk, 'university': univ_id,
                              'points': pts} for univ_id, pts in points_by_university.items()]
-        event_placements = sort_and_place(event_placements, key=['points', 'event'])
+        event_placements = sort_and_place(
+            event_placements, key=['points', 'event'])
 
         event_placements_serializer = EventPlacementSerializer(
             data=event_placements, many=True)
@@ -122,13 +123,14 @@ class SportPlacementViewSet(ModelViewSet):
 
     @action(detail=False, methods=['GET'], url_path='calculate/(?P<sport_pk>[^/.]+)')
     def calculate(self, request, sport_pk):
-        # Check if event is valid
+        # Check if sport is valid
         try:
             sport_instance = Sport.objects.get(pk=sport_pk)
         except Sport.DoesNotExist:
             raise NotFound("Sport not found.")
+
+        # Check if event is valid
         event = request.query_params.get('event')
-        # Check if sport and event are valid
         if not is_valid_param(event):
             raise APIException("You must give 'event' parameter")
 
@@ -142,11 +144,11 @@ class SportPlacementViewSet(ModelViewSet):
 
         # Get all wins by team for this sport and event
         winners_qs = Match.objects.filter(event=event, sport=sport_pk).values(
-            'winner', 'winner__university').annotate(wins=Count('winner'))
+            'match_teams__is_winner', 'match_teams__team', 'match_teams__team__university').annotate(wins=Count('match_teams__is_winner'))
         teams_wins = [{
-            'team_id': w_item['winner'],
-            'univ_id': w_item['winner__university'],
-            'wins': w_item['wins']
+            'team_id': w_item['match_teams__team'],
+            'univ_id': w_item['match_teams__team__university'],
+            'wins': w_item['match_teams__is_winner']
         } for w_item in winners_qs]
 
         # Sum all wins grouped by university

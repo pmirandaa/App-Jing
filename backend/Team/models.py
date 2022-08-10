@@ -11,7 +11,6 @@ class Team(models.Model):
     coordinator = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
     place = models.PositiveIntegerField(default=0)
-    event_score = models.PositiveIntegerField(default=0)
     sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 

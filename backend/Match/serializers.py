@@ -8,6 +8,7 @@ from Location.serializers import LocationSerializer
 from Event.serializers import EventSerializer
 from Sport.serializers import SportSerializer
 from Team.models import Team
+from Match.exceptions import MatchAlreadyClosed, MatchAlreadyPlayed
 
 from .models import Match, MatchTeam
 
@@ -25,7 +26,8 @@ class MatchTeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MatchTeam
-        fields = ('match_team_id', 'team_id', 'match', 'score', 'comment')
+        fields = ('match_team_id', 'team_id', 'match',
+                  'score', 'comment', 'is_winner')
 
 
 class MatchTeamInfoSerializer(MatchTeamSerializer):
@@ -37,12 +39,12 @@ class MatchTeamInfoSerializer(MatchTeamSerializer):
 
     class Meta(MatchTeamSerializer.Meta):
         fields = ('match_team_id', 'team_id', 'score',
-                  'comment', 'team_university_short_name')
+                  'comment', 'team_university_short_name', 'is_winner')
 
 
 class MatchTeamCreateSerializer(MatchTeamSerializer):
     class Meta(MatchTeamSerializer.Meta):
-        fields = ('match_team_id', 'team_id', 'score', 'comment')
+        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner')
 
 
 class MatchTeamUpdateSerializer(MatchTeamSerializer):
@@ -53,12 +55,12 @@ class MatchTeamUpdateSerializer(MatchTeamSerializer):
     match_team_id = serializers.IntegerField(source='id', read_only=False)
 
     class Meta(MatchTeamSerializer.Meta):
-        fields = ('match_team_id', 'team_id', 'score', 'comment')
+        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner')
 
 
 class MatchTeamStatusSerializer(MatchTeamSerializer):
     class Meta(MatchTeamSerializer.Meta):
-        fields = ('match_team_id', 'team_id', 'score', 'comment')
+        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner')
 
 
 # Match serializers
@@ -70,8 +72,8 @@ class MatchSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Match
-        fields = ('id', 'location', 'event', 'length', 'date', 'teams',
-                  'state', 'sport', 'closed', 'time_closed', 'winner')
+        fields = ('id', 'location', 'event', 'date', 'teams', 'sport',
+                  'played', 'closed', 'time_finished', 'comment')
 
     def updateMatchTeams(self, match_instance, match_teams_data):
         """
@@ -106,14 +108,13 @@ class MatchInfoSerializer(MatchSerializer):
 class MatchStatusSerializer(MatchSerializer):
     """
     """
-    teams = MatchTeamStatusSerializer(
-        many=True, source='match_teams', required=False)
+    match_teams = MatchTeamStatusSerializer(many=True, required=False)
 
     class Meta(MatchSerializer.Meta):
-        fields = ('id', 'teams', 'state', 'closed', 'time_closed', 'winner')
+        fields = ('id', 'match_teams', 'played',
+                  'closed', 'time_finished', 'comment')
 
     def update(self, instance, validated_data):
-        print(validated_data)
         match_teams = validated_data.pop('match_teams', [])
         # Update directly editable attributes
         if validated_data:
@@ -123,7 +124,6 @@ class MatchStatusSerializer(MatchSerializer):
         self.updateMatchTeams(instance, match_teams)
         return instance
 
-
 class MatchCreateSerializer(MatchSerializer):
     """
     Automatically creates corresponding MatchTeams just having the teams IDs.
@@ -131,7 +131,7 @@ class MatchCreateSerializer(MatchSerializer):
     teams = MatchTeamCreateSerializer(many=True, source='match_teams')
 
     class Meta(MatchSerializer.Meta):
-        read_only_fields = ['closed', 'time_closed', 'state', 'winner']
+        read_only_fields = ['closed', 'time_finished']
 
     def validate_teams(self, value):
         """
@@ -162,7 +162,7 @@ class MatchUpdateSerializer(MatchSerializer):
     teams = MatchTeamUpdateSerializer(many=True, source='match_teams')
 
     class Meta(MatchSerializer.Meta):
-        read_only_fields = ['closed', 'time_closed', 'state', 'winner']
+        read_only_fields = ['closed', 'time_finished']
 
     def update(self, instance, validated_data):
         match_teams = validated_data.pop('match_teams', [])
