@@ -53,7 +53,8 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
           <th>Lugar</th>
           <th>Deporte</th>
           <th>Participantes</th>
-          <th>Estado</th>
+          <th>Jugado</th>
+          <th>Cerrado</th>
           <th></th>
         </tr>
       </thead>
@@ -72,7 +73,8 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
                 ))}
               </ul>
             </td>
-            <td>{row.state}</td>
+            <td>{row.played ? "Sí" : "No"}</td>
+            <td>{row.closed ? "Sí" : "No"}</td>
             <td className="text-center">
               <Button onClick={() => handleClickStart(row.id)}>Empezar</Button>
               <Button onClick={() => handleClickFinish(row.id)}>
