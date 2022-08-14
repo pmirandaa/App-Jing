@@ -15,12 +15,5 @@ class PersonSerializer(serializers.ModelSerializer):
                   'rut',
                   'phone_number',
                   'emergency_phone_number',
-                  'is_admin',
-                  'is_organizer',
-                  'is_university_coordinator',
-                  'is_sports_coordinator',
-                  'is_player',
-                  'is_coach',
-                  'has_avatar',
                   'pending_messages',
                   )

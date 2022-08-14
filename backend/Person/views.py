@@ -21,7 +21,6 @@ from rest_framework.response import Response
 from University.models import UniversityEvent
 
 from Person.models import Person
-from Person.models import PersonAvatar
 from Person.models import PersonTemporaryCode
 from Person.serializers import PersonSerializer
 

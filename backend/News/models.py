@@ -8,7 +8,6 @@ class NewsCategory(models.Model):
     name = models.CharField(max_length=30)
     icon = models.CharField(max_length=50)
     color = models.CharField(max_length=15)
-    btn_class = models.CharField(max_length=20)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     def __str__(self):

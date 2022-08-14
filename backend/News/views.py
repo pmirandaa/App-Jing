@@ -8,7 +8,6 @@ from django.utils import timezone
 from rest_framework import viewsets
 
 from Person.models import Person
-from Person.models import PersonAvatar
 from Event.models import Event
 from News.models import NewsCategory
 from News.models import News

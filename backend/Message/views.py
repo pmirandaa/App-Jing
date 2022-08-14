@@ -8,7 +8,6 @@ from django.shortcuts import render
 from rest_framework import viewsets
 
 from Person.models import Person
-from Person.models import PersonAvatar
 
 from Message.models import Message
 from Message.serializers import MessageSerializer
