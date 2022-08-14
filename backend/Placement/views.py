@@ -290,7 +290,7 @@ class SportPlacementViewSet(ModelViewSet):
         placements = request.data.get('placements')
         if not is_valid_param(event) or not is_valid_param(sport) or not is_valid_param(placements):
             raise APIException(
-                "You must give 'event', 'sport' and 'placements' parameters")
+                "You must give 'event', 'sport' and 'placements' on request body")
 
         sport_instance = Sport.objects.get(pk=sport)
         if sport_instance.closed:
