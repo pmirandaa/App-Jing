@@ -34,7 +34,7 @@ class LogTest(APITestCase):
                 "date": "2021-10-06T11:49:25.098000-03:00"
             },
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -49,7 +49,7 @@ class LogTest(APITestCase):
             "person": "Sebastián Cisneros",
             "date": "2021-10-06T11:49:02.402000-03:00"
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -81,6 +81,6 @@ class LogTest(APITestCase):
         self.assertJSONEqual(response.content, expected)
 
     def test_update_log(self):
-        url = '/api/logs/1'
+        url = '/api/logs/1/'
         response = self.client.patch(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

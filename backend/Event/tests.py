@@ -29,7 +29,7 @@ class EventTest(APITestCase):
                 "logo": "events/teddy-bear.png"
             }
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -41,7 +41,7 @@ class EventTest(APITestCase):
             "year": 2022,
             "logo": "events/teddy-bear.png"
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -67,7 +67,7 @@ class EventTest(APITestCase):
         self.assertJSONEqual(response.content, expected)
 
     def test_update_event(self):
-        url = '/api/events/1'
+        url = '/api/events/1/'
         data = {
             "name": "Jing 2024",
             "year": 2024,

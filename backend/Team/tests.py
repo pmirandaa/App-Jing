@@ -44,7 +44,7 @@ class TeamTest(APITestCase):
                 "event": 1,
             }
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -59,7 +59,7 @@ class TeamTest(APITestCase):
             "sport": 1,
             "event": 1
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -108,7 +108,7 @@ class TeamTest(APITestCase):
         self.assertJSONEqual(response.content, expected)
 
     def test_update_team(self):
-        url = '/api/teams/1'
+        url = '/api/teams/1/'
         data = {
             "coordinator": 4,
             "university": 3,

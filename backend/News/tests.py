@@ -28,7 +28,7 @@ class NewsTest(APITestCase):
                 "event": 1
             }
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -45,7 +45,7 @@ class NewsTest(APITestCase):
             "picture": "news/129033318_403015194230336_145316373917594397_n.jpg",
             "event": 1
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -83,7 +83,7 @@ class NewsTest(APITestCase):
         self.assertEqual(response_json, expected)
 
     def test_update_news(self):
-        url = '/api/news/1'
+        url = '/api/news/1/'
         data = {
         }
         expected = {
@@ -115,7 +115,7 @@ class NewsCategoryTest(APITestCase):
                 "event": 1
             }
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -129,7 +129,7 @@ class NewsCategoryTest(APITestCase):
             "btn_class": "btn-primary",
             "event": 1
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -161,7 +161,7 @@ class NewsCategoryTest(APITestCase):
         self.assertJSONEqual(response.content, expected)
 
     def test_update_news_category(self):
-        url = '/api/news_categories/1'
+        url = '/api/news_categories/1/'
         data = {
             "name": "Urgente",
             "icon": "❗",

@@ -29,7 +29,7 @@ class MessageTest(APITestCase):
                 "deleted": False
             }
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -46,7 +46,7 @@ class MessageTest(APITestCase):
             "date": "2022-05-04T12:01:16.446Z",
             "deleted": False
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -82,7 +82,7 @@ class MessageTest(APITestCase):
         self.assertEqual(response_json, expected)
 
     def test_update_message(self):
-        url = '/api/messages/1'
+        url = '/api/messages/1/'
         data = {
             "sender": 1,
             "reciever": 2,

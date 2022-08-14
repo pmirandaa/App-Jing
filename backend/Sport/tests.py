@@ -33,7 +33,7 @@ class SportTest(APITestCase):
                 "closed": False
             },
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -47,7 +47,7 @@ class SportTest(APITestCase):
             "coordinator": 2,
             "closed": True
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -77,7 +77,7 @@ class SportTest(APITestCase):
         self.assertJSONEqual(response.content, expected)
 
     def test_update_sport(self):
-        url = '/api/sports/1'
+        url = '/api/sports/1/'
         data = {
             "name": "Tenis de mesa",
             "gender": "MIX",

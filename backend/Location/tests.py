@@ -29,7 +29,7 @@ class LocationTest(APITestCase):
                 "university": 2
             },
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -41,7 +41,7 @@ class LocationTest(APITestCase):
             "address": "qwe 123",
             "university": 1
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -68,7 +68,7 @@ class LocationTest(APITestCase):
         self.assertJSONEqual(response.content, expected)
 
     def test_update_location(self):
-        url = '/api/locations/1'
+        url = '/api/locations/1/'
         data = {
             "name": "Dojo",
             "address": "Providencia 456",

@@ -77,13 +77,10 @@
         "fields": {
             "location": 1,
             "event": 1,
-            "length": 90,
             "date": "2021-12-22T18:00:00Z",
-            "state": "MIF",
             "sport": 1,
             "closed": true,
-            "time_closed": "2021-12-21T07:09:50.726Z",
-            "winner": 1
+            "time_finished": "2021-12-21T07:09:50.726Z"
         }
     },
     {
@@ -92,13 +89,10 @@
         "fields": {
             "location": 2,
             "event": 1,
-            "length": 80,
             "date": "2022-05-21T07:40:00Z",
-            "state": "MTB",
             "sport": 1,
             "closed": false,
-            "time_closed": null,
-            "winner": null
+            "time_finished": null
         }
     },
     {
@@ -107,13 +101,10 @@
         "fields": {
             "location": 1,
             "event": 1,
-            "length": 90,
             "date": "2021-12-22T18:00:00Z",
-            "state": "MIC",
             "sport": 1,
             "closed": false,
-            "time_closed": null,
-            "winner": null
+            "time_finished": null
         }
     },
     {
@@ -122,13 +113,10 @@
         "fields": {
             "location": 1,
             "event": 1,
-            "length": 90,
             "date": "2021-12-22T18:00:00Z",
-            "state": "MIF",
             "sport": 1,
             "closed": false,
-            "time_closed": null,
-            "winner": 1
+            "time_finished": null
         }
     },
     {
@@ -232,7 +220,6 @@
             "name": "Anuncios",
             "icon": "🔔",
             "color": "blue",
-            "btn_class": "btn-primary",
             "event": 1
         }
     },
@@ -263,13 +250,6 @@
             "rut": "18932156-2",
             "phone_number": "1234567",
             "emergency_phone_number": "1234567",
-            "is_admin": true,
-            "is_organizer": false,
-            "is_university_coordinator": false,
-            "is_sports_coordinator": false,
-            "is_player": false,
-            "is_coach": false,
-            "has_avatar": false,
             "pending_messages": -1
         }
     },
@@ -286,13 +266,6 @@
             "rut": "1-9",
             "phone_number": "12345678",
             "emergency_phone_number": null,
-            "is_admin": true,
-            "is_organizer": true,
-            "is_university_coordinator": true,
-            "is_sports_coordinator": true,
-            "is_player": false,
-            "is_coach": false,
-            "has_avatar": false,
             "pending_messages": 0
         }
     },
@@ -309,13 +282,6 @@
             "rut": "2-7",
             "phone_number": "321654987",
             "emergency_phone_number": "1",
-            "is_admin": false,
-            "is_organizer": false,
-            "is_university_coordinator": false,
-            "is_sports_coordinator": false,
-            "is_player": true,
-            "is_coach": false,
-            "has_avatar": false,
             "pending_messages": 0
         }
     },
@@ -332,13 +298,6 @@
             "rut": "3-5",
             "phone_number": "123",
             "emergency_phone_number": null,
-            "is_admin": false,
-            "is_organizer": false,
-            "is_university_coordinator": false,
-            "is_sports_coordinator": false,
-            "is_player": true,
-            "is_coach": false,
-            "has_avatar": false,
             "pending_messages": 0
         }
     },
@@ -355,13 +314,6 @@
             "rut": "4-3",
             "phone_number": "123",
             "emergency_phone_number": null,
-            "is_admin": false,
-            "is_organizer": false,
-            "is_university_coordinator": false,
-            "is_sports_coordinator": false,
-            "is_player": false,
-            "is_coach": false,
-            "has_avatar": false,
             "pending_messages": 0
         }
     },
@@ -618,8 +570,6 @@
         "fields": {
             "coordinator": 3,
             "university": 1,
-            "place": 1,
-            "event_score": 2000,
             "sport": 1,
             "event": 1
         }
@@ -630,8 +580,6 @@
         "fields": {
             "coordinator": 4,
             "university": 2,
-            "place": 2,
-            "event_score": 1200,
             "sport": 1,
             "event": 1
         }
@@ -642,8 +590,6 @@
         "fields": {
             "coordinator": 2,
             "university": 3,
-            "place": 0,
-            "event_score": 0,
             "sport": 1,
             "event": 1
         }
@@ -678,7 +624,6 @@
         "fields": {
             "name": "Universidad de Chile",
             "city": "Santiago",
-            "overall_score": 2000,
             "logo": "",
             "map": "",
             "short_name": "UCH"
@@ -690,7 +635,6 @@
         "fields": {
             "name": "Universidad Católica",
             "city": "Santiago",
-            "overall_score": 1200,
             "logo": "",
             "map": "",
             "short_name": "PUC"
@@ -702,7 +646,6 @@
         "fields": {
             "name": "Universidad de Concepción",
             "city": "Concepción",
-            "overall_score": 0,
             "logo": "",
             "map": "",
             "short_name": "UdeC"
@@ -714,7 +657,6 @@
         "fields": {
             "name": "Universidad de asd",
             "city": "Concepción",
-            "overall_score": 0,
             "logo": "",
             "map": "",
             "short_name": "UdeC"

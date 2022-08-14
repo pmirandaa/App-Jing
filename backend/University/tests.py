@@ -44,7 +44,7 @@ class UniversityTest(APITestCase):
                 "short_name": "UdeC"
             },
         ]
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -59,7 +59,7 @@ class UniversityTest(APITestCase):
             "map": "",
             "short_name": "UCH"
         }
-        response = self.client.post(url, format='json')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
