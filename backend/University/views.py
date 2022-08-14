@@ -5,11 +5,12 @@ from .models import University
 
 from utils import is_valid_param
 
+
 class UniversityViewSet(viewsets.ModelViewSet):
     serializer_class = UniversitySerializer
     pagination_class = None
     queryset = University.objects.all()
-    
+
     def dispatch(self, request, *args, **kwargs):
         sleep(0.5)
         return super().dispatch(request, *args, **kwargs)

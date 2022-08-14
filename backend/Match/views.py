@@ -1,22 +1,23 @@
 from datetime import datetime
 from time import sleep
+
+from django.db.models import Count
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.db.models import Count
-
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from utils.utils import is_valid_param, bool_param
-
 from Location.models import Location
-from Match.models import Match
 from Sport.models import Sport
 from University.models import University
-from .exceptions import MatchAlreadyPlayed, MatchAlreadyClosed, MatchNotPlayed
-from .serializers import MatchInfoSerializer, MatchStatusSerializer, MatchCreateSerializer, MatchUpdateSerializer
-from Administration.models import Log
+from utils.utils import bool_param, is_valid_param
+
+from Match.models import Match
+
+from .exceptions import MatchAlreadyClosed, MatchAlreadyPlayed, MatchNotPlayed
+from .serializers import (MatchCreateSerializer, MatchInfoSerializer,
+                          MatchStatusSerializer, MatchUpdateSerializer)
 
 
 class MatchViewSet(ModelViewSet):

@@ -1,23 +1,18 @@
-from collections import defaultdict
-from pprint import pprint
 from rest_framework.viewsets import ModelViewSet
 
-from django.db import connection
 from django.db.models import Count, Case, When, Sum
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, NotFound
 from rest_framework.response import Response
 
-from .models import EventPlacement, SportPlacement
-from .serializers import EventPlacementSerializer, SportPlacementSerializer, SportPlacementPointsSerializer
-from .utils import sort_and_place
 from Match.models import Match, MatchTeam
 from Sport.models import Sport, FinalSportPoints
 from University.models import University
 from Event.models import Event
+
+from Placement.models import EventPlacement, SportPlacement
+from Placement.serializers import EventPlacementSerializer, SportPlacementSerializer, SportPlacementPointsSerializer
+from Placement.utils import sort_and_place
 
 from utils import is_valid_param
 
