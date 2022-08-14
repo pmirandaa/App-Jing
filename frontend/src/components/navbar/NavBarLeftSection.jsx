@@ -10,7 +10,7 @@ export default function NavBarLeftSection() {
     <Nav className={`${styles.section} ${styles.left}`}>
       <Navbar.Brand href="/">
         <img
-          src="{% static 'images/JING llamas.png' %}"
+          src="/img/JING%20llamas.png"
           width="90"
           height="30"
           alt="Logo JING"
