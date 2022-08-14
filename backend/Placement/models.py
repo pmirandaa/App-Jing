@@ -14,6 +14,7 @@ class EventPlacement(models.Model):
 
 class SportPlacement(models.Model):
     sport = models.ForeignKey(Sport, related_name="placements", on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, related_name="sport_placements", on_delete=models.CASCADE)
     university = models.ForeignKey(
         'University.University', null=True, on_delete=models.SET_NULL)
     place = models.PositiveIntegerField(default=0)

@@ -24,8 +24,9 @@ class MatchTeam(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     match = models.ForeignKey(Match, related_name='match_teams', on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)
-    is_winner = models.PositiveIntegerField(default=None, blank=True, null=True)
     comment = models.TextField(max_length=300, blank=True)
+    is_winner = models.BooleanField(default=False)
+    attended = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.team)

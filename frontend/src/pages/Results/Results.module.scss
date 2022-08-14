@@ -1,0 +1,50 @@
+@import "bootstrap_base.scss";
+
+.row-standing {
+    & > td {
+        padding: map-get($spacers, 3);
+        vertical-align: middle;
+    }
+    & > td.cell-place > svg {
+        fill: $gray-400;
+        margin-right: map-get($spacers, 2);
+    }
+}
+
+.row-standing-1st {
+    & > td.cell-place > svg {
+        fill: $yellow-500;
+    }
+}
+
+.row-standing-2nd {
+    & > td.cell-place > svg {
+        fill: $gray-600;
+    }
+}
+
+.row-standing-3rd {
+    & > td.cell-place > svg {
+        fill: $orange-400;
+    }
+}
+
+@include table-variant('forfeit', #FFF);
+.row-standing-forfeit {
+    @extend .table-forfeit;
+    color: $gray-500;
+}
+
+td.cell-place {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    font-weight: bold;
+    padding-right: map-get($spacers, 4);
+}
+
+td.cell-name {
+    font-size: 1.125rem;
+    font-weight: bold;
+}

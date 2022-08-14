@@ -27,7 +27,7 @@ class MatchTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = MatchTeam
         fields = ('match_team_id', 'team_id', 'match',
-                  'score', 'comment', 'is_winner')
+                  'score', 'comment', 'is_winner', 'attended')
 
 
 class MatchTeamInfoSerializer(MatchTeamSerializer):
@@ -39,12 +39,12 @@ class MatchTeamInfoSerializer(MatchTeamSerializer):
 
     class Meta(MatchTeamSerializer.Meta):
         fields = ('match_team_id', 'team_id', 'score',
-                  'comment', 'team_university_short_name', 'is_winner')
+                  'comment', 'team_university_short_name', 'is_winner', 'attended')
 
 
 class MatchTeamCreateSerializer(MatchTeamSerializer):
     class Meta(MatchTeamSerializer.Meta):
-        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner')
+        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner', 'attended')
 
 
 class MatchTeamUpdateSerializer(MatchTeamSerializer):
@@ -55,12 +55,12 @@ class MatchTeamUpdateSerializer(MatchTeamSerializer):
     match_team_id = serializers.IntegerField(source='id', read_only=False)
 
     class Meta(MatchTeamSerializer.Meta):
-        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner')
+        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner', 'attended')
 
 
 class MatchTeamStatusSerializer(MatchTeamSerializer):
     class Meta(MatchTeamSerializer.Meta):
-        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner')
+        fields = ('match_team_id', 'team_id', 'score', 'comment', 'is_winner', 'attended')
 
 
 # Match serializers
