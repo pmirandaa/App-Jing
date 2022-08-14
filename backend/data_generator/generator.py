@@ -1,4 +1,6 @@
+from datetime import datetime
 import json
+from pprint import pprint
 import random
 from addresses import random_addresses
 from sports import sports
@@ -6,8 +8,14 @@ from universities import universities
 from admins import admin_person, admin_user
 from persons import names, surnames
 
-data = []
+seed = random.randint(0, 1000000)
+seed = 543384
+random.seed(seed)
+print("Seed:", seed)
+with open('backend\data_generator\last_seeds', 'a', encoding='utf-8') as f:
+    f.write(f"{datetime.now()} - {seed}\n")
 
+data = []
 
 # Main admin
 data.append(admin_user)
@@ -126,18 +134,16 @@ data.extend(data_sports)
 data_users = []
 data_persons = []
 normalize = str.maketrans("áéíóúñÁÉÍÓÚÑ", "aeiounAEIOUN")
-used_usernames = []
+used_usernames = set()
+used_ruts = set()
 for i in range(2000):
-    fname = random.choice(names)
-    lname = random.choice(surnames)
-    username = f"{fname.lower()}.{lname.lower()}"
-    username = username.translate(normalize)
-    while username in used_usernames:
+    username = None
+    while username is None or username in used_usernames:
         fname = random.choice(names)
         lname = random.choice(surnames)
         username = f"{fname.lower()}.{lname.lower()}"
         username = username.translate(normalize)
-    used_usernames.append(username)
+    used_usernames.add(username)
     user = {
         "model": "auth.user",
         "pk": i+2,  # 1 is admin
@@ -157,10 +163,13 @@ for i in range(2000):
         }
     }
 
-    rut = random.randint(10000000, 30000000)
-    dv = random.randint(0, 10)
-    dv = "k" if dv == 10 else dv
-    full_rut = f"{rut}-{dv}"
+    full_rut = None
+    while full_rut is None or full_rut in used_ruts:
+        rut = random.randint(10000000, 30000000)
+        dv = random.randint(0, 10)
+        dv = "k" if dv == 10 else dv
+        full_rut = f"{rut}-{dv}"
+    used_ruts.add(full_rut)
     person = {
         "model": "Person.person",
         "pk": i+2,
@@ -239,8 +248,7 @@ data_match_teams = []
 match_count = 0
 mt_count = 0
 for eve in data_events:
-    data_teams_for_this_event_copy = data_teams_by_event[eve["pk"]].copy()
-    for i in range(2000):
+    for _ in range(2000):
         day = random.randint(15, 17)
         hour = random.randint(9, 19)
         minutes = random.choice(["00", "15", "30", "45"])
@@ -249,7 +257,7 @@ for eve in data_events:
         played = random.choice([True, False])
         closed = False if not played else random.choice([True, False])
         match_count += 1
-        match = {
+        mt = {
             "model": "Match.match",
             "pk": match_count,
             "fields": {
@@ -265,16 +273,21 @@ for eve in data_events:
         }
 
         n_teams = random.choices([2, 4, 8], weights=[7, 2, 1])[0]
-        used_teams = []
-        used_universities = []
-        eligible_teams = [tm for tm in data_teams if tm["fields"]["sport"] == sport]
+        used_universities = set()
+        eligible_teams = [
+            tm for tm in data_teams if tm["fields"]["sport"] == sport and tm["fields"]["event"] == eve["pk"]]
+        someone_missing = played and random.random() < 0.5
+        whos_missing = random.sample(
+            list(range(n_teams)), random.randint(1, n_teams)
+        ) if someone_missing else []
+        scores = [(random.randint(0, 10) if played and i not in whos_missing else 0)
+                  for i in range(n_teams)]
         team = None
-        scores = [random.randint(0, 10) for _ in range(n_teams)]
         for nt in range(n_teams):
-            while (team is None) or (team["pk"] in used_teams) or (team["fields"]["university"] in used_universities):
+            while (team is None) or (team["fields"]["university"] in used_universities):
                 team = random.choice(eligible_teams)
-            used_teams.append(team["pk"])
-            used_universities.append(team["fields"]["university"])
+            used_universities.add(team["fields"]["university"])
+            attended = played and nt not in whos_missing
             mt_count += 1
             match_team = {
                 "model": "Match.matchteam",
@@ -282,13 +295,14 @@ for eve in data_events:
                 "fields": {
                     "team": team["pk"],
                     "match": match_count,
-                    "score": scores[nt],
+                    "score": scores[nt] if n_teams - len(whos_missing) > 1 else 0,
                     "comment": "Lorem ipsum dolor sit amet" if played and random.random() < 0.3 else "",
-                    "is_winner": scores[nt] == max(scores)
+                    "is_winner": played and attended and scores[nt] == max(scores),
+                    "attended": attended,
                 }
             }
             data_match_teams.append(match_team)
-        data_matches.append(match)
+        data_matches.append(mt)
 data.extend(data_matches)
 data.extend(data_match_teams)
 
@@ -313,7 +327,55 @@ for sport_type in points_dict:
             }
         })
 data.extend(data_sport_points)
+print("Data generated")
+print("Attendance check:")
 
-print(len(data))
+def bin_search_dict(d, key):
+    low = 0
+    high = len(d) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if d[mid]["pk"] == key:
+            return d[mid]
+        elif d[mid]["pk"] < key:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return None
+
+attendance_check = {}
+for mt in data_match_teams:
+    #if int(mt["pk"]) % 3000 == 0:
+    #    print(f"{int(mt['pk'])}/{len(data_match_teams)} ({round(int(mt['pk']) / len(data_match_teams) * 100, 2)}%)")
+    match_data = bin_search_dict(data_matches, mt["fields"]["match"])
+    team_data = bin_search_dict(data_teams, mt["fields"]["team"])
+    event = attendance_check.setdefault(match_data["fields"]["event"], {})
+    sport = event.setdefault(match_data["fields"]["sport"], {})
+    university = sport.setdefault(team_data["fields"]["university"], {"matches": 0, "attended": 0})
+    university["matches"] += 1
+    university["attended"] += mt["fields"]["attended"]
+
+attendances = []
+zero_attendance = []
+for event in attendance_check:
+    for sport in attendance_check[event]:
+        for university in attendance_check[event][sport]:
+            u = attendance_check[event][sport][university]
+            u["attendance"] = round(u["attended"] / u["matches"] * 100, 2)
+            attendances.append(u["attendance"])
+            if u["attendance"] == 0:
+                zero_attendance.append({"event": event, "sport": sport, "university": university})
+
+print(f"Lowest attendance: {min(attendances)}%")
+print(f"Highest attendance: {max(attendances)}%")
+print(f"Average attendance: {round(sum(attendances) / len(attendances), 2)}%")
+print(f"Zero attendance:")
+pprint(zero_attendance)
+print(f"Zero attendance 5-1: {len([z for z in zero_attendance if z['event'] == 5 and z['sport'] == 1])}")
+
+with open('backend\data_generator\\attendance.json', 'w', encoding='utf-8') as f:
+    json.dump(attendance_check, f, ensure_ascii=False, indent=1)
+
+print("# Entries:", len(data))
 with open('backend\data_generator\generated_fixture.json', 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=1)
