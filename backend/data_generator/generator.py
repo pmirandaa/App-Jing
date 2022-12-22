@@ -23,13 +23,13 @@ data.append(admin_person)
 
 # Events
 data_events = []
-for i in range(5):
+for i in range(10):
     event = {
         "model": "Event.event",
         "pk": i+1,
         "fields": {
-            "name": f"JING {2018+i}",
-            "year": 2018+i,
+            "name": f"JING {2013+i}",
+            "year": 2013+i,
             "logo": ""
         }
     }
@@ -69,7 +69,7 @@ for eve in data_events:
             "fields": {
                 "university": uni["pk"],
                 "event": eve["pk"],
-                "is_host": hosts[eve["pk"] - 1] == uni["pk"]
+                "is_host": hosts[(eve["pk"] - 1) % 8] == uni["pk"]
             }
         }
         data_university_event.append(uni_eve)
@@ -136,7 +136,7 @@ data_persons = []
 normalize = str.maketrans("áéíóúñÁÉÍÓÚÑ", "aeiounAEIOUN")
 used_usernames = set()
 used_ruts = set()
-for i in range(2000):
+for i in range(10000):
     username = None
     while username is None or username in used_usernames:
         fname = random.choice(names)
@@ -183,13 +183,6 @@ for i in range(2000):
             "rut": full_rut,
             "phone_number": f"9{random.randint(10000000, 99999999)}",
             "emergency_phone_number": f"9{random.randint(10000000, 99999999)}",
-            "is_admin": False,
-            "is_organizer": False,
-            "is_university_coordinator": False,
-            "is_sports_coordinator": False,
-            "is_player": False,
-            "is_coach": False,
-            "has_avatar": False,
             "pending_messages": 0
         }
     }

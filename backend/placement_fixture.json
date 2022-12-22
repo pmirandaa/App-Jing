@@ -1,0 +1,5018 @@
+[
+    {
+        "model": "Placement.sportplacement",
+        "pk": 1,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 2,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 3,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 8,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 4,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 5,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 6,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 7,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 8,
+        "fields": {
+            "sport": 1,
+            "event": 5,
+            "university": 2,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 9,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 1,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 10,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 11,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 12,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 7,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 13,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 8,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 14,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 15,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 5,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 16,
+        "fields": {
+            "sport": 2,
+            "event": 5,
+            "university": 2,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 17,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 18,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 2,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 19,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 8,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 20,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 21,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 22,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 23,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 24,
+        "fields": {
+            "sport": 3,
+            "event": 5,
+            "university": 7,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 25,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 3,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 26,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 27,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 2,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 28,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 6,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 29,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 30,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 31,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 8,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 32,
+        "fields": {
+            "sport": 4,
+            "event": 5,
+            "university": 4,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 33,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 34,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 35,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 5,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 36,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 37,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 38,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 3,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 39,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 1,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 40,
+        "fields": {
+            "sport": 5,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 41,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 42,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 43,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 44,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 45,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 46,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 47,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 5,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 48,
+        "fields": {
+            "sport": 6,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 49,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 50,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 51,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 8,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 52,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 53,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 54,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 55,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 56,
+        "fields": {
+            "sport": 7,
+            "event": 5,
+            "university": 5,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 57,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 3,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 58,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 2,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 59,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 60,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 61,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 6,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 62,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 63,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 64,
+        "fields": {
+            "sport": 8,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 65,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 66,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 8,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 67,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 68,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 69,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 70,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 71,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 1,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 72,
+        "fields": {
+            "sport": 9,
+            "event": 5,
+            "university": 6,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 73,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 6,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 74,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 8,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 75,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 76,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 77,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 78,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 5,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 79,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 80,
+        "fields": {
+            "sport": 10,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 81,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 82,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 83,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 5,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 84,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 8,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 85,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 86,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 87,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 88,
+        "fields": {
+            "sport": 11,
+            "event": 5,
+            "university": 6,
+            "place": 8,
+            "participated": false
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 89,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 90,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 2,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 91,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 92,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 6,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 93,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 94,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 5,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 95,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 96,
+        "fields": {
+            "sport": 12,
+            "event": 5,
+            "university": 3,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 97,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 4,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 98,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 99,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 6,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 100,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 101,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 8,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 102,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 103,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 104,
+        "fields": {
+            "sport": 13,
+            "event": 5,
+            "university": 3,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 105,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 106,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 1,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 107,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 108,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 109,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 110,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 111,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 112,
+        "fields": {
+            "sport": 14,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 113,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 114,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 115,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 116,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 2,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 117,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 118,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 4,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 119,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 120,
+        "fields": {
+            "sport": 15,
+            "event": 5,
+            "university": 6,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 121,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 3,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 122,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 123,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 6,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 124,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 1,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 125,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 126,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 127,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 128,
+        "fields": {
+            "sport": 16,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 129,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 130,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 131,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 1,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 132,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 6,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 133,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 3,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 134,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 135,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 136,
+        "fields": {
+            "sport": 17,
+            "event": 5,
+            "university": 5,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 137,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 138,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 3,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 139,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 140,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 141,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 142,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 143,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 144,
+        "fields": {
+            "sport": 18,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 145,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 146,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 3,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 147,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 148,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 149,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 150,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 151,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 152,
+        "fields": {
+            "sport": 19,
+            "event": 5,
+            "university": 6,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 153,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 6,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 154,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 155,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 156,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 157,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 158,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 159,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 8,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 160,
+        "fields": {
+            "sport": 20,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 161,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 3,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 162,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 163,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 1,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 164,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 2,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 165,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 8,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 166,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 167,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 5,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 168,
+        "fields": {
+            "sport": 21,
+            "event": 5,
+            "university": 4,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 169,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 4,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 170,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 171,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 172,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 6,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 173,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 3,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 174,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 175,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 176,
+        "fields": {
+            "sport": 22,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 177,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 178,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 2,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 179,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 1,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 180,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 181,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 5,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 182,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 6,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 183,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 184,
+        "fields": {
+            "sport": 23,
+            "event": 5,
+            "university": 7,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 185,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 186,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 187,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 6,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 188,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 189,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 190,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 191,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 192,
+        "fields": {
+            "sport": 24,
+            "event": 5,
+            "university": 4,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 193,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 1,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 194,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 195,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 8,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 196,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 197,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 6,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 198,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 199,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 200,
+        "fields": {
+            "sport": 25,
+            "event": 5,
+            "university": 3,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 201,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 202,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 203,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 1,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 204,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 205,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 3,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 206,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 207,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 8,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 208,
+        "fields": {
+            "sport": 26,
+            "event": 5,
+            "university": 5,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 209,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 3,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 210,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 211,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 212,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 7,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 213,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 214,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 215,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 5,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 216,
+        "fields": {
+            "sport": 27,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 217,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 218,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 3,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 219,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 220,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 221,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 6,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 222,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 223,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 224,
+        "fields": {
+            "sport": 28,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 225,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 4,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 226,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 227,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 228,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 6,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 229,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 8,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 230,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 231,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 232,
+        "fields": {
+            "sport": 29,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 233,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 234,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 235,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 5,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 236,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 2,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 237,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 238,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 239,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 240,
+        "fields": {
+            "sport": 30,
+            "event": 5,
+            "university": 3,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 241,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 242,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 243,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 1,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 244,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 245,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 6,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 246,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 247,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 5,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 248,
+        "fields": {
+            "sport": 31,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": false
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 249,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 250,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 251,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 252,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 253,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 254,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 255,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 1,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 256,
+        "fields": {
+            "sport": 32,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 257,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 6,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 258,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 259,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 260,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 1,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 261,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 262,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 263,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 264,
+        "fields": {
+            "sport": 33,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 265,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 266,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 267,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 268,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 269,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 270,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 271,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 272,
+        "fields": {
+            "sport": 34,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 273,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 274,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 275,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 276,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 8,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 277,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 5,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 278,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 3,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 279,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 280,
+        "fields": {
+            "sport": 35,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 281,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 282,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 8,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 283,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 284,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 285,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 5,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 286,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 4,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 287,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 288,
+        "fields": {
+            "sport": 36,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 289,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 3,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 290,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 291,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 5,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 292,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 8,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 293,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 1,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 294,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 295,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 296,
+        "fields": {
+            "sport": 37,
+            "event": 5,
+            "university": 2,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 297,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 298,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 1,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 299,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 300,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 301,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 6,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 302,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 3,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 303,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 304,
+        "fields": {
+            "sport": 38,
+            "event": 5,
+            "university": 8,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 305,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 1,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 306,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 307,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 308,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 309,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 5,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 310,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 7,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 311,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 8,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 312,
+        "fields": {
+            "sport": 39,
+            "event": 5,
+            "university": 2,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 313,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 5,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 314,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 315,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 1,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 316,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 8,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 317,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 4,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 318,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 319,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 320,
+        "fields": {
+            "sport": 40,
+            "event": 5,
+            "university": 6,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 321,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 3,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 322,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 323,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 324,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 1,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 325,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 326,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 327,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 328,
+        "fields": {
+            "sport": 41,
+            "event": 5,
+            "university": 5,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 329,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 1,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 330,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 331,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 2,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 332,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 333,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 8,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 334,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 335,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 336,
+        "fields": {
+            "sport": 42,
+            "event": 5,
+            "university": 7,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 337,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 4,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 338,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 339,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 340,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 6,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 341,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 5,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 342,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 343,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 1,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 344,
+        "fields": {
+            "sport": 43,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 345,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 346,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 347,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 8,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 348,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 349,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 4,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 350,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 3,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 351,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 1,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 352,
+        "fields": {
+            "sport": 44,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 353,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 354,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 8,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 355,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 5,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 356,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 357,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 358,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 359,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 360,
+        "fields": {
+            "sport": 45,
+            "event": 5,
+            "university": 4,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 361,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 362,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 7,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 363,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 6,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 364,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 8,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 365,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 5,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 366,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 3,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 367,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 1,
+            "place": 7,
+            "participated": false
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 368,
+        "fields": {
+            "sport": 46,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": false
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 369,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 4,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 370,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 1,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 371,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 372,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 8,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 373,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 3,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 374,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 375,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 376,
+        "fields": {
+            "sport": 47,
+            "event": 5,
+            "university": 5,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 377,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 4,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 378,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 3,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 379,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 7,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 380,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 1,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 381,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 382,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 383,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 384,
+        "fields": {
+            "sport": 48,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": false
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 385,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 386,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 8,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 387,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 2,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 388,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 5,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 389,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 3,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 390,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 391,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 392,
+        "fields": {
+            "sport": 49,
+            "event": 5,
+            "university": 6,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 393,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 1,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 394,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 395,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 396,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 7,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 397,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 2,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 398,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 6,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 399,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 400,
+        "fields": {
+            "sport": 50,
+            "event": 5,
+            "university": 8,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 401,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 402,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 4,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 403,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 2,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 404,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 1,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 405,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 406,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 5,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 407,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 408,
+        "fields": {
+            "sport": 51,
+            "event": 5,
+            "university": 7,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 409,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 410,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 411,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 8,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 412,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 3,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 413,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 4,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 414,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 2,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 415,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 6,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 416,
+        "fields": {
+            "sport": 52,
+            "event": 5,
+            "university": 1,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 417,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 6,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 418,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 1,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 419,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 420,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 421,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 7,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 422,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 8,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 423,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 5,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 424,
+        "fields": {
+            "sport": 53,
+            "event": 5,
+            "university": 2,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 425,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 8,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 426,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 1,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 427,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 3,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 428,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 4,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 429,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 6,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 430,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 5,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 431,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 7,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 432,
+        "fields": {
+            "sport": 54,
+            "event": 5,
+            "university": 2,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 433,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 6,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 434,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 3,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 435,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 4,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 436,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 7,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 437,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 5,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 438,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 439,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 2,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 440,
+        "fields": {
+            "sport": 55,
+            "event": 5,
+            "university": 8,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 441,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 2,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 442,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 443,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 6,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 444,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 7,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 445,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 8,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 446,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 447,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 448,
+        "fields": {
+            "sport": 56,
+            "event": 5,
+            "university": 3,
+            "place": 8,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 449,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 7,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 450,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 5,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 451,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 2,
+            "place": 3,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 452,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 6,
+            "place": 4,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 453,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 8,
+            "place": 5,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 454,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 1,
+            "place": 6,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 455,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 3,
+            "place": 7,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 456,
+        "fields": {
+            "sport": 57,
+            "event": 5,
+            "university": 4,
+            "place": 7,
+            "participated": true
+        }
+    }
+]

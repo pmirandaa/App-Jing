@@ -79,6 +79,7 @@
             "event": 1,
             "date": "2021-12-22T18:00:00Z",
             "sport": 1,
+            "played": false,
             "closed": true,
             "time_finished": "2021-12-21T07:09:50.726Z"
         }
@@ -91,6 +92,7 @@
             "event": 1,
             "date": "2022-05-21T07:40:00Z",
             "sport": 1,
+            "played": false,
             "closed": false,
             "time_finished": null
         }
@@ -102,7 +104,8 @@
             "location": 1,
             "event": 1,
             "date": "2021-12-22T18:00:00Z",
-            "sport": 1,
+            "sport": 2,
+            "played": false,
             "closed": false,
             "time_finished": null
         }
@@ -114,7 +117,8 @@
             "location": 1,
             "event": 1,
             "date": "2021-12-22T18:00:00Z",
-            "sport": 1,
+            "sport": 2,
+            "played": true,
             "closed": false,
             "time_finished": null
         }
@@ -126,7 +130,8 @@
             "team": 1,
             "match": 1,
             "score": 1,
-            "comment": ""
+            "comment": "",
+            "attended": true
         }
     },
     {
@@ -136,7 +141,8 @@
             "team": 2,
             "match": 1,
             "score": 2,
-            "comment": ""
+            "comment": "",
+            "attended": true
         }
     },
     {
@@ -146,7 +152,8 @@
             "team": 1,
             "match": 2,
             "score": 7,
-            "comment": ""
+            "comment": "",
+            "attended": true
         }
     },
     {
@@ -156,7 +163,8 @@
             "team": 2,
             "match": 2,
             "score": 9,
-            "comment": ""
+            "comment": "",
+            "attended": true
         }
     },
     {
@@ -166,7 +174,8 @@
             "team": 1,
             "match": 3,
             "score": 4,
-            "comment": ""
+            "comment": "",
+            "attended": false
         }
     },
     {
@@ -176,7 +185,8 @@
             "team": 2,
             "match": 3,
             "score": 5,
-            "comment": ""
+            "comment": "",
+            "attended": true
         }
     },
     {
@@ -186,7 +196,8 @@
             "team": 1,
             "match": 4,
             "score": 4,
-            "comment": ""
+            "comment": "",
+            "attended": true
         }
     },
     {
@@ -196,7 +207,96 @@
             "team": 2,
             "match": 4,
             "score": 5,
-            "comment": ""
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 9,
+        "fields": {
+            "team": 1,
+            "match": 1,
+            "score": 4,
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 10,
+        "fields": {
+            "team": 3,
+            "match": 1,
+            "score": 5,
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 11,
+        "fields": {
+            "team": 3,
+            "match": 2,
+            "score": 6,
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 12,
+        "fields": {
+            "team": 2,
+            "match": 2,
+            "score": 8,
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 13,
+        "fields": {
+            "team": 3,
+            "match": 3,
+            "score": 1,
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 14,
+        "fields": {
+            "team": 2,
+            "match": 3,
+            "score": 0,
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 15,
+        "fields": {
+            "team": 3,
+            "match": 4,
+            "score": 7,
+            "comment": "",
+            "attended": true
+        }
+    },
+    {
+        "model": "Match.matchteam",
+        "pk": 16,
+        "fields": {
+            "team": 1,
+            "match": 4,
+            "score": 2,
+            "comment": "",
+            "attended": false
         }
     },
     {
@@ -590,7 +690,7 @@
         "fields": {
             "coordinator": 2,
             "university": 3,
-            "sport": 1,
+            "sport": 2,
             "event": 1
         }
     },
@@ -655,11 +755,11 @@
         "model": "University.university",
         "pk": 4,
         "fields": {
-            "name": "Universidad de asd",
-            "city": "Concepción",
+            "name": "Universidad de Valparaíso",
+            "city": "Valparaíso",
             "logo": "",
             "map": "",
-            "short_name": "UdeC"
+            "short_name": "UV"
         }
     },
     {
@@ -675,9 +775,71 @@
         "model": "University.universityevent",
         "pk": 2,
         "fields": {
+            "university": 2,
+            "event": 1,
+            "is_host": false
+        }
+    },
+    {
+        "model": "University.universityevent",
+        "pk": 3,
+        "fields": {
             "university": 3,
             "event": 1,
             "is_host": false
+        }
+    },
+    {
+        "model": "University.universityevent",
+        "pk": 4,
+        "fields": {
+            "university": 4,
+            "event": 1,
+            "is_host": false
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 1,
+        "fields": {
+            "sport": 1,
+            "event": 1,
+            "university": 1,
+            "place": 1,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 2,
+        "fields": {
+            "sport": 1,
+            "event": 1,
+            "university": 2,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 3,
+        "fields": {
+            "sport": 1,
+            "event": 1,
+            "university": 3,
+            "place": 2,
+            "participated": true
+        }
+    },
+    {
+        "model": "Placement.sportplacement",
+        "pk": 4,
+        "fields": {
+            "sport": 1,
+            "event": 1,
+            "university": 4,
+            "place": 4,
+            "participated": false
         }
     }
 ]

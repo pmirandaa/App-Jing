@@ -30,13 +30,6 @@ admin_person = {
         "rut": "18932156-2",
         "phone_number": "912345678",
         "emergency_phone_number": "912345678",
-        "is_admin": True,
-        "is_organizer": False,
-        "is_university_coordinator": False,
-        "is_sports_coordinator": False,
-        "is_player": False,
-        "is_coach": False,
-        "has_avatar": False,
         "pending_messages": 0
     }
 }
