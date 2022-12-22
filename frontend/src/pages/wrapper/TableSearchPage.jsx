@@ -9,6 +9,7 @@ import { EventContext } from "contexts/EventContext";
 import { useIsFirstRender, usePrevious } from "utils/hooks";
 import { capitalize, objectToParamsString, paramsStringToObject } from "utils";
 import TablePagination from "components/pagination/TablePagination";
+import styles from "./TableSearchPage.module.css";
 
 export default function TableSearchPage({
   SidebarComponent,
@@ -121,7 +122,7 @@ export default function TableSearchPage({
       size={pageSize}
       count={totalCount}
       setCurrent={setCurrentPage}
-      className="justify-content-center"
+      className={styles.pagination}
     />
   );
 
@@ -130,7 +131,7 @@ export default function TableSearchPage({
       sidebar={<SidebarComponent filters={filters} setFilters={setFilters} />}
       rootRef={rootRef}
     >
-      <h1 className="d-inline">{capitalize(label)}</h1>
+      <h1 className={styles.title}>{capitalize(label)}</h1>
       <LoadingIndicator isLoading={isLoading} />
       <h4>{event?.name}</h4>
 
@@ -141,13 +142,13 @@ export default function TableSearchPage({
           {paginationEl}
         </>
       ) : (
-        <p className="text-center lead">
+        <p className={styles.infoText}>
           No se encontraron {label} con los criterios seleccionados
         </p>
       )}
 
       {event === undefined && (
-        <p className="text-center lead">No se ha seleccionado un evento</p>
+        <p className={styles.infoText}>No se ha seleccionado un evento</p>
       )}
     </SidebarPage>
   );

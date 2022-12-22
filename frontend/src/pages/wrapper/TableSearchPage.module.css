@@ -1,0 +1,15 @@
+.title {
+    display: inline;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoText {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 300;
+}
