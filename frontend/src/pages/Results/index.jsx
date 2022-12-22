@@ -188,7 +188,7 @@ export default function Results() {
                           )?.name
                         }
                       </td>
-                      <td>{standing.points}</td>
+                      <td className={styles["points"]}>{standing.points}</td>
                     </tr>
                   ))}
                 </tbody>
