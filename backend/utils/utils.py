@@ -6,9 +6,9 @@ def is_valid_param(param):
 
 
 def bool_param(param):
-    if param in ['0', 'False', 'false']:
+    if param in ['0', 'False', 'false', False]:
         return False
-    elif param in ['1', 'True', 'true']:
+    elif param in ['1', 'True', 'true', True]:
         return True
     else:
         return None
