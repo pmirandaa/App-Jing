@@ -3,8 +3,9 @@ import moment from "moment";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useAlert } from "react-alert";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Check2, InfoCircleFill, TrashFill, XLg } from "react-bootstrap-icons";
+import styles from "./MatchesTable.module.css";
 
 export default function MatchesTable({ rows, fetchData, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +17,7 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
       .post(`http://localhost:8000/api/matches/${matchId}/${action}/`)
       .then((response) => {
         fetchData({ scrollToTop: false });
-        alert.show(JSON.stringify(response.data));
+        alert.show("El partido ha sido cerrado");
       })
       .finally(() => {
         setIsLoading(false);
@@ -24,7 +25,7 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
       .catch((error) => {
         const error_code = error?.response?.data?.code;
         if (error_code) {
-          alert.error(error.response.data.detail);
+          alert.error("Este partido ya se encontraba cerrado");
         } else {
           alert.error(error.message);
         }
@@ -47,7 +48,6 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
     <Table striped variant="light" className="mt-4">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Fecha</th>
           <th>Hora</th>
           <th>Lugar</th>
@@ -61,7 +61,6 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
       <tbody>
         {rows.map((row) => (
           <tr key={row.id}>
-            <td>{row.id}</td>
             <td>{moment(row.date).format("ddd DD-MM-YY")}</td>
             <td>{moment(row.date).format("HH:mm")}</td>
             <td>{row.location.name}</td>
@@ -73,14 +72,16 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
                 ))}
               </ul>
             </td>
-            <td>{row.played ? "Sí" : "No"}</td>
-            <td>{row.closed ? "Sí" : "No"}</td>
+            <td>{row.played ? <Check2 size={24} /> : <XLg/>}</td>
+            <td>{row.closed ? <Check2 size={24} /> : <XLg/>}</td>
             <td className="text-center">
-              <Button onClick={() => handleClickStart(row.id)}>Empezar</Button>
-              <Button onClick={() => handleClickFinish(row.id)}>
-                Terminar
+              <Button className={styles["action"]} variant="secondary" onClick={() => handleClickFinish(row.id)}>
+                Finalizar
               </Button>
-              <Button onClick={() => handleClickDelete(row.id)}>Borrar</Button>
+              <Button className={styles["action"]} onClick={() => handleClickFinish(row.id)}>
+                <InfoCircleFill/>
+              </Button>
+              <Button className={styles["action"]} variant="danger" onClick={() => handleClickDelete(row.id)}><TrashFill /></Button>
             </td>
           </tr>
         ))}
