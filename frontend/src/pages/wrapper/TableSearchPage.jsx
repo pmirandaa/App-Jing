@@ -4,7 +4,7 @@ import axios from "axios";
 
 // import styles from "./Matches.module.css";
 import SidebarPage from "pages/wrapper/SidebarPage";
-import LoadingOverlay from "components/loading/LoadingOverlay";
+import LoadingIndicator from "components/loading/LoadingIndicator";
 import { EventContext } from "contexts/EventContext";
 import { useIsFirstRender, usePrevious } from "utils/hooks";
 import { capitalize, objectToParamsString, paramsStringToObject } from "utils";
@@ -130,9 +130,9 @@ export default function TableSearchPage({
       sidebar={<SidebarComponent filters={filters} setFilters={setFilters} />}
       rootRef={rootRef}
     >
-      <h1>{capitalize(label)}</h1>
+      <h1 className="d-inline">{capitalize(label)}</h1>
+      <LoadingIndicator isLoading={isLoading} />
       <h4>{event?.name}</h4>
-      {isLoading && <LoadingOverlay />}
 
       {rows.length > 0 ? (
         <>
