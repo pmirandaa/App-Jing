@@ -5,7 +5,9 @@ import { Container, Form, Table } from "react-bootstrap";
 import Select from "react-select";
 import { sleeper } from "utils";
 import { useNavigate } from "react-router-dom";
-import LoadingOverlay from "components/loading/LoadingOverlay";
+import LoadingIndicator from "components/loading/LoadingIndicator";
+import styles from "./Events.module.scss";
+import { HouseFill, Trophy, TrophyFill } from "react-bootstrap-icons";
 
 export default function Events() {
   const { event, setEvent } = useContext(EventContext);
@@ -36,7 +38,7 @@ export default function Events() {
             label: eve.name,
             data: eve,
           })) ?? [];
-        setEventOptions(res);
+        setEventOptions(res.reverse());
       })
       .finally(() => {
         //setIsLoading(false);
@@ -46,18 +48,28 @@ export default function Events() {
   return (
     <Container style={{ padding: "16px", position: "relative" }}>
       <h1>Seleccionar evento</h1>
+      <LoadingIndicator isLoading={isLoading} />
 
-      <Form.Label htmlFor="event">Evento</Form.Label>
-      <Select
-        name="event"
-        inputId="event"
-        options={eventOptions}
-        className="basic-multi-select"
-        classNamePrefix="select"
-        onChange={handleSelect}
-        value={selectedEvent}
-      />
-      {isLoading && <LoadingOverlay />}
+      <div className={styles.eventsContainer}>
+        {eventOptions.map((eve) => (
+          <div className={styles.eventCard} key={eve.value}>
+            <img className={styles.eventLogo} src="/img/logoJING2019.jpg" />
+            <p className={styles.eventLabel}>{eve.label}</p>
+            <div className={styles.eventWinner}>
+              <HouseFill className={styles.eventIcon2} />
+              <span className={styles.eventWinnerLabel}>UCH</span>
+              {eve.data.id === 10 ? (
+                <span className={styles.eventActiveLabel}>En curso</span>
+              ) : (
+                <>
+                  <TrophyFill className={styles.eventIcon} />
+                  <span className={styles.eventWinnerLabel}>UCH</span>
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </Container>
   );
 }
