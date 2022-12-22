@@ -7,7 +7,7 @@ export default function Matches() {
     <TableSearchPage
       SidebarComponent={MatchesSidebar}
       TableComponent={MatchesTable}
-      apiUrl="/api/matches/"
+      apiName="matches"
       label="partidos"
     />
   );

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
 import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
@@ -50,7 +51,7 @@ export default function MatchesSidebar({ filters, setFilters }) {
   useEffect(() => {
     if (!event) return;
     const fetch = axios
-      .get(`http://localhost:8000/api/matches/filters/?event=${event.id}`)
+      .get(`${API_URL}/matches/filters/?event=${event.id}`)
       .then(sleeper(500))
       .then((response) => {
         setParticipantsOptions(response.data.participants ?? []);

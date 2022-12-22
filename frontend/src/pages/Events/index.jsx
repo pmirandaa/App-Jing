@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
 import { useContext, useEffect, useState } from "react";
 import { Container, Form, Table } from "react-bootstrap";
@@ -28,7 +29,7 @@ export default function Events() {
 
   useEffect(() => {
     const fetch = axios
-      .get(`http://localhost:8000/api/events/`)
+      .get(`${API_URL}/events/`)
       .then(sleeper(500))
       .then((response) => {
         console.log(response.data);

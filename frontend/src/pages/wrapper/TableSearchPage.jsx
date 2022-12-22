@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // import styles from "./Matches.module.css";
+import { API_URL } from "constants";
 import SidebarPage from "pages/wrapper/SidebarPage";
 import LoadingIndicator from "components/loading/LoadingIndicator";
 import { EventContext } from "contexts/EventContext";
@@ -14,7 +15,7 @@ import styles from "./TableSearchPage.module.css";
 export default function TableSearchPage({
   SidebarComponent,
   TableComponent,
-  apiUrl,
+  apiName,
   label,
 }) {
   const { event, setEvent } = useContext(EventContext);
@@ -44,7 +45,7 @@ export default function TableSearchPage({
     if (isLoading) keepLoading.current = true;
     setIsLoading(true);
     axios
-      .get(`http://localhost:8000${apiUrl}${location.search}`, {
+      .get(`${API_URL}/${apiName}/${location.search}`, {
         signal: abortControllerRef.current.signal,
       })
       .then((response) => {

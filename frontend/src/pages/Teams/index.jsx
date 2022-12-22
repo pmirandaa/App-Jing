@@ -7,7 +7,7 @@ export default function Teams() {
     <TableSearchPage
       SidebarComponent={TeamsSidebar}
       TableComponent={TeamsTable}
-      apiUrl="/api/teams/"
+      apiName="teams"
       label="equipos"
     />
   );

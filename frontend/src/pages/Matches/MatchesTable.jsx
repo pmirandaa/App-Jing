@@ -1,3 +1,4 @@
+import { API_URL } from "constants";
 import Table from "react-bootstrap/Table";
 import moment from "moment";
 import { Button } from "react-bootstrap";
@@ -14,7 +15,7 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
 
   function requestAction(matchId, action) {
     axios
-      .post(`http://localhost:8000/api/matches/${matchId}/${action}/`)
+      .post(`${API_URL}/matches/${matchId}/${action}/`)
       .then((response) => {
         fetchData({ scrollToTop: false });
         alert.show("El partido ha sido cerrado");

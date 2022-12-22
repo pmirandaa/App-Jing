@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
 import { useContext, useEffect, useState } from "react";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
@@ -40,7 +41,7 @@ export default function Results() {
   function retrieveEvent() {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8000/api/placements/event/calculate/${event.id}/`)
+      .get(`${API_URL}/placements/event/calculate/${event.id}/`)
       .then(sleeper(500))
       .then(({ data }) => {
         console.log(data);
@@ -60,7 +61,7 @@ export default function Results() {
     setIsLoading(true);
     axios
       .get(
-        `http://localhost:8000/api/placements/sport/calculate/${sport}/?event=${event.id}`
+        `${API_URL}/placements/sport/calculate/${sport}/?event=${event.id}`
       )
       .then(sleeper(500))
       .then((response) => {
@@ -108,7 +109,7 @@ export default function Results() {
     if (!event) return;
     setIsLoading(true);
     axios
-      .get(`http://localhost:8000/api/sports/?event=${event.id}`)
+      .get(`${API_URL}/sports/?event=${event.id}`)
       .then(sleeper(500))
       .then((response) => {
         const options = [
@@ -128,7 +129,7 @@ export default function Results() {
       });
 
     axios
-      .get(`http://localhost:8000/api/universities/?event=${event.id}`)
+      .get(`${API_URL}/universities/?event=${event.id}`)
       .then(sleeper(500))
       .then((response) => {
         setUniversitiesData(response.data);

@@ -10,6 +10,7 @@ import {
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { Provider as AlertProvider } from 'react-alert'
 
+import { API_URL } from "constants";
 import NavBar from "components/navbar/NavBar";
 import { EventContext } from "contexts/EventContext";
 
@@ -32,7 +33,7 @@ function App() {
   function setEvent(event) {
     if (Number.isInteger(event)) {
       axios
-        .get(`http://localhost:8000/api/events/${event}/`)
+        .get(`${API_URL}/events/${event}/`)
         .then((response) => {
           const res = response.data;
           _setEvent({ id: res.id, name: res.name });

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
 import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
@@ -44,7 +45,7 @@ export default function PersonsSidebar({ filters, setFilters }) {
   useEffect(() => {
     if (!event) return;
     const fetch = axios
-      .get(`http://localhost:8000/api/persons/filters/?event=${event.id}`)
+      .get(`${API_URL}/persons/filters/?event=${event.id}`)
       .then((response) => {
         setUniversityOptions(response.data.university ?? []);
         setSportOptions(response.data.sport ?? []);

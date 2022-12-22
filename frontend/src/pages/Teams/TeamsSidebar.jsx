@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
 import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
@@ -42,7 +43,7 @@ export default function TeamsSidebar({ filters, setFilters }) {
   useEffect(() => {
     if (!event) return;
     const fetch = axios
-      .get(`http://localhost:8000/api/teams/filters/?event=${event.id}`)
+      .get(`${API_URL}/teams/filters/?event=${event.id}`)
       .then(sleeper(500))
       .then((response) => {
         setSportOptions(response.data.sport ?? []);

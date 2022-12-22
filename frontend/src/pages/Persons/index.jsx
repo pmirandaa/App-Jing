@@ -7,7 +7,7 @@ export default function Persons() {
     <TableSearchPage
       SidebarComponent={PersonsSidebar}
       TableComponent={PersonsTable}
-      apiUrl="/api/persons/"
+      apiName="persons"
       label="personas"
     />
   );
