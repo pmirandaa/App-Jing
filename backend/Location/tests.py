@@ -18,14 +18,14 @@ class LocationTest(APITestCase):
         expected = [
             {
                 "id": 1,
-                "name": "La Cancha",
-                "address": "qwe 123",
+                "name": "Cancha de Tenis",
+                "address": "Linden Street 2189",
                 "university": 1
             },
             {
                 "id": 2,
                 "name": "Piscina",
-                "address": "zxc 789",
+                "address": "Cedar Lane 4248",
                 "university": 2
             },
         ]
@@ -44,6 +44,9 @@ class LocationTest(APITestCase):
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
+
+    def test_get_location_filtered(self):
+        self.assertTrue(True)
 
     # Create and update Location
     # ======================

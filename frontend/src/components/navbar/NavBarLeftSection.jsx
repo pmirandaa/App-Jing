@@ -18,10 +18,10 @@ export default function NavBarLeftSection() {
         JING
       </Navbar.Brand>
       <Nav.Link as={NavLink} to="/">
-        <HouseDoorFill />
+        <HouseDoorFill size={20} />
       </Nav.Link>
       <Nav.Link as={NavLink} to="/mapa">
-        <MapFill />
+        <MapFill size={20} />
       </Nav.Link>
     </Nav>
   );

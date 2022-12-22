@@ -81,6 +81,25 @@ class TeamTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
+    def test_get_team_filters(self):
+        url = '/api/teams/filters/?event=1'
+        expected = {'gender': [{'label': 'Masculino', 'value': 'MLE'},
+                               {'label': 'Femenino', 'value': 'FEM'},
+                               {'label': 'Mixto', 'value': 'MIX'}],
+                    'sport': [{'label': 'Fútbol', 'value': 1},
+                              {'label': 'Básquetbol', 'value': 2}],
+                    'sport_type': [{'label': 'Tipo A', 'value': 'A'},
+                                   {'label': 'Tipo B', 'value': 'B'},
+                                   {'label': 'Tipo C', 'value': 'C'}],
+                    'universities': [{'label': 'UCH', 'value': 1},
+                                     {'label': 'PUC', 'value': 2},
+                                     {'label': 'UdeC', 'value': 3},
+                                     {'label': 'UV', 'value': 4}]}
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertJSONEqual(response.content, expected)
+
     # Create and update Team
     # ======================
 
