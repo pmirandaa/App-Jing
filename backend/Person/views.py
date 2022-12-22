@@ -29,11 +29,6 @@ class PersonViewSet(viewsets.ModelViewSet):
         first_name = self.request.query_params.get('first_name')
         university = self.request.query_params.get('university')
         sport = self.request.query_params.get('sport')
-        is_admin = bool_param(self.request.query_params.get('is_admin'))
-        is_coord_sport = bool_param(
-            self.request.query_params.get('is_coord_sport'))
-        is_coord_uni = bool_param(
-            self.request.query_params.get('is_coord_uni'))
         if is_valid_param(event):
             queryset = queryset.filter(event=event)
         if is_valid_param(last_name):
@@ -44,12 +39,6 @@ class PersonViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(university=university)
         if is_valid_param(sport):
             queryset = queryset.filter(playerteam__team__sport=sport)
-        if is_valid_param(is_admin):
-            queryset = queryset.filter(is_admin=is_admin)
-        if is_valid_param(is_coord_sport):
-            queryset = queryset.filter(sport__isnull=False).distinct()
-        if is_valid_param(is_coord_uni):
-            queryset = queryset.filter(is_university_coordinator=is_coord_uni)
         queryset = queryset.order_by('last_name')
         return queryset
 
