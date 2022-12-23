@@ -40,9 +40,11 @@ El servidor del DCC es `jing.dcc.uchile.cl`, en el puerto 221. Solicitar acceso 
 
 Para el backend, se deben definir las siguientes variables de entorno en el sistema operativo:
 ```
+JING_SECRET_KEY= ##### LLAVE #####
 JING_ALLOWED_HOSTS="jing.dcc.uchile.cl"
 JING_CORS_ORIGIN_WHITELIST="https://jing.dcc.uchile.cl"
 ```
+`JING_SECRET_KEY` corresponde al `SECRET_KEY` de los settings de Django. Por defecto se utiliza una llave insegura y que está pública en este repositorio, por lo que NO debe usarse en el servidor. Se puede generar una llave segura en el sitio https://djecrety.ir/ para ponerla como variable de entorno.
 
 Luego, para iniciar se debe hacer con el siguiente comando:
 ```
