@@ -1,4 +1,4 @@
-# App-Jing
+ # App-Jing
 ## Local
 ### Backend
 Todo lo relacionado al backend en Django y la API REST se encuentra en la carpeta `backend`.

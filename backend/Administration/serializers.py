@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from University.serializers import UniversitySerializer
+from Person.serializers import PersonSerializer
 from .models import Log
 
 
@@ -12,7 +13,7 @@ class LogSerializer(serializers.ModelSerializer):
 
 class AdminSerializer(serializers.Serializer):
     name = serializers.CharField()
-    # people = None
+    people = PersonSerializer()
     # events = None
     universities = UniversitySerializer(many=True)
     # locations = None

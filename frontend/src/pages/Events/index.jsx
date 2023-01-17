@@ -33,6 +33,7 @@ export default function Events() {
       .then(sleeper(500))
       .then((response) => {
         console.log(response.data);
+        console.log("index file");
         const res =
           response.data?.map((eve) => ({
             value: eve.id,

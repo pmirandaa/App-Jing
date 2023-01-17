@@ -9,6 +9,7 @@ from University.serializers import UniversitySerializer
 
 from Administration.models import Log
 from Administration.serializers import LogSerializer
+from Person.serializers import PersonSerializer
 
 
 class LogViewSet(ModelViewSet):
@@ -21,7 +22,7 @@ class AdminPanelView(APIView):
     def get(self, request):
 
         person = None
-        # people = PersonSerializer(Person.objects.all(), many=True)
+        people = PersonSerializer(Person.objects.all(), many=True)
         # events = EventSerializer(Event.objects.all(), many=True)
         universities = UniversitySerializer(
             University.objects.all(), many=True)
@@ -39,7 +40,7 @@ class AdminPanelView(APIView):
 
         data = {
             "name": request.user.username,
-            # "people": people,
+            "people": people,
             # "events": events,
             "universities": universities.data,
             # "locations": locations,

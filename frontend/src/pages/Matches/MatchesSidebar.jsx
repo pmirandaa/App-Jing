@@ -33,6 +33,7 @@ export default function MatchesSidebar({ filters, setFilters }) {
 
   const handleSelect = (options, action) => {
     console.log(options, action);
+    console.log("options display");
     if (Array.isArray(options)) {
       const result = [];
       options.forEach((option) => {
@@ -58,6 +59,7 @@ export default function MatchesSidebar({ filters, setFilters }) {
         setSportOptions(response.data.sport ?? []);
         setLocationOptions(response.data.location ?? []);
         console.log(response.data.participants);
+        console.log("participants display");
       })
       .finally(() => {
         //setIsLoading(false);
