@@ -53,7 +53,6 @@ function App() {
       .get(`${API_URL}/`)
       .then((response) => {
         const res = response.user;
-        user = res;
         console.log("Set user function");
         //console.log(res);
         
@@ -65,7 +64,6 @@ function App() {
 
   return (
     <EventContext.Provider value={{ event, setEvent }}>
-      <UserContext.Provider value={{ person, setPerson }}>
         <AlertProvider template={Alert} timeout={10000} position="bottom center">
           <div className={styles.root}>
             <NavBar />
@@ -89,7 +87,6 @@ function App() {
             </TransitionGroup>
           </div>
         </AlertProvider>
-      </UserContext.Provider>
     </EventContext.Provider>
   );
 }

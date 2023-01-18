@@ -13,6 +13,8 @@ from Event.models import Event
 from Placement.models import EventPlacement, SportPlacement
 from Placement.serializers import EventPlacementSerializer, SportPlacementSerializer, SportPlacementPointsSerializer
 from Placement.utils import sort_and_place
+from .permissions import IsEventCoordinator, ReadOnly
+from rest_framework import permissions
 
 from utils import is_valid_param
 
@@ -21,6 +23,7 @@ class EventPlacementViewSet(ModelViewSet):
     serializer_class = EventPlacementSerializer
     pagination_class = None
     queryset = EventPlacement.objects.all()
+    permission_classes = [IsEventCoordinator | ReadOnly]
 
     def get_queryset(self):
         event = self.request.query_params.get('event')

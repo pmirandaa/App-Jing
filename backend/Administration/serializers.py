@@ -24,3 +24,6 @@ class AdminSerializer(serializers.Serializer):
     # sports_coords = None
     # unis_coords = None
     # alert = request.session.pop('alert', None)
+    
+    class Meta:
+        permissions = (('admin_role', 'Admin role'))

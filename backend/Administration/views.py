@@ -10,6 +10,7 @@ from University.serializers import UniversitySerializer
 from Administration.models import Log
 from Administration.serializers import LogSerializer
 from Person.serializers import PersonSerializer
+from Placement.permissions import TeamCoordinatorRole, EventCoordinatorRole, UniversityCoordinatorRole, SportCoordinatorRole
 
 
 class LogViewSet(ModelViewSet):
@@ -18,6 +19,7 @@ class LogViewSet(ModelViewSet):
 
 
 class AdminPanelView(APIView):
+    permissions_classes = [TeamCoordinatorRole | EventCoordinatorRole | UniversityCoordinatorRole | SportCoordinatorRole]
 
     def get(self, request):
 

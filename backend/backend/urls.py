@@ -18,10 +18,9 @@ from django.urls import path
 from django.urls import include
 
 from rest_framework import routers
-from rest_framework_simplejwt.views import TokenRefreshView
 
 from Administration.views import LogViewSet
-from Authentication.views import UserViewSet, MyTokenObtainPairView
+from Authentication.views import UserViewSet
 from Event.views import EventViewSet
 from Location.views import LocationViewSet
 from Match.views import MatchViewSet
@@ -57,5 +56,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/token/', include('Authentication.urls')),
 ]
