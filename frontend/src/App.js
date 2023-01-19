@@ -30,8 +30,8 @@ import Alert from "components/alert/Alert";
 function App() {
   const [event, _setEvent] = useState({ id: 5, name: "JING 2022" });
   const location = useLocation();
-  const [person, _setPerson] = useState({user: null});
-
+  const [person, _setPerson] = useState({user : {rut:'18932156-2', name: 'Sebastián Cisneros', username: 'scisneros', university:'UAI STGO'}});
+  console.log(person);
   function setEvent(event) {
     if (Number.isInteger(event)) {
       axios
@@ -49,44 +49,49 @@ function App() {
   }
 
   function setPerson(){
-    axios
-      .get(`${API_URL}/`)
-      .then((response) => {
-        const res = response.user;
-        console.log("Set user function");
-        //console.log(res);
-        
-        _setPerson({person: res});
-      })
+    //This should be the right way to get user info from the request
+    // But it is not in the scope of this work to get Auth ready
+    //axios
+    //  .get(`${API_URL}/`)
+    //  .then((response) => {
+    //    const res = response.user;
+    //    console.log("Set user function");
+    //    //console.log(res);
+    //    
+    //    _setPerson({person: res});
+    //  })
+    _setPerson({user: {user : {rut:'18932156-2', name: 'Sebastián Cisneros', username: 'scisneros', university:'UAI STGO'}}});
   }
 
 
 
   return (
     <EventContext.Provider value={{ event, setEvent }}>
-        <AlertProvider template={Alert} timeout={10000} position="bottom center">
-          <div className={styles.root}>
-            <NavBar />
-            <TransitionGroup component={null} exit={false}>
-              <CSSTransition key={location.pathname} classNames="fade" timeout={0}>
-                <Routes location={location}>
-                  <Route index element={<News />} />
-                  <Route path="personas" element={<Persons />} />
-                  <Route path="partidos" element={<Matches />} />
-                  <Route path="equipos" element={<Teams />} />
-                  <Route path="mensajes" element={<Messages />} />
-                  <Route path="administracion" element={<Admin />} />
-                  <Route path="resultados" element={<Results />} />
-                  <Route path="eventos" element={<Events />} />
-                  <Route path="mapa" element={<Maps />} />
+      <UserContext.Provider value={{ person, setPerson }}>
+          <AlertProvider template={Alert} timeout={10000} position="bottom center">
+            <div className={styles.root}>
+              <NavBar />
+              <TransitionGroup component={null} exit={false}>
+                <CSSTransition key={location.pathname} classNames="fade" timeout={0}>
+                  <Routes location={location}>
+                    <Route index element={<News />} />
+                    <Route path="personas" element={<Persons />} />
+                    <Route path="partidos" element={<Matches />} />
+                    <Route path="equipos" element={<Teams />} />
+                    <Route path="mensajes" element={<Messages />} />
+                    <Route path="administracion" element={<Admin />} />
+                    <Route path="resultados" element={<Results />} />
+                    <Route path="eventos" element={<Events />} />
+                    <Route path="mapa" element={<Maps />} />
 
-                  <Route path="/hola" element={<Teams />} />
-                  <Route path="*" element={<Navigate to="/" replace={true} />} />
-                </Routes>
-              </CSSTransition>
-            </TransitionGroup>
-          </div>
-        </AlertProvider>
+                    <Route path="/hola" element={<Teams />} />
+                    <Route path="*" element={<Navigate to="/" replace={true} />} />
+                  </Routes>
+                </CSSTransition>
+              </TransitionGroup>
+            </div>
+          </AlertProvider>
+        </UserContext.Provider>
     </EventContext.Provider>
   );
 }

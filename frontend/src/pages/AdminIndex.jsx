@@ -1,4 +1,4 @@
-export default function Admin() {
+export default function AdminIndex() {
     return (
       <div>
         <nav>

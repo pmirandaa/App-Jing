@@ -17,7 +17,7 @@ class AdminSerializer(serializers.Serializer):
     # events = None
     universities = UniversitySerializer(many=True)
     # locations = None
-    # person = None
+    person = None
     # sports = None
     # sport_types = None
     # genders = None

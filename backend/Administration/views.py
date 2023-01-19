@@ -46,7 +46,7 @@ class AdminPanelView(APIView):
             # "events": events,
             "universities": universities.data,
             # "locations": locations,
-            # "person": person,
+            "person": person,
             # "sports": sports,
             "sport_types": sport_types,
             "genders": genders,
