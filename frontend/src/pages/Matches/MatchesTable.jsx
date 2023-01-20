@@ -25,6 +25,7 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
       })
       .catch((error) => {
         const error_code = error?.response?.data?.code;
+        console.log(error_code);
         if (error_code) {
           alert.error("Este partido ya se encontraba cerrado");
         } else {

@@ -23,7 +23,6 @@ class EventPlacementViewSet(ModelViewSet):
     serializer_class = EventPlacementSerializer
     pagination_class = None
     queryset = EventPlacement.objects.all()
-    permission_classes = [IsEventCoordinator | ReadOnly]
 
     def get_queryset(self):
         event = self.request.query_params.get('event')

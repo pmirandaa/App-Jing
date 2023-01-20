@@ -30,8 +30,7 @@ import Alert from "components/alert/Alert";
 function App() {
   const [event, _setEvent] = useState({ id: 5, name: "JING 2022" });
   const location = useLocation();
-  const [person, _setPerson] = useState({user : {rut:'18932156-2', name: 'Sebastián Cisneros', username: 'scisneros', university:'UAI STGO'}});
-  console.log(person);
+  const [person, _setPerson] = useState({user: {user : {rut:'27292040-9', name: 'Irene Aguilar', username: 'irene.aguilar', university:'UDEC'}}});
   function setEvent(event) {
     if (Number.isInteger(event)) {
       axios
@@ -60,7 +59,7 @@ function App() {
     //    
     //    _setPerson({person: res});
     //  })
-    _setPerson({user: {user : {rut:'18932156-2', name: 'Sebastián Cisneros', username: 'scisneros', university:'UAI STGO'}}});
+    _setPerson({user: {user : {rut:'27292040-9', name: 'Irene Aguilar', username: 'irene.aguilar', university:'UDEC'}}});
   }
 
 

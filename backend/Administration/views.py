@@ -10,7 +10,7 @@ from University.serializers import UniversitySerializer
 from Administration.models import Log
 from Administration.serializers import LogSerializer
 from Person.serializers import PersonSerializer
-from Placement.permissions import TeamCoordinatorRole, EventCoordinatorRole, UniversityCoordinatorRole, SportCoordinatorRole
+from Placement.permissions import AdminRole, TeamCoordinatorRole, EventCoordinatorRole, UniversityCoordinatorRole, SportCoordinatorRole
 
 
 class LogViewSet(ModelViewSet):
@@ -19,7 +19,7 @@ class LogViewSet(ModelViewSet):
 
 
 class AdminPanelView(APIView):
-    permissions_classes = [TeamCoordinatorRole | EventCoordinatorRole | UniversityCoordinatorRole | SportCoordinatorRole]
+    permission_classes = [AdminRole | TeamCoordinatorRole | EventCoordinatorRole | UniversityCoordinatorRole | SportCoordinatorRole]
 
     def get(self, request):
 
@@ -37,8 +37,8 @@ class AdminPanelView(APIView):
 
         if request.user.is_authenticated:
             if Person.objects.filter(user=request.user).exists():
-                # person = PersonSerializer(Person.objects.get(user=request.user))
-                pass
+                person = PersonSerializer(Person.objects.get(user=request.user))
+                
 
         data = {
             "name": request.user.username,
@@ -50,8 +50,11 @@ class AdminPanelView(APIView):
             # "sports": sports,
             "sport_types": sport_types,
             "genders": genders,
+            "permissions" : request.user.get_all_permissions(),
             # "sports_coords": sport_coords,
             # "unis_coords": unis_coords,
             # "alert": request.session.pop('alert', None)
         }
+        print(data["permissions"])
+        print(data)
         return Response(data)

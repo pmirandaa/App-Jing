@@ -14,6 +14,7 @@ from Location.models import Location
 from Match.models import Match
 from Sport.models import Sport
 from University.models import University
+from Placement.permissions import IsEventCoordinator, IsSportCoordinator, AdminRole
 from .exceptions import MatchAlreadyPlayed, MatchAlreadyClosed, MatchNotPlayed
 from .serializers import MatchInfoSerializer, MatchStatusSerializer, MatchCreateSerializer, MatchUpdateSerializer
 
@@ -126,3 +127,9 @@ class MatchViewSet(ModelViewSet):
                                 for x in locations]
             #data["participants"] = UniversityEvent.objects.filter(event=event).values_list('university', flat=True)
         return Response(data)
+
+    def get_permissions(self):
+        if self.action in ['finish', 'close']:
+            self.permission_classes = [IsSportCoordinator | IsEventCoordinator | AdminRole]
+            return self.permission_classes
+        return super().get_permissions()

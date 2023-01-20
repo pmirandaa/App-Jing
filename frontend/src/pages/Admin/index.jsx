@@ -8,11 +8,15 @@ import AdminIndex from "pages/AdminIndex";
 export default function Admin() {
     const { person, setPerson } = useContext(UserContext);
     const [admin, setAdmin] = useState([]);
-    const fetchData = async() => {axios
-        .get(`${APP_URL}/admin/`);
-        console.log(fetchData);
-    }
-    console.log(person);
+    const fetchData = axios
+        .get(`${APP_URL}/admin/`, {withCredentials: true})
+        .then((response) => {
+            const res = response.data;
+            console.log('response from admin: ',res);
+        }); //Should be ${APP_URL}/admin/, {withCredentials: true} but it needs sessionid and csrftoken to work
+        console.log('admin fetch data: ',fetchData);
+    
+    console.log('user data: ',person);
 
     if(!person) {
         return
