@@ -13,7 +13,8 @@ import { Provider as AlertProvider } from 'react-alert'
 import { API_URL } from "constants";
 import NavBar from "components/navbar/NavBar";
 import { EventContext } from "contexts/EventContext";
-import { UserContext } from "contexts/UserContext";
+import AuthContext, { AuthProvider } from "contexts/UserContext";
+import PrivateRoute from "utils/PrivateRoute";
 
 import News from 'pages/News';
 import Messages from 'pages/Messages';
@@ -26,6 +27,7 @@ import Events from "pages/Events";
 import axios from "axios";
 import Maps from "pages/Maps";
 import Alert from "components/alert/Alert";
+import LoginPage from "pages/Login";
 
 function App() {
   const [event, _setEvent] = useState({ id: 5, name: "JING 2022" });
@@ -66,7 +68,7 @@ function App() {
 
   return (
     <EventContext.Provider value={{ event, setEvent }}>
-      <UserContext.Provider value={{ person, setPerson }}>
+      <AuthProvider>
           <AlertProvider template={Alert} timeout={10000} position="bottom center">
             <div className={styles.root}>
               <NavBar />
@@ -78,7 +80,10 @@ function App() {
                     <Route path="partidos" element={<Matches />} />
                     <Route path="equipos" element={<Teams />} />
                     <Route path="mensajes" element={<Messages />} />
-                    <Route path="administracion" element={<Admin />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="administracion" element={<PrivateRoute>
+                      <Admin />
+                    </PrivateRoute>} />
                     <Route path="resultados" element={<Results />} />
                     <Route path="eventos" element={<Events />} />
                     <Route path="mapa" element={<Maps />} />
@@ -90,7 +95,7 @@ function App() {
               </TransitionGroup>
             </div>
           </AlertProvider>
-        </UserContext.Provider>
+        </AuthProvider>
     </EventContext.Provider>
   );
 }
