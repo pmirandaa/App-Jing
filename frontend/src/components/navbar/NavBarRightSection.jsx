@@ -1,5 +1,6 @@
 import Avatar from "components/image/Avatar";
 import { EventContext } from "contexts/EventContext";
+import  AuthContext  from "contexts/UserContext";
 import { useContext } from "react";
 import { EnvelopeFill, Mailbox } from "react-bootstrap-icons";
 import Nav from "react-bootstrap/Nav";
@@ -10,6 +11,12 @@ import styles from "./NavBarSection.module.css";
 
 export default function NavBarRightSection() {
   const { event } = useContext(EventContext)
+  const { logoutUser } = useContext(AuthContext);
+
+  const handleRequest = e => {
+    e.preventDefault();
+    logoutUser();
+  }
 
   return (
     <Nav className={`${styles.section} ${styles.right}`}>
@@ -27,7 +34,11 @@ export default function NavBarRightSection() {
         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+        <NavDropdown.Item href="#action/3.4">
+          <form onSubmit={handleRequest}>
+            <button type="submit">Cerrar sesión</button>
+          </form>
+          </NavDropdown.Item>
       </NavDropdown>
     </Nav>
   );
