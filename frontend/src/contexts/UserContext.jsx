@@ -21,7 +21,7 @@ export const AuthProvider = ({children}) => {
 
     const [permissions, setPermissions] = useState(() =>
         localStorage.getItem("authTokens")
-        ? localStorage.getItem("authTokens")
+        ? JSON.parse(localStorage.getItem("permissions"))
         : null
     );
 
@@ -64,9 +64,9 @@ export const AuthProvider = ({children}) => {
             });
             if (permissions_response.status === 200) {
                 const permissions_data = await permissions_response.json();
-                setPermissions(permissions_data);
-                localStorage.setItem("permissions", JSON.stringify(permissions_data));
-                console.log(permissions_data);
+                setPermissions(permissions_data.permissions);
+                console.log(permissions_data.permissions)
+                localStorage.setItem("permissions", JSON.stringify(permissions_data.permissions));
             }
             navigate("/");
         } else {
@@ -100,6 +100,7 @@ export const AuthProvider = ({children}) => {
         setAuthTokens(null);
         setUser(null);
         localStorage.removeItem("authTokens");
+        localStorage.removeItem("permissions");
         navigate("/");
     };
 
@@ -115,6 +116,8 @@ export const AuthProvider = ({children}) => {
         setAuthTokens,
         user,
         setUser,
+        permissions,
+        setPermissions,
         loginUser,
         registerUser, 
         logoutUser,

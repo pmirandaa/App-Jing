@@ -1,24 +1,17 @@
+import NavBarAdmin from "./Admin/NavBarAdmin";
+import { useContext } from "react";
+import AuthContext from "contexts/UserContext";
+import { useState } from "react";
+
 export default function AdminIndex() {
+const { user } = useContext(AuthContext);
+const { permissions } = useContext(AuthContext);
+const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = Object.entries(permissions);
+
+console.log('admin: ', admin);
     return (
       <div>
-        <nav>
-	<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-		{/* {% if person.is_admin %} */}
-			<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-				aria-controls="nav-home" aria-selected="true">Usuarios</a>
-		{/* {% endif %} */}
-		<a class="nav-item nav-link {% if person.is_organizer %}active{% endif %}" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-			aria-controls="nav-profile" aria-selected="false">Deportes</a>
-		{/* {% if person.is_admin %} */}
-			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-				aria-controls="nav-contact" aria-selected="false">Eventos</a>
-			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-locations" role="tab"
-				aria-controls="nav-contact" aria-selected="false">Lugares</a>
-			<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-universities" role="tab"
-				aria-controls="nav-contact" aria-selected="false">Organizaciones</a>
-		{/* {% endif %} */}
-	</div>
-</nav>
+        <NavBarAdmin/>
 {/* {% if alert %} */}
 <div class="row mt-3">
 	<div class="col"></div>
@@ -35,7 +28,7 @@ export default function AdminIndex() {
 </div>
 {/* {% endif %} */}
 <div class="tab-content" id="nav-tabContent">
-	{/* {% if person.is_admin %} */}
+	{ admin[1] ? /* {% if person.is_admin %} */
 	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 		<div class="container-fluid">
 			<div class="row">
@@ -111,7 +104,7 @@ export default function AdminIndex() {
 			</div>
 		</div>
 	</div>
-	{/* {% endif %} */}
+	/* {% endif %} */: <></>}
 	<div class="tab-pane fade {% if person.is_organizer %}show active{% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 		<div class="container-fluid">
 			{/* {% if person.is_admin %} */}
