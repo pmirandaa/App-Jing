@@ -18,6 +18,8 @@ export default function NavBarMidSection() {
       <Nav.Link as={NavLink} to="/resultados">
         Resultados
       </Nav.Link>
+
+      
     </Nav>
   );
 }

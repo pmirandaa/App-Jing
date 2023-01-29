@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .serializers import UserSerializer, TokenObtain, RegisterSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
+from Person.serializers import Person
+from Person.serializers import PersonSerializer
 
 
 
@@ -22,3 +24,17 @@ class RegisterView(viewsets.ModelViewSet):
     serializer_class = RegisterSerializer
     permission_classes = (AllowAny,)
 
+@api_view(['GET'])
+def get_permissions(request):
+    person = None
+    permissions = None
+    if request.user.is_authenticated:
+        if Person.objects.filter(user=request.user).exists():
+                person = PersonSerializer(Person.objects.get(user=request.user))
+                permissions = request.user.get_all_permissions()
+
+    data = {
+        "permissions" : permissions,
+    }
+
+    return Response(data)

@@ -19,6 +19,12 @@ export const AuthProvider = ({children}) => {
         : null
     );
 
+    const [permissions, setPermissions] = useState(() =>
+        localStorage.getItem("authTokens")
+        ? localStorage.getItem("authTokens")
+        : null
+    );
+
     const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -43,13 +49,25 @@ export const AuthProvider = ({children}) => {
             })
         });
         const data = await response.json();
-        console.log(data);
 
         if (data.access) {
             setAuthTokens(data.access);
             setUser(jwt_decode(data.access));
             localStorage.setItem("authTokens", JSON.stringify(data.access));
-            console.log("Logged in: " + user.username);
+            const permissions_response = await fetch("http://localhost:8000/api/token/permissions/", {
+                method: "GET",
+                mode: "cors",
+                credentials: "include",
+                headers: {
+                    Authorization: `Bearer ${authTokens?.access}`},
+
+            });
+            if (permissions_response.status === 200) {
+                const permissions_data = await permissions_response.json();
+                setPermissions(permissions_data);
+                localStorage.setItem("permissions", JSON.stringify(permissions_data));
+                console.log(permissions_data);
+            }
             navigate("/");
         } else {
             alert("Nombre de usuario o contraseña incorrectos");
