@@ -4,10 +4,14 @@ import AuthContext from "contexts/UserContext";
 import { useState } from "react";
 
 export default function AdminIndex() {
-const { user } = useContext(AuthContext);
-const { permissions } = useContext(AuthContext);
-const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = Object.entries(permissions);
+	//This page should be refactor and modularized to divide each section into components
+	//As of now, it is a mess, and it is not easy to read
+	//but the important part is that it shows where to used the permissions defined below
 
+	const { user } = useContext(AuthContext);
+	const { permissions } = useContext(AuthContext);
+	const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = Object.entries(permissions).map(([key, value]) => value);
+  
 console.log('admin: ', admin);
     return (
       <div>
@@ -28,7 +32,7 @@ console.log('admin: ', admin);
 </div>
 {/* {% endif %} */}
 <div class="tab-content" id="nav-tabContent">
-	{ admin[1] ? /* {% if person.is_admin %} */
+	{ admin ? /* {% if person.is_admin %} */
 	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 		<div class="container-fluid">
 			<div class="row">

@@ -9,31 +9,34 @@ import styles from "components/navbar/NavBarSection.module.css";
 
 
 function Option(value){
+  //This should be better, but im not aware of the extent of the permissions for each role
+  //Anyway, this is a good example of how to use the permissions and the user context
   const { user } = useContext(AuthContext);
   const { permissions } = useContext(AuthContext);
-  const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = Object.entries(permissions);
+  const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = Object.entries(permissions).map(([key, value]) => value);
   
+
   if (value.value === "Usuarios"){
-    return (admin[1] || isEventCoordinator[1]) ? 
+    return (admin || isEventCoordinator) ? 
     <Nav.Link as={NavLink} to="/personas"> {value.value} </Nav.Link> :
     <></>
   }else if(value.value === "Equipos"){
-    return (admin[1] || isTeamCoordinator[1]) ? 
+    return (admin || isTeamCoordinator) ? 
     <Nav.Link as={NavLink} to="/equipos"> {value.value} </Nav.Link> :
     <></>}
 
   else if(value.value === "Deportes"){
-    return (admin[1] || isSportCoordinator[1]) ?
+    return (admin || isSportCoordinator) ?
     <Nav.Link as={NavLink} to="/personas"> {value.value} </Nav.Link> :
     <></>
   }
   else if(value.value === "Universidades"){
-    return (admin[1] || isUniversityCoordinator[1]) ?
+    return (admin || isUniversityCoordinator) ?
     <Nav.Link as={NavLink} to="/personas"> {value.value} </Nav.Link> :
     <></>
   }
   else if(value.value === "Organizaciones"){
-    return (admin[1] || isUniversityCoordinator[1]) ?
+    return (admin || isUniversityCoordinator) ?
     <Nav.Link as={NavLink} to="/personas"> {value.value} </Nav.Link> :
     <></>
   }
