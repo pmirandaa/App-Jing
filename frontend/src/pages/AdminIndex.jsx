@@ -7,7 +7,7 @@ export default function AdminIndex() {
 	//This page should be refactor and modularized to divide each section into components
 	//As of now, it is a mess, and it is not easy to read
 	//but the important part is that it shows where to used the permissions defined below
-
+	//and how to use them to show or hide certain sections
 	const { user } = useContext(AuthContext);
 	const { permissions } = useContext(AuthContext);
 	const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = Object.entries(permissions).map(([key, value]) => value);

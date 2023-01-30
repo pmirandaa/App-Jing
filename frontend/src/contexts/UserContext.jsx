@@ -102,6 +102,7 @@ export const AuthProvider = ({children}) => {
         localStorage.removeItem("authTokens");
         localStorage.removeItem("permissions");
         navigate("/");
+        window.location.reload(false);
     };
 
     useEffect(() => {
