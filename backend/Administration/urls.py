@@ -5,7 +5,7 @@ from Administration.views import AdminCreatePerson, AdminEditPerson, AdminDelete
 from Administration.views import AdminCreateUniversity, AdminEditUniversity, AdminDeleteUniversity
 from Administration.views import AdminCreateLocation, AdminEditLocation, AdminDeleteLocation
 from Administration.views import AdminCreateSport, AdminEditSport, AdminDeleteSport
-
+from Administration.views import _uploadPersonData
 app_name = 'administration'
 
 urlpatterns = [
@@ -31,4 +31,5 @@ urlpatterns = [
          name='editar-deporte'),
     path('delete-sport', AdminDeleteSport.as_view(),
          name='borrar-deporte'),
+    path('upload-data', _uploadPersonData, name='subir-datos'),
 ]

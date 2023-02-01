@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+import json
 
 from Person.models import Person
 from Sport.models import Sport
@@ -58,3 +59,26 @@ class AdminPanelView(APIView):
         print(data["permissions"])
         print(data)
         return Response(data)
+
+# Assume the data HAS the username and password data and correct format
+# In the future, AdminCreatePerson (called in create-user url) can call this function
+# Or, this function can call AdminCreatePerson method
+# This function is especially design for the upload of people from a csv file
+
+def _uploadPersonData( request ):
+    file = request.FILES['file']
+    data = json.loads(file.read())
+    print(data)
+    if data:
+        for person in data:
+            if not Person.objects.filter(rut=person['rut']).exists():
+                username = str(person['nombre']).lower() + '.' + str(person['apellido']).lower()
+                password = str(person['rut']).split('-')[0]
+                p = Person.objects.create_user(username , person['email'], password)
+                p.name = person['nombre']
+                p.last_name = person['apellido']
+                p.rut = person['rut']
+                p.university = person['universidad']
+                p.phone_number = person['telefono']
+                p.emergency_phone_number = person['telefono emergencia']
+                p.save()

@@ -30,7 +30,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        model = User
+        model = Person
         fields = ['id', 'username', 'email', 'password', 'password2', 'first_name', 'last_name']
 
     def validate(self, attrs):
@@ -40,7 +40,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+        user = Person.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
         user.first_name = validated_data['first_name']
         user.last_name = validated_data['last_name']
         user.set_password(validated_data['password'])

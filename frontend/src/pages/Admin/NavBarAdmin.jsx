@@ -13,7 +13,7 @@ function Option(value){
   //Anyway, this is a good example of how to use the permissions and the user context
   const { user } = useContext(AuthContext);
   const { permissions } = useContext(AuthContext);
-  const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = Object.entries(permissions).map(([key, value]) => value);
+  const [isSportCoordinator, isEventCoordinator, isUniversityCoordinator, isTeamCoordinator, admin] = permissions ? Object.entries(permissions).map(([key, value]) => value) : null;
   
 
   if (value.value === "Usuarios"){

@@ -6,6 +6,8 @@ import AuthContext from "contexts/UserContext";
 
 const baseURL = "http://127.0.0.1:8000/api";
 
+//  this is to refresh and validate tokens when using axios for fetching data
+
 const useAxios = () => {
     const {authTokens, setUser, setAuthTokens} = useContext(AuthContext);
 

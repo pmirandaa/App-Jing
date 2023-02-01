@@ -2,6 +2,7 @@ import NavBarAdmin from "./Admin/NavBarAdmin";
 import { useContext } from "react";
 import AuthContext from "contexts/UserContext";
 import { useState } from "react";
+import FileUploader from "./Admin/uploadFile";
 
 export default function AdminIndex() {
 	//This page should be refactor and modularized to divide each section into components
@@ -27,6 +28,7 @@ console.log('admin: ', admin);
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
+		<FileUploader/>
 	</div>
 	<div class="col"></div>
 </div>
