@@ -26,9 +26,9 @@ const useAxios = () => {
             refresh: authTokens?.refresh
         });
 
-        localStorage.setItem("authTokens", JSON.stringify(response.data));
+        localStorage.setItem("authTokens", JSON.stringify(response.data.access));
 
-        setAuthTokens(response.data);
+        setAuthTokens(response.data.access);
         setUser(jwt_decode(response.data.access));
 
         req.headers.Authorization = `Bearer ${response.data.access}`;

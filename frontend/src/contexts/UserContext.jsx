@@ -54,6 +54,7 @@ export const AuthProvider = ({children}) => {
             setAuthTokens(data.access);
             setUser(jwt_decode(data.access));
             localStorage.setItem("authTokens", JSON.stringify(data.access));
+  
             const permissions_response = await fetch("http://localhost:8000/api/token/permissions/", {
                 method: "GET",
                 mode: "cors",
@@ -65,7 +66,6 @@ export const AuthProvider = ({children}) => {
             if (permissions_response.status === 200) {
                 const permissions_data = await permissions_response.json();
                 setPermissions(permissions_data.permissions);
-                console.log(permissions_data.permissions)
                 localStorage.setItem("permissions", JSON.stringify(permissions_data.permissions));
             }
             navigate("/");

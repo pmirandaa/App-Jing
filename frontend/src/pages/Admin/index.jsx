@@ -16,7 +16,6 @@ const Admin = () => {
     //    }); //Should be ${APP_URL}/admin/, {withCredentials: true} but it needs sessionid and csrftoken to work
     //    console.log('admin fetch data: ',fetchData);
     
-    console.log('user data: ', user);
 
     if(!user) {
         return

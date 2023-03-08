@@ -35,6 +35,7 @@ def get_permissions(request):
                 user_permissions['isUniversityCoordinator'] = permissions.IsUniversityCoordinator().has_permission(request)
                 user_permissions['isTeamCoordinator'] = permissions.IsTeamCoordinator().has_permission(request)
                 user_permissions['admin'] = permissions.AdminRole().has_permission(request)
+                
 
     data = {
         "permissions" : user_permissions,

@@ -2,12 +2,17 @@ import {
   Button,
   Modal
 } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import AuthContext from "contexts/UserContext";
 
 export default function News() {
   const [addNewsModal, setAddNewsModal] = useState(false);
+  const { user } = useContext(AuthContext);
+  const { permissions } = useContext(AuthContext);
 
   const toggleAddNewsModal = () => setAddNewsModal(!addNewsModal);
+   console.log(user);
+   console.log(permissions);
 
   return (
     <div>
