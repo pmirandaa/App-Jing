@@ -51,17 +51,19 @@ function FileUploader(){
     }
 
     //options return 200 but the data is not being sent
-    function sendData(){
+    async function sendData( event ){
+        event.preventDefault();
         let data = new FormData();
         data.append('data', selectedfile);
         console.log("data before sending: " + data);
-        axios.post(`${APP_URL}/admin/upload-data`, data, {
-            withCredentials: true,
+        const response = await axios.post(`http://127.0.0.1:8000/admin/upload-data`, data, {
+            method: 'POST',
+            mode: 'cors',
             headers: {
-                method: 'POST',
-                mode: 'cors',
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${authTokens?.access}`,
+                "Origin": "http://127.0.0.1:3000",
+                "Content-Type": 'multipart/form-data',
+                "Accept": "application/json",
+                "Authorization": `Bearer ${authTokens?.access}`,
 
             },
         },)

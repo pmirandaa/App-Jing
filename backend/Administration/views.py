@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 import json
+from rest_framework.decorators import api_view
 
 from Person.models import Person
 from Sport.models import Sport
@@ -65,8 +66,10 @@ class AdminPanelView(APIView):
 # Or, this function can call AdminCreatePerson method
 # This function is especially design for the upload of people from a csv file
 
+@api_view(['POST'])
 def _uploadPersonData( request ):
-    file = request.FILES['file']
+    print(request.body)
+    file = request.body
     data = json.loads(file.read())
     print(data)
     if data:
