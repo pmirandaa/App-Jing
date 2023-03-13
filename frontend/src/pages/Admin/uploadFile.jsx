@@ -13,10 +13,10 @@ function processData(target, name, sheets){
         reader.onload = (e) => {
             e.preventDefault();
             var data = new Uint8Array(e.target.result);
-            var woorkbook = XLSX.read(data, {type: 'array'});
-            console.log("woorkbook");
-            woorkbook.SheetNames.forEach(function(sheetName){
-                var XL_row_object = XLSX.utils.sheet_to_row_object_array(woorkbook.Sheets[sheetName]);
+            var workbook = XLSX.read(data, {type: 'array'});
+            console.log("workbook");
+            workbook.SheetNames.forEach(function(sheetName){
+                var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
                 sheets.push(
                     XL_row_object, 
                     sheetName

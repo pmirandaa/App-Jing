@@ -71,9 +71,10 @@ def _uploadPersonData( request ):
     print(request.body)
     file = request.body
     data = json.loads(file.read())
-    print(data)
+    print("data: " + data)
     if data:
         for person in data:
+            print("person: " + person)
             if not Person.objects.filter(rut=person['rut']).exists():
                 username = str(person['nombre']).lower() + '.' + str(person['apellido']).lower()
                 password = str(person['rut']).split('-')[0]

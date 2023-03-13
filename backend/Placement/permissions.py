@@ -23,11 +23,10 @@ class IsEventCoordinator(permissions.BasePermission):
     def has_permission(self, request):
         event = request.data.get('event')
         user = request.user
-        print(user)
 
         try:
             role = EventCoordinatorRole.objects.get(person=user.id, event=event).first()
-        
+
         except EventCoordinatorRole.DoesNotExist:
             return False
         return role.exists()

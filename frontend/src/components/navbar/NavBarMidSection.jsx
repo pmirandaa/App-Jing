@@ -24,8 +24,7 @@ export default function NavBarMidSection() {
       <Nav.Link as={NavLink} to="/resultados">
         Resultados
       </Nav.Link>
-      {(admin || isSportCoordinator || isEventCoordinator || isTeamCoordinator || isUniversityCoordinator)
-      ? <Nav.Link as={NavLink} to="/administracion">
+      {(admin || isSportCoordinator || isEventCoordinator || isTeamCoordinator || isUniversityCoordinator)? <Nav.Link as={NavLink} to="/administracion">
         Administración
       </Nav.Link>
       :  <></>}
