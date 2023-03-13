@@ -13,7 +13,7 @@ from Event.models import Event
 from Placement.models import EventPlacement, SportPlacement
 from Placement.serializers import EventPlacementSerializer, SportPlacementSerializer, SportPlacementPointsSerializer
 from Placement.utils import sort_and_place
-from .permissions import IsEventCoordinator, ReadOnly
+from ..Authentication.permissions import IsEventCoordinator, ReadOnly
 from rest_framework import permissions
 
 from utils import is_valid_param
