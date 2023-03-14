@@ -4,7 +4,7 @@
 Todo lo relacionado al backend en Django y la API REST se encuentra en la carpeta `backend`.
 
 Para iniciar:
-1) Crear ambiente virtual.
+1) Crear ambiente virtual. Se recomienda utilizar las instrucciones de la página `https://platzi.com/tutoriales/1378-python/3077-crear-ambiente-virtual-con-virtualenv/#:~:text=Después%20de%20crear%20el%20entorno,de%20comandos%2C%20(venv%20en%20este`. En el paso #3 de dichas instrucciones, para el caso de Windows, se debe activar el ambiente virtual entrando a la carpeta `venv`, luego a `Scripts` y colocando el comando `./Activate.ps1`. Luego, se vuelve a la carpeta del proyecto y se continúa con el paso #2 de este archivo.
 2) Instalar requisitos (desde la carpeta `backend`).
 ```
 pip install -r requirements.txt
