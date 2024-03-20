@@ -154,3 +154,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'pagination.CustomPagination',
     'PAGE_SIZE': 50
 }
+
+# Security setting
+
+CSRF_COOKIE_SAMESITE= 'Strict'
+SESSION_COOKIE_SAMESITE= 'Strict'
+CSRF_COOKIE_HTTPONLY= False
+SESSION_COOKIE_HTTPONLY= True
+
+# For production, set these lines to True
+# CSRF_COOKIE_HTTPONLY= False
+# SESSION_COOKIE_HTTPONLY= True

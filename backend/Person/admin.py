@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from Person.models import Person
 from Person.models import PersonTemporaryCode
+from Person.models import Role, PER
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -27,3 +28,6 @@ class PersonTemporaryCodeAdmin(admin.ModelAdmin):
 admin.site.register(Person, PersonAdmin)
 admin.site.register(PersonTemporaryCode, PersonTemporaryCodeAdmin
 )
+admin.site.register(Role)
+admin.site.register(PER)
+

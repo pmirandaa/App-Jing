@@ -53,7 +53,8 @@ export default function Events() {
 
       <div className={styles.eventsContainer}>
         {eventOptions.map((eve) => (
-          <div className={styles.eventCard} key={eve.value}>
+          <EventContext.Provider value={[event, setEvent]} >
+          <div className={styles.eventCard} key={eve.value}    onClick={() =>setEvent({id: eve.value, name: eve.label})}  >
             <img className={styles.eventLogo} src="/img/logoJING2019.jpg" />
             <p className={styles.eventLabel}>{eve.label}</p>
             <div className={styles.eventWinner}>
@@ -69,6 +70,7 @@ export default function Events() {
               )}
             </div>
           </div>
+          </EventContext.Provider>
         ))}
       </div>
     </Container>

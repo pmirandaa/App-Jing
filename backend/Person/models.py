@@ -11,7 +11,7 @@ class Person(models.Model):
         User, related_name='person', on_delete=models.CASCADE,
         blank=True, null=True
     )
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    #event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True, validators=[validate_email])
@@ -32,3 +32,20 @@ class PersonTemporaryCode(models.Model):
 
     def __str__(self):
         return f'{self.person} - {self.code} -- {self.expiration_date}'
+    
+class Role(models.Model):
+    roles= models.CharField(max_length=20)
+    #permisos = models.
+    def __str__(self):
+        return f'{self.roles}'
+    
+
+class PER(models.Model):
+    person= models.ForeignKey(Person, on_delete=models.CASCADE)
+    event= models.ForeignKey(Event, on_delete=models.CASCADE)
+    role= models.ForeignKey(Role, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.person} - {self.event} -- {self.role}'
+
+

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Person
+from .models import Person, PER
 
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -7,7 +7,6 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = ('id',
                   'user',
-                  'event',
                   'name',
                   'last_name',
                   'email',
@@ -17,3 +16,4 @@ class PersonSerializer(serializers.ModelSerializer):
                   'emergency_phone_number',
                   'pending_messages',
                   )
+        

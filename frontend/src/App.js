@@ -1,5 +1,5 @@
 import styles from "./App.module.css";
-import { useState } from "react";
+import { useState, useEffect, componentDidMount } from "react";
 import {
   Routes,
   Route,
@@ -24,16 +24,35 @@ import Results from "pages/Results";
 import Events from "pages/Events";
 import axios from "axios";
 import Maps from "pages/Maps";
+import Login from 'pages/Login';
+import Signin from 'pages/Signin';
 import Alert from "components/alert/Alert";
 
 function App() {
-  const [event, _setEvent] = useState({ id: 5, name: "JING 2022" });
+
+  const [event, _setEvent] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
+  
+  useEffect(() =>{
+    const fetchInit = async () =>{
+      setIsLoading(true);
+      const response = await axios.get(`${API_URL}/events/?current=True`);
+      const evento= response.data
+      console.log(response.data[0].id)
+      _setEvent({id:evento[0].id, name:evento[0].name})
+      setIsLoading(false);
+    };
+    fetchInit();
+    
+    console.log("termina fetch")
+  },[]);
 
   function setEvent(event) {
-    if (Number.isInteger(event)) {
+    console.log("SETEVENT")
+    if (Number.isInteger(event)) { // si agrego un ! a la condicion, se carga el valor inicial del evennto, pero despues no se puede cambiar porque no se llega al elif de objecto
       axios
-        .get(`${API_URL}/events/${event}/`)
+        .get(`${API_URL}/events?/${event}/`) //si cambio la url no pasanada pues los cambios son realizados con el siguiente elif
         .then((response) => {
           const res = response.data;
           _setEvent({ id: res.id, name: res.name });
@@ -42,7 +61,19 @@ function App() {
     else if (typeof event === 'object' && event.hasOwnProperty('id') && event.hasOwnProperty('name')) {
       _setEvent(event);
     }
+    else if (event == {}) {
+      axios
+        .get(`${API_URL}/events/?current=True`)
+        .then((response) => {
+          console.log(response)
+          const res = response.data;
+          _setEvent({ id: res.id, name: res.name });
+    })}
     else { _setEvent(null); }
+  }
+
+  if (isLoading){
+    return <div>Loading...</div>
   }
 
   return (
@@ -62,6 +93,8 @@ function App() {
                 <Route path="resultados" element={<Results />} />
                 <Route path="eventos" element={<Events />} />
                 <Route path="mapa" element={<Maps />} />
+                <Route path="login" element={<Login />} />
+                <Route path="signin" element={<Signin />} />
 
                 <Route path="/hola" element={<Teams />} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />

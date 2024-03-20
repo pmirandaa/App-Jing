@@ -32,6 +32,8 @@ from Sport.views import SportViewSet, FinalSportPointsViewSet
 from Team.views import TeamViewSet, PlayerTeamViewSet
 from University.views import UniversityViewSet
 
+import Authentication.urls
+
 
 router = routers.DefaultRouter()
 router.register('logs', LogViewSet, 'logs')
@@ -54,5 +56,6 @@ router.register('placements/sport', SportPlacementViewSet, 'sport_placements')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/', include(Authentication.urls)),
     path('api-auth/', include('rest_framework.urls')),
 ]

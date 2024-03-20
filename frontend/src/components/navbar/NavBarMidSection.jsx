@@ -9,10 +9,10 @@ export default function NavBarMidSection() {
       <Nav.Link as={NavLink} to="/partidos">
         Partidos
       </Nav.Link>
-      {/* <Nav.Link as={NavLink} to="/equipos">
+      {<Nav.Link as={NavLink} to="/equipos">
         Equipos
       </Nav.Link>
-      <Nav.Link as={NavLink} to="/personas">
+      /* <Nav.Link as={NavLink} to="/personas">
         Personas
       </Nav.Link> */}
       <Nav.Link as={NavLink} to="/resultados">
