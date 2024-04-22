@@ -9,9 +9,14 @@ from rest_framework.response import Response
 from Sport.models import Sport
 from University.models import University
 from utils import bool_param, is_valid_param
+from django.http import JsonResponse
 
-from Person.models import Person
+from Person.models import Person, PER
 from Person.serializers import PersonSerializer
+from Person.serializers import PERSerializer
+from Event.models import Event
+from django.views.decorators.http import require_POST
+from django.contrib.auth import authenticate,login, logout
 
 
 class PersonViewSet(viewsets.ModelViewSet):
@@ -24,7 +29,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        event = self.request.query_params.get('event')
+        event = self.request.query_params.get('user')
         last_name = self.request.query_params.get('last_name')
         first_name = self.request.query_params.get('first_name')
         university = self.request.query_params.get('university')
@@ -56,3 +61,16 @@ class PersonViewSet(viewsets.ModelViewSet):
             data["sport"] = [{"value": x["pk"], "label": x["name"]}
                              for x in sports]
         return Response(data)
+    
+@require_POST
+def DataLoadView(request):
+    
+    
+    if request.user.is_authenticated: #aca debo buscar si los permisos del usuario calzan, notar que la subida de datos para personas y usuarios es universal
+        a= PersonSerializer(request.user.person)
+        b= list(PER.objects.filter(person=request.user.person))
+        c= PERSerializer(b, many=True)
+        b=Event.objects.filter(current=True)
+        print(c)
+
+

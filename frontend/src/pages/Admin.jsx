@@ -1,4 +1,20 @@
+import axios from "axios";
+import { API_URL } from "constants";
+import { sleeper } from "utils";
+import { useState, useEffect, useContext, useRef } from "react";
+import { UserContext } from "contexts/UserContext";
+
 export default function Admin() {
+
+
+	//hacer funcion que traiga los datos de 
+	const fetchInit = async () =>{
+		//setIsLoading(true);
+  
+		const response = await axios.get(`${API_URL}/events/?current=True`);
+	}
+
+
     return (
       <div>
         <nav>

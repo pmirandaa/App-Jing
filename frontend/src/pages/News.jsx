@@ -2,56 +2,21 @@ import {
   Button,
   Modal
 } from "react-bootstrap";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { API_URL } from "constants";
+import { useContext, useState } from "react";
+//import axios from "axios";
+//import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
+import { UserContext } from "contexts/UserContext";
 import { sleeper } from "utils";
 
 export default function News() {
   const [addNewsModal, setAddNewsModal] = useState(false);
   const { event, setEvent } = useContext(EventContext);
+  const {profile, setProfile} = useContext(UserContext);
   const [eventOptions, setEventOptions] = useState([]);
 
   const toggleAddNewsModal = () => setAddNewsModal(!addNewsModal);
   console.log("BBBBBBBBBBB");
-
-  // useEffect(() => {
-  //   console.log("Useefect");
-  //   const fetch = axios
-  //     .get(`${API_URL}/events/?current=True`)
-  //     .then(sleeper(500))
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       const res =
-  //       response.data?.map((eve) => ({
-  //         value: eve.id,
-  //         label: eve.name,
-  //         data: eve,
-  //       })) ?? [];
-  //       console.log(res.reverse()[0]["value"])
-  //       const id = res.reverse()[0]["value"]
-  //       const name = res.reverse()[0]["label"]
-  //       console.log(id)
-  //       console.log(name)
-  //       setEvent({id: res.reverse()[0]["value"], name:res.reverse()[0]["label"]})
-  //     setEventOptions(res.reverse());
-
-  //   })
-  //     .finally(() => {
-  //     });
-  // }, []);
-
-  // function toSet(eventOptions) {
-  //   console.log("toset");
-  //   const arreglo =  eventOptions[0];
-  //   console.log(eventOptions);
-  //   console.log(arreglo);
-
-  //   setEvent(eventOptions)
-  // } 
-
-  
 
   return (
     <div>

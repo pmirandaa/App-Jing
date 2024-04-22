@@ -8,4 +8,4 @@ class UserSerializer(serializers.ModelSerializer):
     person = serializers.PrimaryKeyRelatedField(many=False, queryset=Person.objects.all())
     class Meta:
         model = User
-        fields = ['id', 'username','email']
+        fields = ['id', 'username','email','person']

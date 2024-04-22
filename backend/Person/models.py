@@ -7,8 +7,8 @@ from University.models import University
 from django.core.validators import validate_email
 
 class Person(models.Model):
-    user = models.ForeignKey(
-        User, related_name='person', on_delete=models.CASCADE,
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE,
         blank=True, null=True
     )
     #event = models.ForeignKey(Event, on_delete=models.CASCADE)

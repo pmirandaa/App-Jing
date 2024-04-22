@@ -9,9 +9,12 @@ import LoadingIndicator from "components/loading/LoadingIndicator";
 import { EventContext } from "contexts/EventContext";
 import { useIsFirstRender, usePrevious } from "utils/hooks";
 import { capitalize, objectToParamsString, paramsStringToObject } from "utils";
+import { Link, NavLink } from "react-router-dom";
 import TablePagination from "components/pagination/TablePagination";
 import styles from "./TableSearchPage.module.css";
-
+import Cookies from "universal-cookie";
+//instantiating Cookies class by creating cookies object
+const cookies = new Cookies();
 export default function TableSearchPage({
   SidebarComponent,
   TableComponent,
@@ -46,7 +49,11 @@ export default function TableSearchPage({
     setIsLoading(true);
     console.log("location:",location)
     axios
-      .get(`${API_URL}/${apiName}/${location.search}`, {
+      .get(`${API_URL}/${apiName}/${location.search}`, { headers:{
+        "X-CSRFToken": cookies.get("csrftoken")
+      },
+      credentials: "same-origin",
+      withCredentials:true,
         
         signal: abortControllerRef.current.signal,
       })
@@ -87,14 +94,13 @@ export default function TableSearchPage({
       setAlreadyChanged(false);
     } else {
       const params = paramsStringToObject(location.search);
-      const { event: eventParam, page: pageParam, ...filtersParam } = params;
-      if (eventParam === undefined || pageParam === undefined) {
-        params.event = eventParam ?? event.id;
+      const { page: pageParam, ...filtersParam } = params;
+      if ( pageParam === undefined) {
         params.page = pageParam ?? 1;
         navigate("?" + objectToParamsString(params), { replace: true });
         return;
       }
-      if (eventParam !== event.id) setEvent(eventParam);
+      
       setCurrentPage(pageParam);
       setFilters(filtersParam);
       setAlreadyChanged(true);
@@ -137,6 +143,11 @@ export default function TableSearchPage({
       <h1 className={styles.title}>{capitalize(label)}</h1>
       <LoadingIndicator isLoading={isLoading} />
       <h4>{event?.name}</h4>
+
+      <Link to="/dataLoad">
+      <button type="button" class="btn btn-primary" >Cargar datos</button>
+      </Link>
+      
 
       {rows.length > 0 ? (
         <>

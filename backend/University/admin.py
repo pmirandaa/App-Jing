@@ -5,7 +5,7 @@ from University.models import UniversityEvent
 
 
 class UniversityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'city', 'short_name', 'overall_score')
+    list_display = ('name', 'city', 'short_name')#, 'overall_score')
     search_fields = ('name', 'city', 'short_name')
 
 

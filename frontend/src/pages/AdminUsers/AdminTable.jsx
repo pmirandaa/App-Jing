@@ -9,7 +9,8 @@ import { useState, useContext } from "react";
 import { Check2, InfoCircleFill, TrashFill, XLg } from "react-bootstrap-icons";
 import styles from "./MatchesTable.module.css";
 
-export default function MatchesTable({ rows, fetchData, ...props }) {
+// para implementar la tabla de administracion de usuarios, primero se seguira la misma logica que con las demas
+export default function AdminTable({ rows, fetchData, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(UserContext);
 
@@ -49,45 +50,39 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
   return (
     <Table striped variant="light" className="mt-4">
       <thead>
-        {console.log(user)}
         <tr>
-          <th>Fecha {user.rut == "" ?  <h1>h</h1> : <h1>{user.rut}</h1>}  </th>
-          <th>Hora</th>
-          <th>Lugar</th>
-          <th>Deporte</th>
-          <th>Participantes</th>
-          <th>Jugado</th>
-          <th>Cerrado</th>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Persona</th>
+          <th>Email</th>
+          <th>Roles</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
+        {console.log(rows)}
         {rows.map((row) => (
+            
           <tr key={row.id}>
-            <td>{moment(row.date).format("ddd DD-MM-YY")}</td>
-            <td>{moment(row.date).format("HH:mm")}</td>
-            <td>{row.location.name}</td>
-            <td>{row.sport.name}</td>
+            <td>{row.id}</td>
+            <td>{row.username}</td>
+            <td>{row.person}</td>
+            <td>{row.email}</td>
             <td>
               <ul>
-                {row.teams.map((team) => (
-                  <li key={team.team_id}>{team.team_university_short_name}</li>
-                ))}
+              {row.is_admin && <li>Admin</li>}
+              {row.is_organizer && <li>Organizador</li>}
+              {row.is_university_coordinator && <li>Coord. Univ.</li>}
+              {row.is_sports_coordinator && <li>Coord. Deporte</li>}
+              {row.is_player && <li>Jugador</li>}
+              {row.is_coach && <li>Coach</li>}
               </ul>
             </td>
-            <td>{row.played ? <Check2 size={24} /> : <XLg/>}</td>
-            <td>{row.closed ? <Check2 size={24} /> : <XLg/>}</td>
-            <td className="text-center">
-              <Button className={styles["action"]} variant="secondary" onClick={() => handleClickFinish(row.id)}>
-                Finalizar
-              </Button>
-              <Button className={styles["action"]} onClick={() => handleClickFinish(row.id)}>
-                <InfoCircleFill/>
-              </Button>
-              <Button className={styles["action"]} variant="danger" onClick={() => handleClickDelete(row.id)}><TrashFill /></Button>
-            </td>
+            <td></td>
           </tr>
         ))}
+
+        {/* {% endfor %} */}
       </tbody>
     </Table>
   );

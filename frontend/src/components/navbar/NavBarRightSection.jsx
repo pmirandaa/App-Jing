@@ -28,6 +28,10 @@ export default function NavBarRightSection() {
         <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/login"> Login </NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/signin"> Signin </NavDropdown.Item>
+        <NavDropdown.Item as={Link} to="/mensajes"> Messages </NavDropdown.Item>
+        <NavDropdown.Item as={Link} to="/administracion"> Admin </NavDropdown.Item>
+        <NavDropdown.Item as={Link} to="/adminUsers"> AdminUsers </NavDropdown.Item>
+
         <NavDropdown.Divider />
         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
       </NavDropdown>

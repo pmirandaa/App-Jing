@@ -5,11 +5,15 @@ import { UserContext } from "contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
-import { sleeper } from "utils";
+import { sleeper, unaccent } from "utils";
 
-export default function MatchesSidebar({ filters, setFilters }) {
+import Cookies from "universal-cookie";
+//instantiating Cookies class by creating cookies object
+const cookies = new Cookies();
+
+export default function AdminSidebar({ filters, setFilters }) {
   const { event } = useContext(EventContext);
-  const { profile } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [participantsOptions, setParticipantsOptions] = useState([]);
   const [sportOptions, setSportOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
@@ -53,7 +57,13 @@ export default function MatchesSidebar({ filters, setFilters }) {
   useEffect(() => {
     if (!event) return;
     const fetch = axios
-      .get(`${API_URL}/matches/filters/?event=${event.id}`)
+      .get(`${API_URL}/users/`,{ headers:{
+        "X-CSRFToken": cookies.get("csrftoken")
+      },
+      credentials: "same-origin",
+      withCredentials:true,
+        
+      })
       .then(sleeper(500))
       .then((response) => {
         setParticipantsOptions(response.data.participants ?? []);
@@ -66,30 +76,28 @@ export default function MatchesSidebar({ filters, setFilters }) {
       });
   }, [event]);
 
+  const handleText = (e) => {
+    updateFilters(e.target.name, unaccent(e.target.value));
+    };
+
+
   return (
     <div>
-      <Form.Check
+      <Form.Check // no implementado
         name="my_matches"
-        label="Mostrar solo mis partidos"
+        label="Mostrar solo del evento actual"
         onChange={handleCheckbox}
-        checked={filters.my_matches}
+        checked={filters.my_matches} 
       />
 
-      <Form.Label htmlFor="participants">Participantes</Form.Label>
-      <Select
-        isMulti
+      <Form.Label htmlFor="username">Usuario</Form.Label>
+      <Form.Control
         placeholder="Sin filtrar"
-        name="participants"
-        inputId="participants"
-        options={participantsOptions}
-        className="basic-multi-select"
-        classNamePrefix="select"
-        onChange={handleSelect}
-        value={participantsOptions.filter((o) => {
-          return Array.isArray(filters.participants)
-            ? filters.participants.includes(o.value)
-            : filters.participants === o.value;
-        })}
+        name="username"
+        onBlur={handleText}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") handleText(e);
+        }}
       />
 
       <Form.Label htmlFor="sport">Deporte</Form.Label>
