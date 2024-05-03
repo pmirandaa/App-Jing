@@ -9,7 +9,6 @@ import Cookies from "universal-cookie";
 //instantiating Cookies class by creating cookies object
 const cookies = new Cookies();
 
-
 export default function Login() {
   const [session, setSession] = useState({username:"",password:"", isAuthenticated:false,error:""})
   const [profile, setProfile] = useState({id:0,name:"",last_name:"",email:"",university:0, rut:"" ,error:"", roles:""})
@@ -17,52 +16,32 @@ export default function Login() {
   const {user, setUser} = useContext(UserContext)
   const profileRef = useRef({id:0,name:"",last_name:"",email:"",university:0, rut:"" ,error:"", roles:[]})
 
-    function  Loginpost() {
-        const fetch = axios
-        .post(`${API_URL}/login/`,JSON.stringify( {username: session.username, password:session.password}),{
-          headers:{
-            "X-CSRFToken": cookies.get("csrftoken")
-          },
-          credentials: "same-origin",
-          withCredentials:true,
-        })
-        .then((response) => response.data)
-        .then( (data)=> 
-        {
-          console.log("respuesta de login",data);
-          setProfile({...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut})
-          profileRef({...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut, roles:data.PER})
-          setSession({...session,isAuthenticated: true, username: "", password: "", error: ""});      
-        })
-         
-    }
+  async function asyncLoginpost(user, setUser) {
+    const fetch = axios
+      .post(`${API_URL}/login/`,JSON.stringify( {username: session.username, password:session.password}),{
+        headers:{
+          "X-CSRFToken": cookies.get("csrftoken")
+        },
+        credentials: "same-origin",
+        withCredentials:true,
+      })
+      .then(sleeper(500))
+      .then((response) => response.data)
+      .then( (data)=> 
+      {
+        console.log("respuesta de login",data);
+        setProfile({...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut})
+        profileRef.current={...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut, roles:data.PER}
+        setSession({...session,isAuthenticated: true, username: "", password: "", error: ""});
 
-    async function asyncLoginpost(user, setUser) {
-      const fetch = axios
-        .post(`${API_URL}/login/`,JSON.stringify( {username: session.username, password:session.password}),{
-          headers:{
-            "X-CSRFToken": cookies.get("csrftoken")
-          },
-          credentials: "same-origin",
-          withCredentials:true,
-        })
-        .then(sleeper(500))
-        .then((response) => response.data)
-        .then( (data)=> 
-        {
-          console.log("respuesta de login",data);
-          setProfile({...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut})
-          profileRef.current={...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut, roles:data.PER}
-          setSession({...session,isAuthenticated: true, username: "", password: "", error: ""});
+        saveUser(user,setUser)
+      })
+  }
 
-          saveUser(user,setUser)
-        })
-    }
+  function saveUser(user, setUser){
+    setUser({id:profileRef.current.id, name: profileRef.current.name ,last_name:profileRef.current.last_name,email:profileRef.current.email,university:profileRef.current.university, rut:profileRef.current.rut, roles:profileRef.current.roles, isAuthenticated:true})
 
-    function saveUser(user, setUser){
-      setUser({id:profileRef.current.id, name: profileRef.current.name ,last_name:profileRef.current.last_name,email:profileRef.current.email,university:profileRef.current.university, rut:profileRef.current.rut, roles:profileRef.current.roles})
-
-    }
+  }
 
   useEffect(() =>{
     getSession()
@@ -146,8 +125,6 @@ export default function Login() {
 
   return(
     <div>
-      {console.log("perfil",profile)}
-      {console.log("usuario",user)}
       <h1>Bienvenido {session.username}</h1>
       <button  id="submit-btn" type="submit" onClick={logout}> Logout</button>
       

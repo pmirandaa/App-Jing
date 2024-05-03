@@ -4,6 +4,7 @@ from django.db import models
 from Person.models import Person
 from Event.models import Event
 from University.models import University
+from simple_history.models import HistoricalRecords
 
 
 class Sport(models.Model):
@@ -29,6 +30,8 @@ class Sport(models.Model):
 
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=3, choices=SPORT_GENDER, default=MIX)
+    history = HistoricalRecords()
+    
     #sport_type = models.CharField(
      #   max_length=1, choices=SPORT_TYPE, default=TYPE_A)
     # rules = models.FileField(upload_to='uploads/reglamentos/')
@@ -57,18 +60,18 @@ class EventSport(models.Model): #deberia ir en el evento o en deportes?
     ]
 
     event = models.ForeignKey(Event, on_delete=models.PROTECT)
-    sport = models.ForeignKey(Sport, on_delete=models.PROTECT) #no puede ser unique porque pueden haber eventos con el mismo deporte
+    sport = models.ForeignKey(Sport, on_delete=models.CASCADE) #no puede ser unique porque pueden haber eventos con el mismo deporte
     closed= models.BooleanField(default=False)
     sport_type = models.CharField(
         max_length=1, choices=SPORT_TYPE, default=TYPE_A)
 
 class SportCoordinator(models.Model):
-    sport = models.ForeignKey(Sport, on_delete=models.PROTECT)
-    coordinator= models.ForeignKey(Person, on_delete=models.PROTECT)
+    sport = models.ForeignKey(Sport, on_delete=models.CASCADE)
+    coordinator= models.ForeignKey(Person, on_delete=models.CASCADE)
 
 class SportStanding(models.Model):
     event_sport= models.ForeignKey(EventSport, on_delete=models.PROTECT)
     university=models.ForeignKey(University, on_delete=models.PROTECT)
     place = models.IntegerField()
     participated = models.BooleanField(default=False)
-
+    history = HistoricalRecords()

@@ -78,6 +78,7 @@ function App() {
     else { _setEvent(null); }
   }
 
+  //  Esta funcionalidad debe cambiarse a un paquete aparte con custom hooks
   // Get Session Method https://github.com/BekBrace/django-react-vite-auth/blob/main/frontend/src/App.jsx
   function getSession() {
     //// Make a GET request to the "/api/session/" URL with "same-origin" credentials
@@ -90,7 +91,7 @@ function App() {
       if (data.data.isAuthenticated) {
         
         //profileRef.current={...profile,id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER}
-        setUser({...user, id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER})
+        setUser({...user, id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER, isAuthenticated:true})
         //functionGetRole()
       } else {  // If the response indicates the user is not authenticated
       }
@@ -141,8 +142,6 @@ function App() {
                 <Route path="signin" element={<Signin />} />
                 <Route path="adminUsers" element={<AdminUsers />} />
                 <Route path="dataLoad" element={<DataLoad />} />
-
-
                 <Route path="/hola" element={<Teams />} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
               </Routes>

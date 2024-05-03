@@ -9,12 +9,17 @@ from django.views.decorators.http import require_POST
 from utils import bool_param, is_valid_param
 from University.models import University
 from Sport.models import Sport
+from Team.models import Team, PlayerTeam
+from Event.models import Event
 import json
 from Person.serializers import *
+from Person.models import getPersonEventRoles  
 import pandas as pd
 import xlsxwriter
 import os
 from backend.settings import BASE_DIR
+
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -102,10 +107,7 @@ def session_view(request):
 def whoami_view(request):
     if not request.user.is_authenticated:
         return JsonResponse({"isAuthenticated": False})
-    print(request)
-    print(request.user)
-    print(request.user.person)
-
+    
     a= PersonSerializer(request.user.person)
     b= list(PER.objects.filter(person=request.user.person))
     c= PERSerializer(b, many=True)
@@ -124,44 +126,85 @@ def whoami_view(request):
 #la carga de datos debe realizarse 
 @require_POST
 def DataLoadView(request):
+    eventid= request.POST["event"]
+    event=Event.objects.get(pk=eventid)
+    roles=getPersonEventRoles(request.user.person,event)
 
-    if request.user.is_authenticated and request.POST['tipo']== 'equipos':
+    if request.user.is_authenticated and request.POST['type']== 'teams' and 'organizador' in roles:
         print("carga de equipos")
-        a= PersonSerializer(request.user.person)
-        b= list(PER.objects.filter(person=request.user.person))
-        c= PERSerializer(b, many=True)
-        b=Event.objects.filter(current=True)
         data=request.FILES['file']
         print(data)
+        post = request.POST
+        print(post)
+        print(post["event"])
         universityid= request.POST["university"]
+        eventid= request.POST["event"]
+        print(universityid)
+        print(eventid)
         university= University.objects.get(pk=universityid)
+        event=Event.objects.get(pk=eventid)
 
         df = pd.read_excel(data, sheet_name=None)
         print(df)
         for key in df:
+            print(key)
             for index,row in df[key].iterrows():
                 sport = Sport.objects.get(name=key) #buscar el deport
                 eventSport = 0 #buscar el evento deporte EventSport.get()
                 #Notar que en este paso ya tengo el deporte y el evento, solo queda crear o buscar el equipo al que agregar la persona.
-                #event =b
-                # team = Team.object.get(sport=sport, event=event)
-                
-
                 nombre=row["nombre"]
                 last_name = row["apellido"]
                 email = row["email"]
                 rut = row["rut"]
                 phone_number = row["phone_number"]
                 emergency_phone_number =row["emergency_phone"]
-                obj1, userCreated = User.objects.get_or_create(username = rut)
-                #obj1 = User.objects.create_user(username= rut, password=rut)
-                obj, created = Person.objects.update_or_create(user=obj1,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
-            
-        return JsonResponse({"username": "Data Loades"})
-        
+                person = Person.objects.filter(rut=rut).first() 
+                print(person)
 
+                if person: #con esta condici'on se verifica que existe una persona con ese rut en la base de datos
+                    print("Existe una persona con ese rut")
+                    #revisar el caso borde en que el rut de la persona ya existe
+                    #en este caso hay 2 opciones: El usuario puso el rut incorrecto, el rut es correcto y la persona ya esta agregada
+                    #custionar si este if debe estar depues de buscar el usuario.
+                    #Nueva limitacion de la carga de datos: los usuarios pueden ser a añadidos a equipos y a la base de datos, pero sus datos no pueden ser editados
+                    if person.user:
+                        print("existe un usuario para la persona")
+                        objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
+                        objTP, createdTP = PlayerTeam.objects.update_or_create(player = person, team=objT)
+                        
+                    else:
+                        print("NO existe un usuario para la persona")
+                        print("creando usuario")
+                        objU, userCreated = User.objects.get_or_create(username = rut) # arreglar el error de user id
+                        create_defaults= {'user':objU}
+                        objP, createdP = Person.objects.update_or_create(rut=rut,defaults=create_defaults)
+                        print(objP)
+                        objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
+                        objTP, createdTP = PlayerTeam.objects.update_or_create(player = objP, team=objT)
+                        
+                else:
+                    print("NO existe la persona")
+                    print("creando usuario")
+                    objU, userCreated = User.objects.get_or_create(username = rut) # arreglar el error de user id
+                    print(userCreated)
+                    print(objU)
+                    create_defaults= {'name':nombre, 'last_name':last_name, 'email':email, 'rut':rut,'university':university,'phone_number':phone_number, 'emergency_phone_number':emergency_phone_number}
+                    objP, createdP = Person.objects.update_or_create(user=objU,defaults=create_defaults)
+                    print(objP)
+                    objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
+                    objTP, createdTP = PlayerTeam.objects.update_or_create(player = objP, team=objT)
 
-    elif request.user.is_authenticated: #aca debo buscar si los permisos del usuario calzan, notar que la subida de datos para personas y usuarios es universal
+        return JsonResponse({"Action": "Data Loades"})
+    
+    return JsonResponse({"detail": "Not authenticated"})
+
+@require_POST
+def PersonDataLoadView(request):
+    eventid= request.POST["event"]
+    event=Event.objects.get(pk=eventid)
+    roles=getPersonEventRoles(request.user.person,event)
+
+    if request.user.is_authenticated and 'organizador' in roles: #aca debo buscar si los permisos del usuario calzan, notar que la subida de datos para personas y usuarios es universal
         print("carga solo de personas")
         a= PersonSerializer(request.user.person)
         b= list(PER.objects.filter(person=request.user.person))
@@ -176,6 +219,7 @@ def DataLoadView(request):
         print(request.scheme)
         universityid= request.POST["university"]
         university= University.objects.get(pk=universityid)
+        error=[]
         for index,row in df.iterrows():
             nombre=row["nombre"]
             last_name = row["apellido"]
@@ -183,8 +227,11 @@ def DataLoadView(request):
             rut = row["rut"]
             phone_number = row["phone_number"]
             emergency_phone_number =row["emergency_phone"]
-            obj1 = User.objects.create_user(username= rut, password=rut)
-            obj, created = Person.objects.update_or_create(user=obj1,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
+            if Person.objects.filter(rut=rut):
+                error.append(rut)
+                continue 
+            objU = User.objects.create_user(username= rut, password=rut)
+            objP, created = Person.objects.update_or_create(user=objU,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
             
             print(nombre)
             print(last_name)
@@ -193,36 +240,79 @@ def DataLoadView(request):
             print(rut)
             print(phone_number)
         print(c)
-        return JsonResponse({"username": "Data Loades"})
-    print(request.POST)
-    print(request.POST["university"])
-    print(request.scheme)
-    
-    return JsonResponse({"username": "Not authenticated"})
+        return JsonResponse({"detail": "Data Loades", "error": error})
+
+    return JsonResponse({"detail": "Not authenticated"})
 
 @require_POST
-def GeneralDataLoadView(request):
+def MatchDataLoadView(request):
+    eventid= request.POST["event"]
+    event=Event.objects.get(pk=eventid)
+    roles=getPersonEventRoles(request.user.person,event)
 
-    if request.user.is_authenticated: #aca debo buscar si los permisos del usuario calzan, notar que la subida de datos para personas y usuarios es universal
-        a= PersonSerializer(request.user.person)
+    if request.user.is_authenticated and 'organizador' in roles: #aca debo buscar si los permisos del usuario calzan, notar que la subida de datos para personas y usuarios es universal
+        print("carga solo de personas")
         b= list(PER.objects.filter(person=request.user.person))
         c= PERSerializer(b, many=True)
         b=Event.objects.filter(current=True)
         data=request.FILES['file']
-        universityid= request.POST["university"]
-        deportesidlist= request.POST["deportes"]
         print(data)
+        #excel_file=data.get('files')
+        df = pd.read_excel(data, sheet_name=0)
+        print(request.POST)
+        print(request.POST["university"])
+        print(request.scheme)
+        universityid= request.POST["university"]
+        university= University.objects.get(pk=universityid)
+        error=[]
+        for index,row in df.iterrows():
+            nombre=row["nombre"]
+            last_name = row["apellido"]
+            email = row["email"]
+            rut = row["rut"]
+            phone_number = row["phone_number"]
+            emergency_phone_number =row["emergency_phone"]
+            if Person.objects.filter(rut=rut):
+                error.append(rut)
+                continue 
+            objU = User.objects.create_user(username= rut, password=rut)
+            objP, created = Person.objects.update_or_create(user=objU,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
+            
+            print(nombre)
+            print(last_name)
+            print(email)
+            print(university)
+            print(rut)
+            print(phone_number)
+        print(c)
+        return JsonResponse({"detail": "Data Loades", "error": error})
 
-    return JsonResponse({"username": "Not authenticated"})
-
+    return JsonResponse({"detail": "Not authenticated"})
 
 def sendExcel(request):
 
     if request.user.is_authenticated:
         #a= request.POST['sports'] esta deberia ser una lista de deportes para agregar al excel comohojas
+        print(request.POST)
+        print(request.scheme)
+        a= request.POST
+        print(a)
+        print(a.keys())
+        b= a.keys()
+        
         workbook= xlsxwriter.Workbook("Carga.xlsx",{"in_memory": True})
-        worksheet= workbook.add_worksheet("Dep1")
-        worksheet.write(0, 0, "Hello, world!")
+        #datos para agregar gente a un equipo
+        # 1 Datos de la persona nombre, apellido, email, university, rut, telefono
+        # 2 tener el deporte y el evento, el deporte no se agrega aqui pues lo incluye la hoja del excel
+        for key in b:
+            print(key)
+            worksheet= workbook.add_worksheet(key)
+            worksheet.write(0, 0, "nombre")
+            worksheet.write(0, 1, "apellido")
+            worksheet.write(0, 2, "email")
+            worksheet.write(0, 3, "rut")
+            worksheet.write(0, 4, "phone_number")
+            worksheet.write(0, 5, "emergency_phone")
 
         #al tener devuelta el excel, cada deporte estara separado por hojas
         
@@ -231,7 +321,6 @@ def sendExcel(request):
         with open(os.path.join(str(BASE_DIR)+"/", "Carga.xlsx"),'rb') as f:
             data= f.read()
         
-        #data1= os.path.join(str(BASE_DIR) +"/", "Carga.xlsx")
         response = HttpResponse(data, content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         response['Content-Disposition']= 'attachment; filename="Carga.xlsx"'
         return response

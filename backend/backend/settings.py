@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
+    'simple_history',
 
     'Administration',
     'Authentication',
@@ -63,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
 

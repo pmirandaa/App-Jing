@@ -1,4 +1,48 @@
+
+import {
+  Button,
+  Col,
+  Container,
+  Modal,
+  Row,
+  Stack
+} from "react-bootstrap";
+import { useContext, useState, useEffect } from "react";
+import { EventContext } from "contexts/EventContext";
+import { UserContext } from "contexts/UserContext";
+import { sleeper } from "utils";
+import axios from "axios";
+import { API_URL } from "constants";
+import Form from "react-bootstrap/Form";
+import Select from "react-select";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 export default function Messages() {
+  const { event } = useContext(EventContext);
+  const [msg, setMsg] = useState([]);
+
+
+  useEffect(() => {
+    const fetch = axios
+      .get(`${API_URL}/messages/`) 
+      .then((response) => {
+        const object={}
+        const lista = []
+        response.data.forEach(element => {
+          lista.push({value: element.id ,label:element.name})
+        });
+        console.log(response.data)
+        console.log(lista)
+        setMsg(lista);
+      })
+      .finally(() => {
+        console.log(msg)
+        //setIsLoading(false);
+      });
+
+  }, [])
+
   return (
     <section class="my-2 row">
       <div class="d-flex row w-100 justify-content-center">

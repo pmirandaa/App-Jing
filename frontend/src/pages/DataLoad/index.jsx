@@ -13,7 +13,6 @@ import {
   import axios from "axios";
   import { API_URL } from "constants";
   import Form from "react-bootstrap/Form";
-  //import Stack from '@mui/material/Stack';
   import Select from "react-select";
   import Cookies from "universal-cookie";
 
@@ -30,7 +29,7 @@ import {
 
     useEffect(() => {
       const fetch = axios
-        .get(`${API_URL}/universities/?event=${event.id}`) //.get(`${API_URL}/university/filters/?event=${event.id}`)
+        .get(`${API_URL}/universities/?event=${event.id}`) 
         .then((response) => {
           const object={}
           const lista = []
@@ -46,7 +45,7 @@ import {
           //setIsLoading(false);
         });
       const fetch2 = axios
-        .get(`${API_URL}/sports/?event=${event.id}`) //.get(`${API_URL}/university/filters/?event=${event.id}`)
+        .get(`${API_URL}/sports/?event=${event.id}`) 
         .then((response) => {
           const object={}
           const lista = []
@@ -77,8 +76,9 @@ import {
       const fd = new FormData();
       fd.append('file', file);
       fd.append('university', universitySelect )
+      fd.append('event',event.id)
 
-      axios.post(`${API_URL}/dataload/`, fd, {
+      axios.post(`${API_URL}/persondataload/`, fd, {
         credentials: "same-origin",
         withCredentials:true,
         onUploadProgresss: (progressEvent) => {console.log(progressEvent.progress*100)},
@@ -94,17 +94,22 @@ import {
         console.log("no file selected")
         return
       }
+      console.log(event["id"])
+      console.log(universitySelect)
+      const a =  event["id"]
       const fd = new FormData();
       fd.append('file', file);
-      fd.append('university', universitySelect )
-      fd.append('tipo', 'equipos')
+      fd.append('university', universitySelect)
+      fd.append('type', 'teams')
+      fd.append('event',event.id) // comntemplar el cambio a id en lugar de name
+      fd.append('end','end')
 
       axios.post(`${API_URL}/dataload/`, fd, {
         credentials: "same-origin",
         withCredentials:true,
         onUploadProgresss: (progressEvent) => {console.log(progressEvent.progress*100)},
         headers:{
-          //'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
           "X-CSRFToken": cookies.get("csrftoken")
         }
       })
@@ -132,14 +137,25 @@ import {
     }
 
     function handleDownloadExcel(){
-      console.log(sportOptions)
-      axios.post(`${API_URL}/excel/`,{}, {
+      console.log(sportSelect)
+      //arreglar el formato de sports
+      const fd = new FormData();
+      sportSelect.forEach(element => {
+        console.log(element)
+        fd.append(element["label"], element["value"])
+        //Object.keys(sportSelect)
+
+        
+      });
+      //fd.append('sports', sportSelect )
+      console.log(fd)
+      axios.post(`${API_URL}/excel/`,fd, {
         credentials: "same-origin",
         withCredentials:true,
         responseType: 'blob',
         onUploadProgresss: (progressEvent) => {console.log(progressEvent.progress*100)},
         headers:{
-          'Content-Type': 'application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet',
+          //'Content-Type': 'application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet',
           "X-CSRFToken": cookies.get("csrftoken")
         }
       })
@@ -169,33 +185,27 @@ import {
       setUniversitySelect(e.value)
     }
 
-    /*<Select
-    isClearable
-    placeholder="Deporte"
-    name="sport"
-    inputId="sport"
-    options={ sportOptions} //.map()}
-    className="basic-custom-select"
-    classNamePrefix="select"
-    onChange={handleSelect}> </Select> */
-
-    //recordar que para enviar el excel de carga completa no es necesario seleccionar deportes, pues el backend leera los deportes el mismo
-
     return(
       <div >
         <h1>Carga masiva de datos</h1>
-        <Container>
+        <Container> {
+         // Carga Masiva de datos: En esta pagian ud podrá subir un archivo excel con los datos de los participantes. Al final de la página ud 
+         // puede descargar un excel prediseñado con los deportes que desea subir a la página
+         // Antes de subir el archivo ud debe seleccionar la universidad a la que perteneces los deportistas.
+         // Asegurese de no escribir el rut de forma erronea
+         // mas informacion (BOTÓN)
+         } 
         <Stack gap={3}>
 
         <Form.Label htmlFor="university">Carga de Personas</Form.Label>
         <Row >
-          <Col >
-            <Select style={{'margin-bottom': '10px' }}
+          <Col xs={6}>
+            <Select
             isClearable
             placeholder="Universidad"
             name="university"
             inputId="university"
-            options={ universityOptions} //.map()}
+            options={ universityOptions}
             className="basic-custom-select"
             classNamePrefix="select"
             onChange={handleSelect}> 
@@ -203,94 +213,76 @@ import {
           </Col>
           <Col>
             <input type="file" onChange={(e) => {setFile(e.target.files[0])}}/>
-            <button onClick={handleUpload}>Upload personas</button>
+          </Col>
+          <Col>
+            <button class="btn btn-primary" onClick={handleUpload}>Upload personas</button>
           </Col>
         </Row>
 
         <Form.Label htmlFor="equipos">Carga de Equipos O carga completa</Form.Label>
         <Row >
-          <Col xs={3}>
-          <Select
-          isClearable
-          placeholder="Deportes"
-          options = {sportOptions}
-          value= {sportSelect}
-          onChange = {handleSportMultiChange}
-          isMulti = {true}>
-          </Select>
-           
-          </Col>
-          <Col xs={3}>
+          <Col xs={6}>
             <Select
             isClearable
             placeholder="Universidad"
             name="universityTeams"
             inputId="universityTeams"
-            options={ universityOptions} //.map()}
+            options={ universityOptions}
             className="basic-custom-select"
             classNamePrefix="select"
             onChange={handleSelect}> </Select>
           </Col>
           <Col>
             <input type="file" onChange={(e) => {setFile(e.target.files[0])}}/>
-            <button onClick={handleUploadEquipos}>Upload equipos</button>
+          </Col>
+          <Col>
+            <button class="btn btn-primary" onClick={handleUploadEquipos}>Upload equipos</button>
           </Col>
         </Row>
 
         <Form.Label htmlFor="partidos">Carga de Partidos</Form.Label>
         <Row>
-          <Col>
+          <Col xs={6}>
           <Select
           isClearable
           placeholder="Partidos"
           name="university"
           inputId="university"
-          options={ universityOptions} //.map()}
+          options={universityOptions}
           className="basic-custom-select"
           classNamePrefix="select"
           onChange={handleSelect}> </Select>
           </Col>
           <Col>
             <input type="file" onChange={(e) => {setFile(e.target.files[0])}}/>
-            <button onClick={handleUpload}>Upload partidos</button>
+            </Col>
+            <Col>
+            <button class="btn btn-primary" onClick={handleUpload}>Upload partidos</button>
           </Col>
         </Row>
 
-        <Form.Label htmlFor="partidos">Carga  Completa</Form.Label>
-        <Row>
-          <Col>
-          <Select
-          isClearable
-          placeholder="Partidos"
-          name="university"
-          inputId="university"
-          options={ universityOptions} //.map()}
-          className="basic-custom-select"
-          classNamePrefix="select"
-          onChange={handleSelect}> </Select>
-          </Col>
-          <Col>
-            <input type="file" onChange={(e) => {setFile(e.target.files[0])}}/>
-            <button onClick={handleUpload}>Upload partidos</button>
-          </Col>
-        </Row>
         </Stack>
 
         <div>
           <h1>
-            Aca esta su excel
+            Acá esta su excel
           </h1>
-          <Select
-          placeholder="Deportes"
-          options = {sportOptions}
-          value= {sportSelect}
-          onChange = {handleSportMultiChange}
-          isMulti = {true}
+          <p>Seleccione los deportes que quiere ingresar para obtener el excel pre diseñado</p>
+          <Row>
+            <Col xs={6}>
+              <Select
+              placeholder="Deportes"
+              options = {sportOptions}
+              value= {sportSelect}
+              onChange = {handleSportMultiChange}
+              isMulti = {true}>
+              </Select>
+            </Col>
 
-          >
-
-          </Select>
-          <button onClick={handleDownloadExcel} >Descargar excel</button>
+          <Col xs={6}>
+            <button class="btn btn-primary" onClick={handleDownloadExcel} >Descargar excel</button>
+          </Col>
+          </Row>
         </div>
 
 

@@ -1,5 +1,6 @@
 import Avatar from "components/image/Avatar";
 import { EventContext } from "contexts/EventContext";
+import { UserContext } from "contexts/UserContext";
 import { useContext } from "react";
 import { EnvelopeFill, Mailbox } from "react-bootstrap-icons";
 import Nav from "react-bootstrap/Nav";
@@ -10,6 +11,7 @@ import styles from "./NavBarSection.module.css";
 
 export default function NavBarRightSection() {
   const { event } = useContext(EventContext)
+  const { user } = useContext(UserContext)
 
   return (
     <Nav className={`${styles.section} ${styles.right}`}>
@@ -23,14 +25,12 @@ export default function NavBarRightSection() {
 
       <Avatar />
       <NavDropdown title="Usuario" id="basic-nav-dropdown" align="end">
-        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/login"> Login </NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/signin"> Signin </NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/mensajes"> Messages </NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/administracion"> Admin </NavDropdown.Item>
-        <NavDropdown.Item as={Link} to="/adminUsers"> AdminUsers </NavDropdown.Item>
+        {user.isAuthenticated && <NavDropdown.Item as={Link} to="/adminUsers"> AdminUsers </NavDropdown.Item> }
+        {user.isAuthenticated && <NavDropdown.Item as={Link} to="/dataLoad"> Cargar Datos </NavDropdown.Item>}
 
         <NavDropdown.Divider />
         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
