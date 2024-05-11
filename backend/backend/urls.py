@@ -33,6 +33,7 @@ from Team.views import TeamViewSet, PlayerTeamViewSet
 from University.views import UniversityViewSet
 
 import Authentication.urls
+import Message.urls
 
 
 router = routers.DefaultRouter()
@@ -57,5 +58,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/', include(Authentication.urls)), #añadido por agustin
+    path('api/', include(Message.urls)),
     path('api-auth/', include('rest_framework.urls')),
 ]

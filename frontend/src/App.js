@@ -29,6 +29,7 @@ import Login from 'pages/Login';
 import Signin from 'pages/Signin';
 import DataLoad from 'pages/DataLoad';
 import AdminUsers from 'pages/AdminUsers'
+import Channels from "pages/Channels";
 import Alert from "components/alert/Alert";
 
 function App() {
@@ -134,6 +135,7 @@ function App() {
                 <Route path="partidos" element={<Matches />} />
                 <Route path="equipos" element={<Teams />} />
                 <Route path="mensajes" element={<Messages />} />
+                <Route path="mensajes/:chatid" element={<Messages />} />
                 <Route path="administracion" element={<Admin />} />
                 <Route path="resultados" element={<Results />} />
                 <Route path="eventos" element={<Events />} />
@@ -141,6 +143,7 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="adminUsers" element={<AdminUsers />} />
+                <Route path="channels" element={<Channels />} />
                 <Route path="dataLoad" element={<DataLoad />} />
                 <Route path="/hola" element={<Teams />} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />

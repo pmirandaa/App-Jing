@@ -29,7 +29,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        event = self.request.query_params.get('user')
+        event = self.request.query_params.get('user') #cambiar a user
         last_name = self.request.query_params.get('last_name')
         first_name = self.request.query_params.get('first_name')
         university = self.request.query_params.get('university')
@@ -62,15 +62,6 @@ class PersonViewSet(viewsets.ModelViewSet):
                              for x in sports]
         return Response(data)
     
-@require_POST
-def DataLoadView(request):
-    
-    
-    if request.user.is_authenticated: #aca debo buscar si los permisos del usuario calzan, notar que la subida de datos para personas y usuarios es universal
-        a= PersonSerializer(request.user.person)
-        b= list(PER.objects.filter(person=request.user.person))
-        c= PERSerializer(b, many=True)
-        b=Event.objects.filter(current=True)
-        print(c)
+
 
 

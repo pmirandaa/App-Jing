@@ -16,32 +16,61 @@ import { API_URL } from "constants";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Cookies from "universal-cookie";
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 const cookies = new Cookies();
 export default function Messages() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  //const chatid= searchParams.get("chatid")
+  const location=useLocation()
+  const chatid= location.pathname
   const { event } = useContext(EventContext);
+  const { user } = useContext(UserContext);
   const [msg, setMsg] = useState([]);
+  const [chats, setChats] = useState([]);
+  const a= useParams()
+
 
 
   useEffect(() => {
+    console.log(chatid)
+    
+    console.log(a)
+    
+    
     const fetch = axios
-      .get(`${API_URL}/messages/`) 
+      .get(`${API_URL}/messages/?chat=${a.chatid}`,{credentials: "same-origin",
+      withCredentials:true, headers:{
+        //'Content-Type': 'multipart/form-data',
+        "X-CSRFToken": cookies.get("csrftoken") 
+      }}) 
       .then((response) => {
+        console.log(response)
         const object={}
         const lista = []
-        response.data.forEach(element => {
-          lista.push({value: element.id ,label:element.name})
+        response.data.results.forEach(element => {
+          //setMsg(msg => [...msg, element]);
+          lista.push(element)
         });
-        console.log(response.data)
-        console.log(lista)
         setMsg(lista);
+        getPersonsChats()
       })
       .finally(() => {
-        console.log(msg)
         //setIsLoading(false);
       });
-
   }, [])
+
+  function getPersonsChats(){
+    const fetch = axios.get(`${API_URL}/getpersonschats/`,  {credentials: "same-origin",
+    withCredentials:true, headers:{
+      //'Content-Type': 'multipart/form-data',
+      "X-CSRFToken": cookies.get("csrftoken")
+    }}).then((response) => { 
+      console.log(response)
+      console.log(response.data)
+      setChats(chat => [...chat, response])
+    } ) 
+  }
 
   return (
     <section class="my-2 row">
@@ -60,7 +89,6 @@ export default function Messages() {
         {/* {% endif %} */}
       </div>
       <div class="w-100 mx-md-5 mx-4">
-        {/* {% if messages %} */}
         <table
           class="table table-bordered table-hover"
           cellspacing="0"
@@ -74,17 +102,17 @@ export default function Messages() {
             </tr>
           </thead>
           <tbody>
-            {/* {% for message in messages %} */}
-            <tr /* {% if message.is_read %}class="read-message"{% endif %} */>
-              <td>[DATE]</td>
-              <td>[SENDER]</td>
+          {msg.map((e) => (
+            <tr>
+              <td>{e.date}</td>
+              <td>{e.sender_name}</td>
               <td>
-                <p class="font-weight-bold mb-0">[SUBJECT]</p>
+                <p class="font-weight-bold mb-0">{e.body}</p>
                 <hr class="mt-0 mb-2" />
-                <p class="ml-3 mb-1">[BODY]</p>
+                <p class="ml-3 mb-1"></p>
               </td>
             </tr>
-            {/* {% endfor %} */}
+      ))}
           </tbody>
         </table>
         {/* {% else %} */}

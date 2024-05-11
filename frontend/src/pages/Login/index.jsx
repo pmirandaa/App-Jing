@@ -3,7 +3,7 @@ import { API_URL } from "constants";
 import { sleeper } from "utils";
 import { useState, useEffect, useContext, useRef } from "react";
 import { UserContext } from "contexts/UserContext";
-
+import styles from "./Login.module.css";
 import Cookies from "universal-cookie";
 
 //instantiating Cookies class by creating cookies object
@@ -12,11 +12,14 @@ const cookies = new Cookies();
 export default function Login() {
   const [session, setSession] = useState({username:"",password:"", isAuthenticated:false,error:""})
   const [profile, setProfile] = useState({id:0,name:"",last_name:"",email:"",university:0, rut:"" ,error:"", roles:""})
+  const [isLoading, setIsLoading] = useState(false);
 
   const {user, setUser} = useContext(UserContext)
   const profileRef = useRef({id:0,name:"",last_name:"",email:"",university:0, rut:"" ,error:"", roles:[]})
 
-  async function asyncLoginpost(user, setUser) {
+  async function asyncLoginpost(user, setUser,e) {
+    setIsLoading(true);
+    e.preventDefault();
     const fetch = axios
       .post(`${API_URL}/login/`,JSON.stringify( {username: session.username, password:session.password}),{
         headers:{
@@ -35,7 +38,10 @@ export default function Login() {
         setSession({...session,isAuthenticated: true, username: "", password: "", error: ""});
 
         saveUser(user,setUser)
+        setIsLoading(false);
+        
       })
+      
   }
 
   function saveUser(user, setUser){
@@ -45,6 +51,7 @@ export default function Login() {
 
   useEffect(() =>{
     getSession()
+    
   },[]) 
 
     // Get Session Method https://github.com/BekBrace/django-react-vite-auth/blob/main/frontend/src/App.jsx
@@ -60,10 +67,15 @@ export default function Login() {
           setSession({...session,isAuthenticated: true}); // Update the component's state
           profileRef.current={...profile,id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER}
           saveUser(user,setUser)
+          //setIsLoading(false);
         } else {  // If the response indicates the user is not authenticated
           setSession({...session,isAuthenticated: false}); // Update the component's state
+          //setIsLoading(false);
         }
-      })}
+        
+      })
+      
+    }
 
   function isResponseOk(response) {
     if (response.status >= 200 && response.status <= 299) {
@@ -75,6 +87,7 @@ export default function Login() {
 
    //Logout Method
    function logout(){
+    setIsLoading(true);
     axios.get(`${API_URL}/logout/`, {
       credentials: "same-origin",
       withCredentials:true,
@@ -86,6 +99,7 @@ export default function Login() {
       setSession({...session,isAuthenticated: false});
       setUser({id:0,name:"",last_name:"",email:"",university:0, rut:"12" ,error:""})
       setProfile({id:0,name:"",last_name:"",email:"",university:0, rut:"" ,error:"", roles:""})
+      setIsLoading(false);
     })
     .catch((err) => {
       console.log(err);
@@ -99,34 +113,44 @@ export default function Login() {
   function handleUserNameChange(event) {
     setSession({...session,username: event.target.value});
   }
+
+  if (isLoading){
+    return <div>Loading...</div>
+  }
+
   if(!session.isAuthenticated){
   return (
     <UserContext.Provider value={[user, setUser]}>
       {console.log("profile dentro del provider",profile)}
       {console.log("usuario dentro del provider",user)}
 
-      <div>
-      <label>Enter your Username:
-        <input type="text" id="username" name="username" value={session.username} onChange={handleUserNameChange} />
-      </label>
-      </div>
-      <div>
-      <label>Password:
-        <input type="password" id="password" name="password" value={session.password} onChange={handlePasswordChange} />
-      </label>
-      </div>
-      <div>
-      
-      <button  id="submit-btn" type="submit" onClick={()=>{asyncLoginpost(user,setUser)}}> Login</button> 
-      
+      <div className={styles.mainContainer}>
+        <div className={styles.titleContainer}>
+          <div>Login</div>
         </div>
-      </UserContext.Provider>
+        <br />
+        <form onSubmit={(e)=>{asyncLoginpost(user,setUser, e)}}>
+          <div className={styles.inputContainer}>
+            <input placeholder="Nombre de Usuario" className={styles.inputBox} type="text" id="username" name="username" value={session.username} onChange={handleUserNameChange} />
+          </div>
+          <br />
+          <div className={styles.inputContainer}>
+            <input  placeholder="Contrseña" className={styles.inputBox} type="password" id="password" name="password" value={session.password} onChange={handlePasswordChange} />
+          </div>
+          <br />
+          <div className={styles.buttonContainer} >
+            <button className={styles.submitButton}   id="submit-btn" type="submit" > Login</button> 
+          </div>
+        </form>
+
+      </div>
+    </UserContext.Provider>
   )}
 
   return(
     <div>
       <h1>Bienvenido {session.username}</h1>
-      <button  id="submit-btn" type="submit" onClick={logout}> Logout</button>
+      <button className={styles.inputBotton} id="submit-btn" type="submit" onClick={logout}> Logout</button>
       
       <p>{user.name}</p>
       <p>{user.email}</p>

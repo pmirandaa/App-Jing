@@ -9,7 +9,7 @@ import LoadingIndicator from "components/loading/LoadingIndicator";
 import { EventContext } from "contexts/EventContext";
 import { useIsFirstRender, usePrevious } from "utils/hooks";
 import { capitalize, objectToParamsString, paramsStringToObject } from "utils";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import TablePagination from "components/pagination/TablePagination";
 import styles from "./TableSearchPage.module.css";
 import Cookies from "universal-cookie";
