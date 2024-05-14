@@ -3,7 +3,10 @@ from utils import bool_param, is_valid_param
 from django.http import JsonResponse, HttpResponse
 
 from Message.models import Message, Chat, PersonsChats, ChatPerson
+from Person.models import Person
+from Event.models import Event
 from Message.serializers import MessageSerializer, ChatSerializer
+import json 
 
 
 class MessageViewSet(viewsets.ModelViewSet):
@@ -74,5 +77,31 @@ def getPersonsChats(request):
         print(lista)
         i=i+1
     return JsonResponse({"detail": lista})
+
+def createNewChat(request):
+    admins=[] #añadie despues los usuairo admins
+    persons=[]
+    event=0
+    name=""
+
+    post=request.POST
+    personlist= request.POST["persons"]
+    name= request.POST["name"]
+    eventid= request.POST["event"]
+    print(post)
+    print(personlist[0])
+    jsonloads=json.loads(personlist)
+    print(jsonloads)
+    print(jsonloads[0]["label"])
+
+    event= Event.objects.get(pk=eventid)
+    chat=Chat.objects.create(name=name, event=event)
+    
+    for element in jsonloads:
+        person= Person.objects.get(pk=element["value"])
+        p=ChatPerson.objects.create(person=person, chat=chat)
+        print(p)
+    
+    return JsonResponse({"detail": "chat creado"})
         
 

@@ -30,6 +30,7 @@ import Signin from 'pages/Signin';
 import DataLoad from 'pages/DataLoad';
 import AdminUsers from 'pages/AdminUsers'
 import Channels from "pages/Channels";
+import CreateChat from "pages/CreateChat/CreateChat";
 import Alert from "components/alert/Alert";
 
 function App() {
@@ -144,6 +145,7 @@ function App() {
                 <Route path="signin" element={<Signin />} />
                 <Route path="adminUsers" element={<AdminUsers />} />
                 <Route path="channels" element={<Channels />} />
+                <Route path="createchat" element={<CreateChat />} />
                 <Route path="dataLoad" element={<DataLoad />} />
                 <Route path="/hola" element={<Teams />} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />

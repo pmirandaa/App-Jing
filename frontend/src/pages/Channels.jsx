@@ -56,6 +56,13 @@ import {
           <h2 class="h1-responsive font-weight-bold text-center my-5">
             Canales
           </h2>
+          
+          <div style={{width:100}}>
+          <Link to={`/createchat`}>
+          <button   id="submit-btn" type="submit" > Nuevo canal</button>
+          </Link>
+          </div>
+          
           {console.log(chats)}
           <a
             class="btn btn-danger btn-circle my-auto ml-5"

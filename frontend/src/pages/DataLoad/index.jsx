@@ -51,7 +51,6 @@ import {
           const lista = []
           response.data.forEach(element => {
             lista.push({value: element.id ,label:element.name})
-            
             object[element.name]=element.id
             
           });
@@ -165,15 +164,11 @@ import {
         link.href= url;
         link.download = "carga.xlsx";
         document.body.appendChild(link);
-
         link.click();
-
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
 
       })
-
-
     }
 
     function handleSportMultiChange(selectedOption){

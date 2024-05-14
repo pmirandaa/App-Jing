@@ -36,17 +36,14 @@ export default function Login() {
         setProfile({...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut})
         profileRef.current={...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut, roles:data.PER}
         setSession({...session,isAuthenticated: true, username: "", password: "", error: ""});
-
         saveUser(user,setUser)
         setIsLoading(false);
         
       })
-      
   }
 
   function saveUser(user, setUser){
     setUser({id:profileRef.current.id, name: profileRef.current.name ,last_name:profileRef.current.last_name,email:profileRef.current.email,university:profileRef.current.university, rut:profileRef.current.rut, roles:profileRef.current.roles, isAuthenticated:true})
-
   }
 
   useEffect(() =>{
@@ -135,7 +132,7 @@ export default function Login() {
           </div>
           <br />
           <div className={styles.inputContainer}>
-            <input  placeholder="Contrseña" className={styles.inputBox} type="password" id="password" name="password" value={session.password} onChange={handlePasswordChange} />
+            <input  placeholder="Contraseña" className={styles.inputBox} type="password" id="password" name="password" value={session.password} onChange={handlePasswordChange} />
           </div>
           <br />
           <div className={styles.buttonContainer} >

@@ -6,7 +6,7 @@ from Person.models import Person
 class Chat(models.Model):
     name= models.CharField(max_length=20)
     event= models.ForeignKey(Event, on_delete=models.CASCADE)
-    is_active= models.BooleanField(default=False)
+    is_active= models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.name}'
@@ -28,6 +28,8 @@ class Message(models.Model):
 class ChatPerson(models.Model):
     person= models.ForeignKey(Person, on_delete=models.CASCADE)
     chat= models.ForeignKey(Chat,on_delete=models.CASCADE)
+
+#crear una nueva tabla para los admins
 
 def PersonsChats(person):
     names= ChatPerson.objects.filter(person=person).values_list('chat__name', flat=True)
