@@ -1,5 +1,5 @@
 import styles from "./App.module.css";
-import { useState, useEffect, componentDidMount } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Routes,
   Route,
@@ -16,7 +16,7 @@ import { EventContext } from "contexts/EventContext";
 import { UserContext } from "contexts/UserContext";
 
 import News from 'pages/News';
-import Messages from 'pages/Messages';
+import Messages from 'pages/Messages/Messages';
 import Matches from 'pages/Matches';
 import Teams from 'pages/Teams';
 import Admin from 'pages/Admin';
@@ -31,12 +31,17 @@ import DataLoad from 'pages/DataLoad';
 import AdminUsers from 'pages/AdminUsers'
 import Channels from "pages/Channels";
 import CreateChat from "pages/CreateChat/CreateChat";
+import LoadForm from "pages/LoadForm";
+import TeamForm from "pages/LoadForm/TeamForm";
+import MatchForm from "pages/LoadForm/MatchForm";
 import Alert from "components/alert/Alert";
 
 function App() {
 
   const [event, _setEvent] = useState({});
   const [user, _setUser] = useState({id:0,name:"",last_name:"",email:"",university:0, rut:"12" ,error:"", roles:[], actual_roles:[]})
+  const userRef = useRef({})
+  const eventRef = useRef({})
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   
@@ -49,6 +54,7 @@ function App() {
       console.log(response.data[0].id)
       getSession()
       _setEvent({id:evento[0].id, name:evento[0].name})
+      eventRef.current={id:evento[0].id, name:evento[0].name}
       setIsLoading(false);
     };
     fetchInit();
@@ -64,10 +70,12 @@ function App() {
         .then((response) => {
           const res = response.data;
           _setEvent({ id: res.id, name: res.name });
+          eventRef.current={ id: res.id, name: res.name }
         })
     }
     else if (typeof event === 'object' && event.hasOwnProperty('id') && event.hasOwnProperty('name')) {
       _setEvent(event);
+      eventRef.current=event
     }
     else if (event == {}) {
       axios
@@ -76,6 +84,8 @@ function App() {
           console.log(response)
           const res = response.data;
           _setEvent({ id: res.id, name: res.name });
+          eventRef.current={ id: res.id, name: res.name }
+
     })}
     else { _setEvent(null); }
   }
@@ -91,16 +101,29 @@ function App() {
       console.log("get session data.data",data.data.isAuthenticated)
       //// If the response indicates the user is authenticated
       if (data.data.isAuthenticated) {
+        userRef.current={...user, id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER, isAuthenticated:true}
+        const roles = data.data.PER
+        const array=[]
+
+        roles.forEach((obj) => {
+          if (obj.event == eventRef.current.id) {
+            array.push(obj.role)
+            
+          }
+          })
         
         //profileRef.current={...profile,id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER}
-        setUser({...user, id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER, isAuthenticated:true})
+        setUser({...user, id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER, isAuthenticated:true, actual_roles:array})
+        
         //functionGetRole()
       } else {  // If the response indicates the user is not authenticated
       }
     })}
 
    function functionGetRole() {
-    const roles = user.roles
+    console.log(userRef)
+    console.log(userRef.current.roles)
+    const roles = userRef.current.roles
     const array=[]
 
     roles.forEach((obj) => {
@@ -115,6 +138,7 @@ function App() {
 
 
   function setUser(user){
+    console.log(user)
     _setUser(user)
   }
 
@@ -147,6 +171,9 @@ function App() {
                 <Route path="channels" element={<Channels />} />
                 <Route path="createchat" element={<CreateChat />} />
                 <Route path="dataLoad" element={<DataLoad />} />
+                <Route path="loadForm" element={<LoadForm />} />
+                <Route path="TeamForm" element={<TeamForm />} />
+                <Route path="MatchForm" element={<MatchForm />} />
                 <Route path="/hola" element={<Teams />} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
               </Routes>

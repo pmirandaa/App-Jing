@@ -3,6 +3,7 @@ import { API_URL } from "constants";
 import { sleeper } from "utils";
 import { useState, useEffect, useContext, useRef } from "react";
 import { UserContext } from "contexts/UserContext";
+import { EventContext } from "contexts/EventContext";
 import styles from "./Login.module.css";
 import Cookies from "universal-cookie";
 
@@ -15,6 +16,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const {user, setUser} = useContext(UserContext)
+  const {event, setEvent} = useContext(EventContext)
   const profileRef = useRef({id:0,name:"",last_name:"",email:"",university:0, rut:"" ,error:"", roles:[]})
 
   async function asyncLoginpost(user, setUser,e) {
@@ -43,7 +45,16 @@ export default function Login() {
   }
 
   function saveUser(user, setUser){
-    setUser({id:profileRef.current.id, name: profileRef.current.name ,last_name:profileRef.current.last_name,email:profileRef.current.email,university:profileRef.current.university, rut:profileRef.current.rut, roles:profileRef.current.roles, isAuthenticated:true})
+
+    const roles = profileRef.current.roles
+    const array=[]
+
+    roles.forEach((obj) => {
+      if (obj.event == event.id) {
+        array.push(obj.role)
+        
+      }})
+    setUser({id:profileRef.current.id, name: profileRef.current.name ,last_name:profileRef.current.last_name,email:profileRef.current.email,university:profileRef.current.university, rut:profileRef.current.rut, roles:profileRef.current.roles, isAuthenticated:true, actual_roles:array})
   }
 
   useEffect(() =>{

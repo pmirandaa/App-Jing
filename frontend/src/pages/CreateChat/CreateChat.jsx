@@ -90,12 +90,18 @@ export default function CreateChat() {
       setCreated(0)
       setPersonSelect([])
       setName(0)
-
     }
 
     //Usar el mismo estilo que para el login
     if(created){
-      return <Button onClick={()=>reset()}>Crear otro chat</Button> 
+      return (
+        <div className={styles.mainContainer}>
+          <div className={styles.titleContainer}>
+            <div>Usuario Creado</div>
+          </div>
+      <Button onClick={()=>reset()}>Crear otro chat</Button> 
+      </div>
+      )
     }
 
     return(
@@ -117,7 +123,7 @@ export default function CreateChat() {
               isMulti = {true}>
               </Select>
           <div className={styles.buttonContainer} >
-            <button className={styles.submitButton}   id="submit-btn" type="submit" > Login</button> 
+            <button className={styles.submitButton}   id="submit-btn" type="submit" > Crear</button> 
           </div> 
           </form>
       </div>

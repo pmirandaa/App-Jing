@@ -35,7 +35,7 @@ class MessageViewSet(viewsets.ModelViewSet):
                     queryset = queryset.filter(is_read=is_read)
                 if is_valid_param(date):
                     queryset = queryset.filter(date=date)
-                return queryset
+                return queryset.order_by('date') #order_by('-date')
             else:
                 return empty
         else:
@@ -103,5 +103,21 @@ def createNewChat(request):
         print(p)
     
     return JsonResponse({"detail": "chat creado"})
+
+def createNewMessage(request):
+    person = request.user.person
+    post =request.POST
+    messagetext= request.POST["message"]
+    chatid =  request.POST["chat"]
+
+    chat= Chat.objects.get(pk=chatid)
+
+
+    message=Message.objects.create(sender=person, chat=chat, subject="", body=messagetext)
+    print(message)
+    # Anotar en la memoria un mismo usuraio tendra perfiles distintos para cada evento
+    # En lugar de asociar los datos del evento a un usuario, un usuario tendra distintos perfiles para cada evento
+    serializered_message = MessageSerializer(message).data
+    return JsonResponse({"detail": "mensaje creado", "message":serializered_message})
         
 

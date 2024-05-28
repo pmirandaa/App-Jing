@@ -14,7 +14,6 @@ import {
   import axios from "axios";
   import { API_URL } from "constants";
   import Form from "react-bootstrap/Form";
-  import Select from "react-select";
   import Cookies from "universal-cookie";
   import Table from "react-bootstrap/Table";
   import { Link } from "react-router-dom";
@@ -86,9 +85,7 @@ import {
             <tbody>
             {chats.map((e) => (
               <tr>
-                  
-                  <td><Link to={`/mensajes/${e.id}`} > {e.name}</Link></td>
-                
+                <td><Link to={`/mensajes/${e.id}`} > {e.name}</Link></td>
                 <td>[SENDER]</td>
                 <td>
                   <p class="font-weight-bold mb-0">[]</p>
@@ -99,11 +96,6 @@ import {
         ))}
             </tbody>
           </Table>
-          {/* {% else %} */}
-          <h3 class="h3-responsive font-weight-bold text-center my-5">
-            Aún no has recibido mensajes en la aplicación.
-          </h3>
-          {/* {% endif %} */}
         </div>
       </section>
     );

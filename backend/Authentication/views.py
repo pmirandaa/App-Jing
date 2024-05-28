@@ -69,7 +69,6 @@ def login_view(request):
         return JsonResponse({"detail":"invalid credentials"}, status=400)
     login(request, user)
 
-
     a= PersonSerializer(user.person)
     b= list(PER.objects.filter(person=user.person))
     c= PERSerializer(b, many=True)
@@ -81,7 +80,6 @@ def login_view(request):
     print(c.data)
     print("current event", d.get().name)
     
-
     return JsonResponse({"details":"Succesfull log","user": a.data, "PER":c.data})
 
 def logout_view(request):
@@ -130,7 +128,7 @@ def DataLoadView(request):
     event=Event.objects.get(pk=eventid)
     roles=getPersonEventRoles(request.user.person,event)
 
-    if request.user.is_authenticated and request.POST['type']== 'teams' and 'organizador' in roles:
+    if (request.user.is_authenticated and request.POST['type']== 'teams' and 'organizador' in roles) or "admin" in roles:
         print("carga de equipos")
         data=request.FILES['file']
         print(data)
