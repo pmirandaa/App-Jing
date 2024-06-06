@@ -218,6 +218,8 @@ def PersonDataLoadView(request):
         universityid= request.POST["university"]
         university= University.objects.get(pk=universityid)
         error=[]
+        error_row=[]
+        content=[]
         for index,row in df.iterrows():
             nombre=row["nombre"]
             last_name = row["apellido"]
@@ -226,8 +228,16 @@ def PersonDataLoadView(request):
             phone_number = row["phone_number"]
             emergency_phone_number =row["emergency_phone"]
             if Person.objects.filter(rut=rut):
-                error.append(rut)
-                continue 
+                error.append("Ya existe una persona con ese rut")
+                error_row.append(index+2)
+                content.append(rut)
+                print(index)
+                print(error_row)
+                print(type(index))
+                print(type(error_row))
+                # Si hay algun error en las validaciones, se detiene completamente
+                # continue (si se quiere continuar la carga e informar de los errores depues, dejar esta linea y borrar el return)
+                return JsonResponse({"detail": "Error", "Error":error, "row":error_row, "content":content })
             objU = User.objects.create_user(username= rut, password=rut)
             objP, created = Person.objects.update_or_create(user=objU,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
             
@@ -263,6 +273,8 @@ def MatchDataLoadView(request):
         universityid= request.POST["university"]
         university= University.objects.get(pk=universityid)
         error=[]
+        error_row=[]
+        content=[]
         for index,row in df.iterrows():
             nombre=row["nombre"]
             last_name = row["apellido"]
@@ -272,7 +284,10 @@ def MatchDataLoadView(request):
             emergency_phone_number =row["emergency_phone"]
             if Person.objects.filter(rut=rut):
                 error.append(rut)
-                continue 
+                error.append(row)
+                # Si hay algun error en las validaciones, se detiene completamente
+                # continue (si se quiere continuar la carga e informar de los errores depues, dejar esta linea y borrar el return)
+                return JsonResponse({"detail": "Error", "Error":error, "row":error_row })
             objU = User.objects.create_user(username= rut, password=rut)
             objP, created = Person.objects.update_or_create(user=objU,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
             
@@ -283,7 +298,7 @@ def MatchDataLoadView(request):
             print(rut)
             print(phone_number)
         print(c)
-        return JsonResponse({"detail": "Data Loades", "error": error})
+        return JsonResponse({"detail": "Data Loades"})
 
     return JsonResponse({"detail": "Not authenticated"})
 
@@ -313,7 +328,6 @@ def sendExcel(request):
             worksheet.write(0, 5, "emergency_phone")
 
         #al tener devuelta el excel, cada deporte estara separado por hojas
-        
         # Close the workbook before streaming the data.
         workbook.close()
         with open(os.path.join(str(BASE_DIR)+"/", "Carga.xlsx"),'rb') as f:
@@ -322,6 +336,66 @@ def sendExcel(request):
         response = HttpResponse(data, content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         response['Content-Disposition']= 'attachment; filename="Carga.xlsx"'
         return response
+    
+    return JsonResponse({"detail": "Not authenticated"})
+
+
+@require_POST
+def CreateTeam(request):
+    eventid= request.POST["event"]
+    print(eventid)
+    event=Event.objects.get(pk=eventid)
+    roles=getPersonEventRoles(request.user.person,event)
+    print(request.user.is_authenticated) 
+    if (request.user.is_authenticated  and 'organizador' in roles) or "admin" in roles:
+        universityid= request.POST["university"]
+        university= University.objects.get(pk=universityid)
+        sportid = request.POST["sport"]
+        sport= Sport.objects.get(pk=sportid)
+        personlist= request.POST["persons"]
+        jsonloads=json.loads(personlist)
+        #Revisar que las personas sean de una misma universidad
+        team=Team.objects.create(event=event, sport=sport, university=university)
+        print('equipo creado')
+        for element in jsonloads:
+            person= Person.objects.get(pk=element["value"])
+            p=PlayerTeam.objects.create(player=person, team=team)
+            print(p)
+
+        return JsonResponse({"detail": "Equipo Creado"})
+
+    print("Sin autenticar")
+    return JsonResponse({"detail": "Not authenticated"})
+
+@require_POST
+def CreatePerson(request):
+    eventid= request.POST["event"]
+    print(eventid)
+    event=Event.objects.get(pk=eventid)
+    roles=getPersonEventRoles(request.user.person,event)
+    print(request.user.is_authenticated) 
+    if (request.user.is_authenticated  and 'organizador' in roles) or "admin" in roles:
+        post =request.POST
+        print(post)
+        nombre = post['name']
+        last_name = post['lastName']
+        universityid= post["university"]
+        email = post['email']
+        rut = post['rut']
+        phone_number = post['phone']
+        emergency_phone_number = post['emergencyPhone']
+        university= University.objects.get(pk=universityid)
+        error=[]
+        if Person.objects.filter(rut=rut):
+            error.append("Ya existe una persona con ese rut")
+            return JsonResponse({"detail": "Error", "error":error})
+            
+        objU = User.objects.create_user(username= rut, password=rut)
+        person= Person.objects.create(user=objU,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
+        
+        print("universit id", university)
+
+        return JsonResponse({"detail": "Persona Creada"})
     
     return JsonResponse({"detail": "Not authenticated"})
 

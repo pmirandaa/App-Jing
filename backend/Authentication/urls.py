@@ -12,6 +12,8 @@ urlpatterns = [
     path("signin/", views.signin_view, name="api_signin"),
     path("dataload/", views.DataLoadView, name="api_dataload"),
     path("persondataload/", views.PersonDataLoadView, name="api_persondataload"),
-    path("excel/", views.sendExcel, name="api_excel")
+    path("excel/", views.sendExcel, name="api_excel"),
+    path("createteam/", views.CreateTeam, name="api_createteam"),
+    path("createperson/", views.CreatePerson, name="api_createperson")
 
 ]

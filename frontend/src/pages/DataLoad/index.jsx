@@ -6,7 +6,7 @@ import {
   Row,
   Stack
 } from "react-bootstrap";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { EventContext } from "contexts/EventContext";
 import { UserContext } from "contexts/UserContext";
 import { sleeper } from "utils";
@@ -16,9 +16,36 @@ import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
+import AlertTemplate from "components/alert/Alert";
+
+
+export function StaticExample() {
+  return (
+    <div
+      className="modal show"
+      style={{ display: 'block', position: 'initial' }}
+    >
+      <Modal.Dialog>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal title</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Modal body text goes here.</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary">Close</Button>
+          <Button variant="primary">Save changes</Button>
+        </Modal.Footer>
+      </Modal.Dialog>
+    </div>
+  );
+}
+
 
 //instantiating Cookies class by creating cookies object
- const cookies = new Cookies();
+const cookies = new Cookies();
   
 export default function Dataload() {
   const [file, setFile] = useState(null);
@@ -27,6 +54,10 @@ export default function Dataload() {
   const [universityOptions, setUniversityOptions] = useState([]);
   const [sportOptions, setSportOptions] = useState([]);
   const [sportSelect, setSportSelect] = useState([]);
+  const [dialogContent, setDialogContent] = useState({error:'', row:0, content:''});
+  const dialogRef = useRef(null);
+  const [show, setShow] = useState(false);
+  const dialogRef2 = useRef(false);
 
   useEffect(() => {
     const fetch = axios
@@ -68,6 +99,23 @@ export default function Dataload() {
       });
   }, []);
 
+  function toggleDialog(){
+    if (!dialogRef.current){
+      return;
+    }
+    dialogRef.current.hasAttribute("open")
+    ? dialogRef.current.close()
+    : dialogRef.current.showModal();
+  }
+
+  function handleClose(){
+    setShow(false)
+  };
+  function handleShow(){
+    setShow(true)
+  };
+
+
   function handleUpload(){
     if (!file){
       console.log("no file selected")
@@ -85,6 +133,13 @@ export default function Dataload() {
       headers:{
         //'Content-Type': 'multipart/form-data',
         "X-CSRFToken": cookies.get("csrftoken")
+      }
+    })
+    .then(response =>{
+      console.log(response)
+      if(response.data.detail=="Error"){
+        setDialogContent({...dialogContent, error:response.data.Error, row:response.data.row,  content:response.data.content})
+        handleShow()
       }
     })
   }
@@ -122,8 +177,7 @@ export default function Dataload() {
     }
     const fd = new FormData();
     fd.append('file', file);
-    fd.append('university', universitySelect )
-    
+    fd.append('university', universitySelect)
 
     axios.post(`${API_URL}/dataload/`, fd, {
       credentials: "same-origin",
@@ -145,7 +199,6 @@ export default function Dataload() {
       fd.append(element["label"], element["value"])
       //Object.keys(sportSelect)
 
-      
     });
     //fd.append('sports', sportSelect )
     console.log(fd)
@@ -174,7 +227,6 @@ export default function Dataload() {
 
   function handleSportMultiChange(selectedOption){
     setSportSelect(selectedOption)
-
   }
 
   function handleSelect(e){
@@ -299,6 +351,31 @@ export default function Dataload() {
         </Row>
       </div>
       </Container>
+      <button onClick={()=> {setDialogContent("hola")}}> dialog</button>
+      <dialog ref={dialogRef}>
+        <div >{dialogContent.error}</div>
+        <StaticExample></StaticExample>
+        <button onClick={toggleDialog}>Close</button>   
+      </dialog>
+      <button onClick={handleShow}> modal</button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {dialogContent.error} <br/>
+          Fila:{dialogContent.row}  <br/>
+          Contenido:{dialogContent.content}<br/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
