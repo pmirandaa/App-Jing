@@ -1,23 +1,15 @@
 import {
     Button,
-    Col,
     Container,
     Modal,
-    Row,
-    Stack, 
-    Dialog
 } from "react-bootstrap";
 import { useContext, useState, useEffect } from "react";
 import { EventContext } from "contexts/EventContext";
 import { UserContext } from "contexts/UserContext";
-import { sleeper } from "utils";
 import axios from "axios";
 import { API_URL } from "constants";
-import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Cookies from "universal-cookie";
-import Table from "react-bootstrap/Table";
-import { Link } from "react-router-dom";
 import styles from "./LoadForm.module.css";
 
 const cookies = new Cookies();
@@ -33,6 +25,8 @@ export default function LoadForm(){
   const [universityOptions, setUniversityOptions] = useState([]);
   const { event } = useContext(EventContext);
   const [created, setCreated]= useState(0)
+  const [dialogContent, setDialogContent] = useState({error:'', row:0, content:''});
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const fetch = axios
@@ -53,6 +47,13 @@ export default function LoadForm(){
       });
       
   }, []);
+
+  function handleClose(){
+    setShow(false)
+  };
+  function handleShow(){
+    setShow(true)
+  };
 
   function handleNameChange(e){
     setName(e.target.value)
@@ -104,6 +105,10 @@ export default function LoadForm(){
       console.log(response)
       if(response.data.detail=="Persona Creada"){
         setCreated(1)
+      }
+      if(response.data.detail=="Error"){
+        setDialogContent({error:response.data.Error})
+        handleShow()
       }
     })
   }
@@ -172,6 +177,22 @@ export default function LoadForm(){
           </div> 
           </form>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {dialogContent.error} <br/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   )
 }

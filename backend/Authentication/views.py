@@ -121,7 +121,6 @@ def whoami_view(request):
     #print(a.roles.event)
     return JsonResponse({"username": a.data, "PER":c.data})
 
-#la carga de datos debe realizarse 
 @require_POST
 def DataLoadView(request):
     eventid= request.POST["event"]
@@ -159,40 +158,46 @@ def DataLoadView(request):
                 person = Person.objects.filter(rut=rut).first() 
                 print(person)
 
-                if person: #con esta condici'on se verifica que existe una persona con ese rut en la base de datos
-                    print("Existe una persona con ese rut")
-                    #revisar el caso borde en que el rut de la persona ya existe
-                    #en este caso hay 2 opciones: El usuario puso el rut incorrecto, el rut es correcto y la persona ya esta agregada
-                    #custionar si este if debe estar depues de buscar el usuario.
-                    #Nueva limitacion de la carga de datos: los usuarios pueden ser a añadidos a equipos y a la base de datos, pero sus datos no pueden ser editados
-                    if person.user:
-                        print("existe un usuario para la persona")
-                        objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
-                        objTP, createdTP = PlayerTeam.objects.update_or_create(player = person, team=objT)
-                        
+                try:
+
+                    if person: #con esta condici'on se verifica que existe una persona con ese rut en la base de datos
+                        print("Existe una persona con ese rut")
+                        #revisar el caso borde en que el rut de la persona ya existe
+                        #en este caso hay 2 opciones: El usuario puso el rut incorrecto, el rut es correcto y la persona ya esta agregada
+                        #custionar si este if debe estar depues de buscar el usuario.
+                        #Nueva limitacion de la carga de datos: los usuarios pueden ser a añadidos a equipos y a la base de datos, pero sus datos no pueden ser editados
+                    
+                        if person.user:
+                            print("existe un usuario para la persona")
+                            objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
+                            objTP, createdTP = PlayerTeam.objects.update_or_create(player = person, team=objT)
+                            
+                        else:
+                            print("NO existe un usuario para la persona")
+                            print("creando usuario")
+                            objU, userCreated = User.objects.get_or_create(username = rut) # arreglar el error de user id
+                            create_defaults= {'user':objU}
+                            objP, createdP = Person.objects.update_or_create(rut=rut,defaults=create_defaults)
+                            print(objP)
+                            objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
+                            objTP, createdTP = PlayerTeam.objects.update_or_create(player = objP, team=objT)
+                            
                     else:
-                        print("NO existe un usuario para la persona")
+                        print("NO existe la persona")
                         print("creando usuario")
                         objU, userCreated = User.objects.get_or_create(username = rut) # arreglar el error de user id
-                        create_defaults= {'user':objU}
-                        objP, createdP = Person.objects.update_or_create(rut=rut,defaults=create_defaults)
+                        print(userCreated)
+                        print(objU)
+                        create_defaults= {'name':nombre, 'last_name':last_name, 'email':email, 'rut':rut,'university':university,'phone_number':phone_number, 'emergency_phone_number':emergency_phone_number}
+                        objP, createdP = Person.objects.update_or_create(user=objU,defaults=create_defaults)
                         print(objP)
                         objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
                         objTP, createdTP = PlayerTeam.objects.update_or_create(player = objP, team=objT)
-                        
-                else:
-                    print("NO existe la persona")
-                    print("creando usuario")
-                    objU, userCreated = User.objects.get_or_create(username = rut) # arreglar el error de user id
-                    print(userCreated)
-                    print(objU)
-                    create_defaults= {'name':nombre, 'last_name':last_name, 'email':email, 'rut':rut,'university':university,'phone_number':phone_number, 'emergency_phone_number':emergency_phone_number}
-                    objP, createdP = Person.objects.update_or_create(user=objU,defaults=create_defaults)
-                    print(objP)
-                    objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
-                    objTP, createdTP = PlayerTeam.objects.update_or_create(player = objP, team=objT)
+                
+                except:
+                    return JsonResponse({"detail": "Error", "Error":"Exception"})
 
-        return JsonResponse({"Action": "Data Loades"})
+        return JsonResponse({"detail": "Data Loades"})
     
     return JsonResponse({"detail": "Not authenticated"})
 
@@ -312,6 +317,10 @@ def sendExcel(request):
         print(a)
         print(a.keys())
         b= a.keys()
+
+        if not b:
+            b=["Personas"]
+
         
         workbook= xlsxwriter.Workbook("Carga.xlsx",{"in_memory": True})
         #datos para agregar gente a un equipo
@@ -355,12 +364,20 @@ def CreateTeam(request):
         personlist= request.POST["persons"]
         jsonloads=json.loads(personlist)
         #Revisar que las personas sean de una misma universidad
-        team=Team.objects.create(event=event, sport=sport, university=university)
-        print('equipo creado')
-        for element in jsonloads:
-            person= Person.objects.get(pk=element["value"])
-            p=PlayerTeam.objects.create(player=person, team=team)
-            print(p)
+        team =Team.objects.filter(event=event, sport=sport, university=university)
+        if team:
+            for element in jsonloads:
+                person= Person.objects.get(pk=element["value"])
+                p=PlayerTeam.objects.create(player=person, team=team)
+                print(p)
+
+        else:     
+            created=Team.objects.create(event=event, sport=sport, university=university)
+            print('equipo creado')
+            for element in jsonloads:
+                person= Person.objects.get(pk=element["value"])
+                p=PlayerTeam.objects.create(player=person, team=created)
+                print(p)
 
         return JsonResponse({"detail": "Equipo Creado"})
 
@@ -388,7 +405,7 @@ def CreatePerson(request):
         error=[]
         if Person.objects.filter(rut=rut):
             error.append("Ya existe una persona con ese rut")
-            return JsonResponse({"detail": "Error", "error":error})
+            return JsonResponse({"detail": "Error", "Error":error})
             
         objU = User.objects.create_user(username= rut, password=rut)
         person= Person.objects.create(user=objU,name=nombre, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)

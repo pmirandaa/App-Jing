@@ -19,6 +19,7 @@ class Match(models.Model):
     history = HistoricalRecords() 
 
     class Meta:
+        #Se añade la condición que no puden haber 2 partidos con el mismo nombre en un mismo deporte
         constraints = [
     UniqueConstraint(fields=['name', 'sport'], name='unique_blocking')
         ]

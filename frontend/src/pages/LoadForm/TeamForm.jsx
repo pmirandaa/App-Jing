@@ -12,11 +12,8 @@ import { UserContext } from "contexts/UserContext";
 import { sleeper } from "utils";
 import axios from "axios";
 import { API_URL } from "constants";
-import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Cookies from "universal-cookie";
-import Table from "react-bootstrap/Table";
-import { Link } from "react-router-dom";
 import styles from "./LoadForm.module.css";
 
 const cookies = new Cookies();

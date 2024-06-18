@@ -9,40 +9,12 @@ import {
 import { useContext, useState, useEffect, useRef } from "react";
 import { EventContext } from "contexts/EventContext";
 import { UserContext } from "contexts/UserContext";
-import { sleeper } from "utils";
 import axios from "axios";
 import { API_URL } from "constants";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
-import AlertTemplate from "components/alert/Alert";
-
-
-export function StaticExample() {
-  return (
-    <div
-      className="modal show"
-      style={{ display: 'block', position: 'initial' }}
-    >
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>Modal body text goes here.</p>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary">Close</Button>
-          <Button variant="primary">Save changes</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </div>
-  );
-}
-
 
 //instantiating Cookies class by creating cookies object
 const cookies = new Cookies();
@@ -54,10 +26,9 @@ export default function Dataload() {
   const [universityOptions, setUniversityOptions] = useState([]);
   const [sportOptions, setSportOptions] = useState([]);
   const [sportSelect, setSportSelect] = useState([]);
-  const [dialogContent, setDialogContent] = useState({error:'', row:0, content:''});
+  const [dialogContent, setDialogContent] = useState({detail:"", error:'', row:0, content:''});
   const dialogRef = useRef(null);
   const [show, setShow] = useState(false);
-  const dialogRef2 = useRef(false);
 
   useEffect(() => {
     const fetch = axios
@@ -115,7 +86,6 @@ export default function Dataload() {
     setShow(true)
   };
 
-
   function handleUpload(){
     if (!file){
       console.log("no file selected")
@@ -166,6 +136,17 @@ export default function Dataload() {
       headers:{
         'Content-Type': 'multipart/form-data',
         "X-CSRFToken": cookies.get("csrftoken")
+      }
+    })
+    .then(response =>{
+      console.log(response)
+      if(response.data.detail=="Error"){
+        setDialogContent({...dialogContent,detail:response.data.detail, error:response.data.Error, row:response.data.row,  content:response.data.content})
+        handleShow()
+      }
+      else{
+        setDialogContent({...dialogContent,detail:response.data.detail, error:response.data.Error, row:response.data.row,  content:response.data.content})
+        handleShow()
       }
     })
   }
@@ -244,7 +225,7 @@ export default function Dataload() {
         // mas informacion (BOTÓN)
         } 
       <Stack gap={3}>
-      <Form.Label htmlFor="individual">Carga individual</Form.Label>
+      <h2> Carga individual</h2>
       
       <Row>
       <Col  xs={3}>
@@ -262,8 +243,13 @@ export default function Dataload() {
       <button class="btn btn-primary" >Añadir Partido</button> 
       </Link>
       </Col>
+      <Col  xs={3}>
+      <Link to={`/ResultForm`}>
+      <button class="btn btn-primary" >Añadir Resultado</button> 
+      </Link>
+      </Col>
       </Row>
-      
+      <h2>Carga Multiple</h2>
       <Form.Label htmlFor="university">Carga de Personas</Form.Label>
       <Row >
         <Col xs={6}>
@@ -306,6 +292,7 @@ export default function Dataload() {
           <button class="btn btn-primary" onClick={handleUploadEquipos}>Upload equipos</button>
         </Col>
       </Row>
+       {/* 
 
       <Form.Label htmlFor="partidos">Carga de Partidos</Form.Label>
       <Row>
@@ -327,13 +314,16 @@ export default function Dataload() {
           <button class="btn btn-primary" onClick={handleUpload}>Upload partidos</button>
         </Col>
       </Row>
+      
+      */}
       </Stack>
-
       <div>
+        <br/>
         <h1>
           Acá esta su excel
         </h1>
-        <p>Seleccione los deportes que quiere ingresar para obtener el excel pre diseñado</p>
+        <p>Seleccione los deportes que quiere ingresar para obtener el excel pre diseñado. Si desea agregar sólo personas, no seleccione nada. </p>
+        <p>Cada hoja corresponde a un deporte y cada fila a un participante. Llene todos los datos de cada participante</p>
         <Row>
           <Col xs={6}>
             <Select
@@ -351,16 +341,9 @@ export default function Dataload() {
         </Row>
       </div>
       </Container>
-      <button onClick={()=> {setDialogContent("hola")}}> dialog</button>
-      <dialog ref={dialogRef}>
-        <div >{dialogContent.error}</div>
-        <StaticExample></StaticExample>
-        <button onClick={toggleDialog}>Close</button>   
-      </dialog>
-      <button onClick={handleShow}> modal</button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Error</Modal.Title>
+          <Modal.Title>{dialogContent.detail}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {dialogContent.error} <br/>

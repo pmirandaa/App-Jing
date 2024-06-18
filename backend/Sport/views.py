@@ -2,8 +2,8 @@ from time import sleep
 
 from rest_framework import viewsets
 
-from Sport.models import  Sport #,FinalSportPoints
-from Sport.serializers import SportSerializer # ,FinalSportPointsSerializer
+from Sport.models import  Sport, FinalSportPoints
+from Sport.serializers import SportSerializer, FinalSportPointsSerializer
 from utils import bool_param, is_valid_param
 
 class SportViewSet(viewsets.ModelViewSet):
@@ -23,6 +23,6 @@ class SportViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-# class FinalSportPointsViewSet(viewsets.ModelViewSet):
-#     serializer_class = FinalSportPointsSerializer
-#     queryset = FinalSportPoints.objects.all()
+class FinalSportPointsViewSet(viewsets.ModelViewSet):
+     serializer_class = FinalSportPointsSerializer
+     queryset = FinalSportPoints.objects.all()

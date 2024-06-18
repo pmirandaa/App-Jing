@@ -10,6 +10,7 @@ class TeamSerializer(serializers.ModelSerializer):
     sport = SportSerializer(read_only=True)
     university = UniversitySerializer(read_only=True)
     coordinator = PersonSerializer(read_only=True)
+    sport_name = serializers.CharField(source='sport.name', read_only=True)
     class Meta:
         model = Team
         fields = ('__all__')

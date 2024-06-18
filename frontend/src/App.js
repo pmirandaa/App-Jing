@@ -34,6 +34,7 @@ import CreateChat from "pages/CreateChat/CreateChat";
 import LoadForm from "pages/LoadForm";
 import TeamForm from "pages/LoadForm/TeamForm";
 import MatchForm from "pages/LoadForm/MatchForm";
+import ResultForm from "pages/LoadForm/ResultForm";
 import Alert from "components/alert/Alert";
 
 function App() {
@@ -174,6 +175,7 @@ function App() {
                 <Route path="loadForm" element={<LoadForm />} />
                 <Route path="TeamForm" element={<TeamForm />} />
                 <Route path="MatchForm" element={<MatchForm />} />
+                <Route path="ResultForm" element={<ResultForm />} />
                 <Route path="/hola" element={<Teams />} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
               </Routes>
