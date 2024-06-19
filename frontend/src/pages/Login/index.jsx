@@ -6,6 +6,7 @@ import { UserContext } from "contexts/UserContext";
 import { EventContext } from "contexts/EventContext";
 import styles from "./Login.module.css";
 import Cookies from "universal-cookie";
+import { Link } from "react-router-dom";
 
 //instantiating Cookies class by creating cookies object
 const cookies = new Cookies();
@@ -158,7 +159,16 @@ export default function Login() {
   return(
     <div>
       <h1>Bienvenido {session.username}</h1>
-      <button className={styles.inputBotton} id="submit-btn" type="submit" onClick={logout}> Logout</button>
+
+      <div>
+        <button class="btn btn-primary" id="submit-btn" type="submit" onClick={logout}> Logout</button>
+      </div>
+      <br />
+      <div>
+        <Link to={`*`}>
+        <button class="btn btn-primary" >Home</button>
+        </Link>
+      </div>
       
       <p>{user.name}</p>
       <p>{user.email}</p>

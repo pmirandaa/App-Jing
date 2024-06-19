@@ -202,6 +202,7 @@ export default function MatchForm(){
                 <div>{element.label}</div>
                 <input id="numberInput"
                 type="number"
+                placeholder="Marcador"
                 value={values[element.value] || ''}
                 onChange={(event) => handleChange(element.value, event)}
                 min="0" ></input>

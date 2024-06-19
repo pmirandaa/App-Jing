@@ -86,7 +86,7 @@ export default function TeamForm(){
         //setIsLoading(false);
       });
       const fetch4 = axios
-      .get(`${API_URL}/events/`)
+      .get(`${API_URL}/events/`) //Elimar el evento del form
       .then(sleeper(500))
       .then((response) => {
         console.log(response.data);
@@ -105,7 +105,7 @@ export default function TeamForm(){
     const fd = new FormData();
     fd.append('university', universitySelect);
     fd.append('sport', sportSelect);
-    fd.append('event', eventSelect);
+    fd.append('event', event.id);
     fd.append('persons', JSON.stringify(personSelect))
 
     const fetch= axios.post(`${API_URL}/createteam/`, fd, {
@@ -172,12 +172,12 @@ export default function TeamForm(){
             onChange = {handleSportChange}>
         </Select>
           <br/>
-        <Select
+        {/*<Select
             placeholder="Evento"
             options = {eventOptions}
             
             onChange= {handleEventChange}>
-        </Select>
+  </Select>*/}
           <br/>
         <Select
             placeholder="Universidad"

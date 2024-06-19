@@ -125,7 +125,8 @@ export default function MatchForm(){
         const object={}
         const lista = []
         response.data.results.forEach(element => {
-          lista.push({value: element.id ,label:element.sport_name})
+          const nombre = element.sport_name + " - "+ element.university.name
+          lista.push({value: element.id ,label:nombre})
           object[element.name]=element.id
           
         });
@@ -213,16 +214,11 @@ export default function MatchForm(){
               </Select>
               <br/>
               <Select
-              placeholder="Evento"
-              options = {universityOptions}
-              value= {universitySelect}>
-              </Select>
-              <br/>
-              <Select
               placeholder="Deporte"
               options = {sportOptions}
               onChange={handleSportSelect}>
               </Select>
+              <br/>
               <Select
               placeholder="Equipos"
               options = {teamsOptions}
@@ -230,6 +226,7 @@ export default function MatchForm(){
               onChange={handleTeamsSelect}
               isMulti = {true}>
               </Select>
+              <br/>
               <DatePicker
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}

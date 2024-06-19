@@ -51,7 +51,7 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
       <thead>
         {console.log(user)}
         <tr>
-          <th>Fecha {user.rut == "" ?  <h1>h</h1> : <h1>{user.rut}</h1>}  </th>
+          <th>Fecha</th>
           <th>Hora</th>
           <th>Lugar</th>
           <th>Deporte</th>
