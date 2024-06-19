@@ -224,7 +224,7 @@ export default function Dataload() {
         // Asegurese de no escribir el rut de forma erronea
         // mas informacion (BOTÓN)
         } 
-      <Stack gap={3}>
+      <Stack gap={2}>
       <h2> Carga individual</h2>
       
       <Row>
@@ -250,6 +250,9 @@ export default function Dataload() {
       </Col>
       </Row>
       <h2>Carga Multiple</h2>
+      <p>Carga Masiva de datos: En esta pagian ud podrá subir un archivo excel con los datos de los participantes. Al final de la página ud 
+         puede descargar un excel prediseñado con los deportes que desea subir a la página
+         Antes de subir el archivo ud debe seleccionar la universidad a la que perteneces los deportistas.</p>
       <Form.Label htmlFor="university">Carga de Personas</Form.Label>
       <Row >
         <Col xs={6}>
@@ -272,7 +275,7 @@ export default function Dataload() {
         </Col>
       </Row>
 
-      <Form.Label htmlFor="equipos">Carga de Equipos O carga completa</Form.Label>
+      <Form.Label htmlFor="equipos">Carga de Equipos</Form.Label>
       <Row >
         <Col xs={6}>
           <Select
@@ -320,10 +323,10 @@ export default function Dataload() {
       <div>
         <br/>
         <h1>
-          Acá esta su excel
+          Plantilla Excel
         </h1>
-        <p>Seleccione los deportes que quiere ingresar para obtener el excel pre diseñado. Si desea agregar sólo personas, no seleccione nada. </p>
-        <p>Cada hoja corresponde a un deporte y cada fila a un participante. Llene todos los datos de cada participante</p>
+        <p>Seleccione los deportes que quiere ingresar para obtener el excel pre diseñado. Si desea agregar sólo personas, no seleccione nada. 
+        Cada hoja corresponde a un deporte y cada fila a un participante. Llene todos los datos de cada participante</p>
         <Row>
           <Col xs={6}>
             <Select
