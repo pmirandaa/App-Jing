@@ -15,6 +15,7 @@ import { API_URL } from "constants";
 import Select from "react-select";
 import Cookies from "universal-cookie";
 import styles from "./LoadForm.module.css";
+import { Link } from "react-router-dom";
 
 const cookies = new Cookies();
 export default function TeamForm(){
@@ -29,7 +30,9 @@ export default function TeamForm(){
   const [created, setCreated]= useState(0)
   const [eventSelect, setEventSelect] = useState([])
   const [eventOptions, setEventOptions] = useState([])
-
+  const [show, setShow] = useState(false);
+  const [dialogContent, setDialogContent] = useState({error:'', row:0, content:''});
+  
   //revisar que los deportes cambien al cambiar el evento y que el evento sea 
   //el actual seleccionado en la pagina por defecto
   useEffect(() => {
@@ -100,6 +103,13 @@ export default function TeamForm(){
       })
   }, []);
 
+  function handleClose(){
+    setShow(false)
+  };
+  function handleShow(){
+    setShow(true)
+  };
+
   function handleSubmit(e){
     e.preventDefault();
     const fd = new FormData();
@@ -164,6 +174,9 @@ export default function TeamForm(){
         <h2 class="h1-responsive font-weight-bold text-center my-5">
             Crear un nuevo equipo 
         </h2>
+        <Link to={`/dataLoad`}>
+        <button className={styles.submitButton}> Volver</button> 
+        </Link>
         <form onSubmit={handleSubmit}>
         <Select
             placeholder="Deporte"
@@ -171,7 +184,6 @@ export default function TeamForm(){
             
             onChange = {handleSportChange}>
         </Select>
-          <br/>
         {/*<Select
             placeholder="Evento"
             options = {eventOptions}
@@ -199,6 +211,22 @@ export default function TeamForm(){
           </div> 
           </form>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {dialogContent.error} <br/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </Container>
   )
 }

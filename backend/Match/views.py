@@ -207,6 +207,9 @@ def CreateResult(request):
         else:
             closed=False
         
+        attendance_list= post['attendance']
+        attendance=json.loads(attendance_list)
+        
         # initializing the lists in Python to use lambda and map.
         # the first step will be printing the string value
         ##print("Original list : ", winners)
@@ -228,7 +231,7 @@ def CreateResult(request):
                 print(team)
                 t= Team.objects.get(pk=team)
                 print(t)
-                matchteam_update_fields={'score':int(teamScore[team])}
+                matchteam_update_fields={'score':int(teamScore[team]),'attended':  attendance[team]}
                 print(matchteam_update_fields)
                 mt = MatchTeam.objects.filter(team=t, match=match.get()).update(**matchteam_update_fields)
                 print(t)

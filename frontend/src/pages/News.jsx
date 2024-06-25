@@ -23,7 +23,7 @@ export default function News() {
       <section class="my-2">
         <div class="d-flex row w-100 justify-content-center">
           <h2 class="h1-responsive font-weight-bold text-center my-5">
-            Ultimas Noticia
+            Ultimas Noticias
           </h2>
           {/* {% if person.is_organizer or person.is_admin %} */}
           <Button

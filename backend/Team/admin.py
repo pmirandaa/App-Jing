@@ -18,8 +18,11 @@ class TeamAdmin(SimpleHistoryAdmin):
 
 
 class TeamPlayerAdmin(SimpleHistoryAdmin):
-    list_display = ('team', 'player')
+    list_display = ('team' ,'player', "team_event")
     search_fields = ('team__sport__name', 'player__name', 'team__university__name')
+
+    def team_event(self, obj):
+        return obj.team.event
 
 
 admin.site.register(Team, TeamAdmin)

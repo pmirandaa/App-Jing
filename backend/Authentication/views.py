@@ -178,7 +178,7 @@ def DataLoadView(request):
                             objU, userCreated = User.objects.get_or_create(username = rut) # arreglar el error de user id
                             create_defaults= {'user':objU}
                             objP, createdP = Person.objects.update_or_create(rut=rut,defaults=create_defaults)
-                            print(objP)
+                            print(createdP)
                             objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
                             objTP, createdTP = PlayerTeam.objects.update_or_create(player = objP, team=objT)
                             
@@ -187,15 +187,16 @@ def DataLoadView(request):
                         print("creando usuario")
                         objU, userCreated = User.objects.get_or_create(username = rut) # arreglar el error de user id
                         print(userCreated)
-                        print(objU)
                         create_defaults= {'name':nombre, 'last_name':last_name, 'email':email, 'rut':rut,'university':university,'phone_number':phone_number, 'emergency_phone_number':emergency_phone_number}
                         objP, createdP = Person.objects.update_or_create(user=objU,defaults=create_defaults)
                         print(objP)
                         objT, createdT = Team.objects.update_or_create(event=event, sport=sport, university=university)
+                        print(createdT)
                         objTP, createdTP = PlayerTeam.objects.update_or_create(player = objP, team=objT)
-                
-                except:
-                    return JsonResponse({"detail": "Error", "Error":"Exception"})
+                        print(createdTP)
+
+                except ValueError as e:
+                    return JsonResponse({"detail": "Error", "Error":str(e)})
 
         return JsonResponse({"detail": "Data Loades"})
     
@@ -302,7 +303,6 @@ def MatchDataLoadView(request):
             print(university)
             print(rut)
             print(phone_number)
-        print(c)
         return JsonResponse({"detail": "Data Loades"})
 
     return JsonResponse({"detail": "Not authenticated"})
@@ -368,7 +368,7 @@ def CreateTeam(request):
         if team:
             for element in jsonloads:
                 person= Person.objects.get(pk=element["value"])
-                p=PlayerTeam.objects.create(player=person, team=team)
+                p=PlayerTeam.objects.create(player=person, team=team.get())
                 print(p)
 
         else:     

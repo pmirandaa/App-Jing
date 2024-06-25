@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
+import { UserContext } from "contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { sleeper } from "utils";
@@ -11,6 +12,7 @@ import { HouseFill, Trophy, TrophyFill } from "react-bootstrap-icons";
 
 export default function Events() {
   const { event, setEvent } = useContext(EventContext);
+  const { user, setUser } = useContext(UserContext);
   const [eventOptions, setEventOptions] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +26,15 @@ export default function Events() {
       setIsLoading(false);
       navigate("/");
     }, 1000);
+  }
+
+
+  function Set(eve){
+    const array=[]
+
+    setUser({ actual_roles:array})
+
+
   }
 
   useEffect(() => {
@@ -52,7 +63,7 @@ export default function Events() {
 
       <div className={styles.eventsContainer}>
         {eventOptions.map((eve) => (
-          <EventContext.Provider value={[event, setEvent]} >
+          
           <div className={styles.eventCard} key={eve.value}    onClick={() =>setEvent({id: eve.value, name: eve.label})}  >
             <img className={styles.eventLogo} src="/img/logoJING2019.jpg" />
             <p className={styles.eventLabel}>{eve.label}</p>
@@ -69,7 +80,7 @@ export default function Events() {
               )}
             </div>
           </div>
-          </EventContext.Provider>
+          
         ))}
       </div>
     </Container>

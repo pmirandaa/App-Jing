@@ -16,6 +16,7 @@ import styles from "./LoadForm.module.css";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
+import { Link } from "react-router-dom";
 
 const cookies = new Cookies();
 export default function MatchForm(){
@@ -202,6 +203,9 @@ export default function MatchForm(){
         <h2 class="h1-responsive font-weight-bold text-center my-5">
             Crear un nuevo Partido 
         </h2>
+        <Link to={`/dataLoad`}>
+        <button className={styles.submitButton}> Volver</button> 
+        </Link>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputContainer}>
             <input placeholder="Nombre" className={styles.inputBox} type="text" id="username" name="username" onChange={handleNameChange}/>

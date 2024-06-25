@@ -12,6 +12,7 @@ import Select from "react-select";
 import Cookies from "universal-cookie";
 import styles from "./LoadForm.module.css";
 import 'react-datepicker/dist/react-datepicker.css';
+import { Link } from "react-router-dom";
 
 const cookies = new Cookies();
 export default function MatchForm(){
@@ -30,6 +31,7 @@ export default function MatchForm(){
   const [dialogContent, setDialogContent] = useState({error:'', row:0, content:''});
   const [isPlayedChecked, setIsPlayedChecked] = useState(false);
   const [isClosedChecked, setIsClosedChecked] = useState(false);
+  const [attendanceChecked, setAttendanceChecked] = useState({});
   const [values, setValues] = useState({});
 
 
@@ -59,6 +61,16 @@ export default function MatchForm(){
 
   const handlePlayedCheckboxChange = () => {
     setIsPlayedChecked(!isPlayedChecked);
+  };
+  const handleAttendanceCheckboxChange = (index,element) => {
+    console.log(!element.target.value)
+    const { checked } = element.target;
+    setAttendanceChecked(prevChecked => ({
+      ...prevChecked,
+      [index]: checked
+    }));
+
+    console.log(attendanceChecked)
   };
   const handleClosedCheckboxChange = () => {
     setIsClosedChecked(!isClosedChecked);
@@ -127,7 +139,8 @@ export default function MatchForm(){
     const fd = new FormData();
     fd.append("match", matchSelect);
     fd.append('teamScore', JSON.stringify(values));
-    fd.append("winners", JSON.stringify(lista))
+    fd.append("winners", JSON.stringify(lista));
+    fd.append("attendance", JSON.stringify(attendanceChecked))
     fd.append("played", isPlayedChecked)
     fd.append("closed", isClosedChecked)
     fd.append('event', `${event.id}`);
@@ -177,6 +190,9 @@ export default function MatchForm(){
         <h2 class="h1-responsive font-weight-bold text-center my-5">
             Añadir un resultado 
         </h2>
+        <Link to={`/dataLoad`}>
+        <button className={styles.submitButton}> Volver</button> 
+        </Link>
         <form onSubmit={handleSubmit}>
             <Select
             placeholder="Deporte"
@@ -206,6 +222,15 @@ export default function MatchForm(){
                 value={values[element.value] || ''}
                 onChange={(event) => handleChange(element.value, event)}
                 min="0" ></input>
+
+                <label>
+                <input
+                type="checkbox"
+                checked={attendanceChecked[element.value] || ''}
+                onChange={(event)=> handleAttendanceCheckboxChange(element.value,event)}/>
+                Asistencia
+            </label>
+                
                 </div>
               ))}
             <br/>
