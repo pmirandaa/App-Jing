@@ -21,16 +21,16 @@ class SportTest(APITestCase):
                 "name": "Fútbol",
                 "gender": "FEM",
                 "sport_type": "A",
-                "coordinator": 1,
-                "closed": True
+                "coordinator": 1
+                
             },
             {
                 "id": 2,
                 "name": "Básquetbol",
                 "gender": "MIX",
                 "sport_type": "A",
-                "coordinator": 2,
-                "closed": False
+                "coordinator": 2
+                
             },
         ]
         response = self.client.get(url, format='json')
@@ -44,8 +44,8 @@ class SportTest(APITestCase):
             "name": "Fútbol",
             "gender": "FEM",
             "sport_type": "A",
-            "coordinator": 2,
-            "closed": True
+            "coordinator": 2
+            
         }
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -68,8 +68,8 @@ class SportTest(APITestCase):
             "name": "Vóleibol",
             "gender": "MLE",
             "sport_type": "C",
-            "coordinator": 3,
-            "closed": False
+            "coordinator": 3
+           
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -89,8 +89,8 @@ class SportTest(APITestCase):
             "name": "Tenis de mesa",
             "gender": "MIX",
             "sport_type": "B",
-            "coordinator": 3,
-            "closed": True
+            "coordinator": 3
+           
         }
         response = self.client.patch(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

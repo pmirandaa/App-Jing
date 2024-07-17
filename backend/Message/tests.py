@@ -20,8 +20,7 @@ class MessageTest(APITestCase):
             {
                 "id": 1,
                 "sender": 2,
-                "reciever": 1,
-                "event": 1,
+                "chat": 1,
                 "subject": "Asd",
                 "body": "Zxc",
                 "is_read": True,
@@ -38,8 +37,8 @@ class MessageTest(APITestCase):
         expected = {
             "id": 1,
             "sender": 2,
-            "reciever": 1,
-            "event": 1,
+            "chat": 1,
+           
             "subject": "Asd",
             "body": "Zxc",
             "is_read": True,
@@ -58,16 +57,14 @@ class MessageTest(APITestCase):
         messages_count = Message.objects.count()
         data = {
             "sender": 1,
-            "reciever": 2,
-            "event": 1,
+            "chat": 2,
             "subject": "Mensaje de prueba",
             "body": "Hola! Este es un mensaje de prueba.",
         }
         expected = {
             "id": messages_count + 1,
             "sender": 1,
-            "reciever": 2,
-            "event": 1,
+            "chat": 2,
             "subject": "Mensaje de prueba",
             "body": "Hola! Este es un mensaje de prueba.",
             "is_read": False,

@@ -56,14 +56,34 @@ export default function MatchForm(){
   }
   function handleSportSelect(e){
     setSportSelect(e.value)
+    getTeams(e.value)
   }    
   function handleLocationSelect(e){
     setLocationSelect(e.value)
   }    
   function handleTeamsSelect(selectedOption){
     setTeamsSelect(selectedOption)
-  }    
+  }
   
+  function getTeams(id){
+    const fetch4 = axios
+      .get(`${API_URL}/teams/?event=${event.id}&sport=${id}`) 
+      .then((response) => {
+        const object={}
+        const lista = []
+        response.data.results.forEach(element => {
+          const nombre = element.sport_name + " - "+ element.university.name
+          lista.push({value: element.id ,label:nombre})
+          object[element.name]=element.id  
+        });
+        console.log(response.data)
+        console.log(lista)
+        console.log("objeto", object)
+        console.log("objetokeys", Object.keys(object))
+
+        setTeamsOptions(lista);
+      })        
+  }
 
   useEffect(() => {
     const fetch = axios
@@ -120,24 +140,6 @@ export default function MatchForm(){
 
         setLocationOptions(lista);
       })
-      const fetch4 = axios
-      .get(`${API_URL}/teams/?event=${event.id}`) 
-      .then((response) => {
-        const object={}
-        const lista = []
-        response.data.results.forEach(element => {
-          const nombre = element.sport_name + " - "+ element.university.name
-          lista.push({value: element.id ,label:nombre})
-          object[element.name]=element.id
-          
-        });
-        console.log(response.data)
-        console.log(lista)
-        console.log("objeto", object)
-        console.log("objetokeys", Object.keys(object))
-
-        setTeamsOptions(lista);
-      })        
   }, []);
 
   function handleSubmit(e){
@@ -167,7 +169,7 @@ export default function MatchForm(){
     })
     .then(response =>{
       console.log(response)
-      if(response.data.detail=="Persona Creada"){
+      if(response.data.detail=="Partido Creado"){
         setCreated(1)
       }
       if(response.data.detail=="Error"){
@@ -190,9 +192,13 @@ export default function MatchForm(){
     return (
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
-          <div>Equipo Creado</div>
+          <div>Partido Creado</div>
         </div>
-    <Button onClick={()=>reset()}>Crear otro equipo</Button> 
+    <Button onClick={()=>reset()}>Crear otro partido</Button> 
+    <br/>
+    <Link to={`/dataLoad`}>
+        <Button > Volver</Button> 
+      </Link>
     </div>
     )
   }
@@ -253,9 +259,6 @@ export default function MatchForm(){
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

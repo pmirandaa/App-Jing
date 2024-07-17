@@ -11,6 +11,8 @@ import { useIsFirstRender, usePrevious } from "utils/hooks";
 import { capitalize, objectToParamsString, paramsStringToObject } from "utils";
 import TablePagination from "components/pagination/TablePagination";
 import styles from "./TableSearchPage.module.css";
+//import Dataload from "pages/DataLoad";
+import { Link } from "react-router-dom";
 
 export default function TableSearchPage({
   SidebarComponent,
@@ -137,6 +139,10 @@ export default function TableSearchPage({
       <h1 className={styles.title}>{capitalize(label)}</h1>
       <LoadingIndicator isLoading={isLoading} />
       <h4>{event?.name}</h4>
+      {
+      <Link to={`/DataLoad`}>
+      <button class="btn btn-primary" >Carga de Datos</button>
+      </Link>}
 
       {rows.length > 0 ? (
         <>

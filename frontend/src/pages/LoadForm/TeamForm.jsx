@@ -73,21 +73,6 @@ export default function TeamForm(){
         console.log(sportOptions)
         //setIsLoading(false);
       });
-      const fetch3 = axios
-      .get(`${API_URL}/persons/`) 
-      .then((response) => {
-        const object={}
-        const lista = []
-        response.data.results.forEach(element => {
-          lista.push({value: element.id ,label:element.name})
-        });
-        console.log(lista)
-        setPersonOptions(lista);
-      })
-      .finally(() => {
-        console.log(personOptions)
-        //setIsLoading(false);
-      });
       const fetch4 = axios
       .get(`${API_URL}/events/`) //Elimar el evento del form
       .then(sleeper(500))
@@ -102,6 +87,25 @@ export default function TeamForm(){
         setEventOptions(res.reverse());
       })
   }, []);
+
+  function getPersons(id){
+    const fetch3 = axios
+      .get(`${API_URL}/persons/?university=${id}`) 
+      .then((response) => {
+        const object={}
+        const lista = []
+        response.data.results.forEach(element => {
+          lista.push({value: element.id ,label:element.name})
+        });
+        console.log(lista)
+        setPersonOptions(lista);
+      })
+      .finally(() => {
+        console.log(personOptions)
+        //setIsLoading(false);
+      });
+  }
+
 
   function handleClose(){
     setShow(false)
@@ -145,6 +149,7 @@ export default function TeamForm(){
 
   function handleUniversityChange(e){
     setUniversitySelect(e.value)
+    getPersons(e.value)
   }
 
   function handleEventChange(e){
@@ -164,6 +169,10 @@ export default function TeamForm(){
           <div>Equipo Creado</div>
         </div>
     <Button onClick={()=>reset()}>Crear otro equipo</Button> 
+    <br />
+    <Link to={`/dataLoad`}>
+        <Button > Volver</Button> 
+      </Link>
     </div>
     )
   }
@@ -221,9 +230,6 @@ export default function TeamForm(){
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

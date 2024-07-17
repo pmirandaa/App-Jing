@@ -180,6 +180,10 @@ export default function MatchForm(){
           <div>Resultado Creado</div>
         </div>
     <Button onClick={()=>reset()}>Crear otro Resultado</Button> 
+    <br/>
+    <Link to={`/dataLoad`}>
+        <Button > Volver</Button> 
+      </Link>
     </div>
     )
   }

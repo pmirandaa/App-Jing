@@ -162,6 +162,17 @@ def CreateMatch(request):
         date=request.POST["date"]
         print(date)
 
+        #validar que no haya mas de un equipo por universidad
+
+        arrayteams=[]
+        for element in teams:
+            team=Team.objects.get(pk=element["value"])
+            team_u=team.university
+            print(team_u)
+            if team_u in arrayteams:
+                return JsonResponse({"Error": "Partido No Creado"})
+            arrayteams.append(team_u)
+
         match=Match.objects.create(name=name, sport=sport, event=event,date=date, location=location)
         for element in teams:
             team= Team.objects.get(pk=element["value"])

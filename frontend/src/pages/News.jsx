@@ -26,7 +26,7 @@ export default function News() {
             Ultimas Noticias
           </h2>
           {/* {% if person.is_organizer or person.is_admin %} */}
-          <Button
+          <Button size="100px"
             onClick={toggleAddNewsModal}
             class="btn btn-danger btn-circle my-auto ml-5"
           >
@@ -44,7 +44,7 @@ export default function News() {
                   </option>
                   {/* {% for category in categories %} */}
                   <option value="{{ category.id }}" class="mb-2">
-                    [CATEGORY]
+                    {/*[CATEGORY]*/}
                   </option>
                   {/* {% endfor %} */}
                 </select>
@@ -76,14 +76,14 @@ export default function News() {
                         <img
                           class="img-fluid"
                           src="{{ new.picture.url }}"
-                          alt="{{ new.title }}"
-                        />
+                          alt=""   /> {/*"{{ new.title }}"*/}
                         <a>
                           <div class="mask rgba-white-slight"></div>
                         </a>
                       </div>
                     </div>
                     <div class="col-lg-7">
+                      {/*
                       <a
                         href="#!"
                         class="{{ new.category.color }}-text category"
@@ -93,15 +93,15 @@ export default function News() {
                       <h3 class="font-weight-bold mb-3">
                         <strong>[TITLE]</strong>
                       </h3>
-                      <p class="news_short">[SHORT_STORY]</p>
+                     <p class="news_short">[SHORT_STORY]</p>
                       <p class="news_long d-none">[BODY]</p>
                       <p class="news_data">
                         by{" "}
                         <a>
-                          <strong>[PUBLISHER]</strong>
+                         { /*<strong>[PUBLISHER]</strong>
                         </a>
                         , [DATE]
-                      </p>
+                      </p>*/ }
                       <a class="btn {{ new.category.btn_class }} btn-md open-modal">
                         Mas Información
                       </a>
@@ -154,11 +154,11 @@ export default function News() {
               <div class="col-lg-7">
                 <select class="form-control mb-3" name="category">
                   <option value="" disabled selected>
-                    Elijá categoría
+                   { /*Elijá categoría*/}
                   </option>
                   {/* {% for category in categories %} */}
                   <option value="{{ category.id }}" class="mb-2">
-                    [CATEGORY]
+                   {/* [CATEGORY]*/}
                   </option>
                   {/* {% endfor %} */}
                 </select>
@@ -174,7 +174,7 @@ export default function News() {
                     data-success="right"
                     for="news_title"
                   >
-                    Titulo de la noticia
+                    {/*Titulo de la noticia*/}
                   </label>
                 </div>
                 <div class="md-form mb-4">
@@ -189,7 +189,7 @@ export default function News() {
                     data-success="right"
                     for="news_resume"
                   >
-                    Bajada de la noticia (Texto corto)
+                   {/* Bajada de la noticia (Texto corto)*/}
                   </label>
                 </div>
               </div>

@@ -24,7 +24,7 @@ export default function NavBarRightSection() {
       </NavDropdown>
 
       <Avatar />
-      <NavDropdown title={user.name} id="basic-nav-dropdown" align="end">
+      <NavDropdown title={user.isAuthenticated ? user.name : 'Log in'} id="basic-nav-dropdown" align="end">
         <NavDropdown.Item as={Link} to="/login"> Login </NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/signin"> Signin </NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/channels"> Chats </NavDropdown.Item>

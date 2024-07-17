@@ -127,9 +127,13 @@ export default function LoadForm(){
     return (
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
-          <div>Equipo Creado</div>
+          <div>Persona creada</div>
         </div>
-    <Button onClick={()=>reset()}>Crear otro equipo</Button> 
+    <Button onClick={()=>reset()}>Crear otra Persona</Button> 
+    <br />
+    <Link to={`/dataLoad`}>
+        <Button > Volver</Button> 
+      </Link>
     </div>
     )
   }

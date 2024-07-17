@@ -6,6 +6,7 @@ from Team.models import Team
 from Sport.models import Sport
 from simple_history.models import HistoricalRecords
 
+
 class Match(models.Model):
     name=models.CharField(max_length=100)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
@@ -30,13 +31,22 @@ class Match(models.Model):
         return '{} ({})'.format(self.sport, teams)
     
 class MatchTeam(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, )
     match = models.ForeignKey(Match, related_name='match_teams', on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)
     comment = models.TextField(max_length=300, blank=True)
     is_winner = models.BooleanField(default=False)
     attended = models.BooleanField(default=False)
     history = HistoricalRecords()
+
+    
+    # def validate_unique(self, exclude=None):
+    #         qs = self.objects.filter(team__university=self.team.university)
+    #         if qs.filter(team__field2=self.field2).exists():
+    #             raise ValidationError('Fields must be unique')
+
+    #         models.Model.validate_unique(self, exclude=exclude)
+
 
     def __str__(self):
         return str(self.team)

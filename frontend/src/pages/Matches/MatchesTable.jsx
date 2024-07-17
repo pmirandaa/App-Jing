@@ -51,6 +51,7 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
       <thead>
         {console.log(user)}
         <tr>
+          <th>Nombre</th>
           <th>Fecha</th>
           <th>Hora</th>
           <th>Lugar</th>
@@ -64,6 +65,7 @@ export default function MatchesTable({ rows, fetchData, ...props }) {
       <tbody>
         {rows.map((row) => (
           <tr key={row.id}>
+            <td>{row.name}</td>
             <td>{moment(row.date).format("ddd DD-MM-YY")}</td>
             <td>{moment(row.date).format("HH:mm")}</td>
             <td>{row.location.name}</td>

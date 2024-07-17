@@ -75,6 +75,7 @@
         "model": "Match.match",
         "pk": 1,
         "fields": {
+            "name":"1",
             "location": 1,
             "event": 1,
             "date": "2021-12-22T18:00:00Z",
@@ -88,6 +89,7 @@
         "model": "Match.match",
         "pk": 2,
         "fields": {
+            "name":"2",
             "location": 2,
             "event": 1,
             "date": "2022-05-21T07:40:00Z",
@@ -101,6 +103,7 @@
         "model": "Match.match",
         "pk": 3,
         "fields": {
+            "name":"3",
             "location": 1,
             "event": 1,
             "date": "2021-12-22T18:00:00Z",
@@ -114,6 +117,7 @@
         "model": "Match.match",
         "pk": 4,
         "fields": {
+            "name":"4",
             "location": 1,
             "event": 1,
             "date": "2021-12-22T18:00:00Z",
@@ -300,12 +304,30 @@
         }
     },
     {
+        "model": "Message.chat",
+        "pk": 1,
+        "fields": {
+            "name": "1",
+            "event": 1
+
+        }
+    },
+    {
+        "model": "Message.chat",
+        "pk": 2,
+        "fields": {
+            "name": "2",
+            "event": 1
+
+        }
+    },
+    {
         "model": "Message.message",
         "pk": 1,
         "fields": {
             "sender": 2,
-            "reciever": 1,
-            "event": 1,
+            "chat": 1,
+            
             "subject": "Asd",
             "body": "Zxc",
             "is_read": true,
@@ -342,7 +364,7 @@
         "pk": 1,
         "fields": {
             "user": 1,
-            "event": 1,
+            
             "name": "Sebastián",
             "last_name": "Cisneros",
             "email": "asd@asd.asd",
@@ -358,7 +380,7 @@
         "pk": 2,
         "fields": {
             "user": null,
-            "event": 1,
+           
             "name": "Yop",
             "last_name": "Yop",
             "email": "zxc@zxc.zxc",
@@ -374,7 +396,7 @@
         "pk": 3,
         "fields": {
             "user": null,
-            "event": 1,
+            
             "name": "111",
             "last_name": "111",
             "email": "asdf@asdf.asdf",
@@ -390,7 +412,7 @@
         "pk": 4,
         "fields": {
             "user": null,
-            "event": 1,
+           
             "name": "Juana",
             "last_name": "Perez",
             "email": "zxc@zxc.com",
@@ -406,7 +428,7 @@
         "pk": 5,
         "fields": {
             "user": null,
-            "event": 1,
+            
             "name": "Gabriel",
             "last_name": "Boric",
             "email": "123@zxc.asd",
@@ -432,9 +454,9 @@
         "fields": {
             "name": "Fútbol",
             "gender": "FEM",
-            "sport_type": "A",
-            "coordinator": 1,
-            "closed": true
+            "sport_type": "A"
+            
+           
         }
     },
     {
@@ -443,9 +465,9 @@
         "fields": {
             "name": "Básquetbol",
             "gender": "MIX",
-            "sport_type": "A",
-            "coordinator": 2,
-            "closed": false
+            "sport_type": "A"
+           
+           
         }
     },
     {
