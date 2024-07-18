@@ -135,7 +135,7 @@ export default function Login() {
 
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
-          <div>Login</div>
+          <div>Log in</div>
         </div>
         <br />
         <form onSubmit={(e)=>{asyncLoginpost(user,setUser, e)}}>

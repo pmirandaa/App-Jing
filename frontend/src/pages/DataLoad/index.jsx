@@ -15,6 +15,7 @@ import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
+import styles from "./DataLoad.module.css";
 
 //instantiating Cookies class by creating cookies object
 const cookies = new Cookies();
@@ -125,7 +126,7 @@ export default function Dataload() {
     const a =  event["id"]
     const fd = new FormData();
     fd.append('file', file);
-    fd.append('university', universitySelect)
+    fd.append('university', universitySelect2)
     fd.append('type', 'teams')
     fd.append('event',event.id) // comntemplar el cambio a id en lugar de name
     fd.append('end','end')
@@ -230,8 +231,9 @@ export default function Dataload() {
         // mas informacion (BOTÓN)
         } 
       <Stack gap={2}>
+      <div>
       <h2> Carga individual</h2>
-      
+      <div className={styles.individualContainer}>
       <Row>
       <Col  xs={3}>
       <Link to={`/loadForm`}>
@@ -254,10 +256,13 @@ export default function Dataload() {
       </Link>
       </Col>
       </Row>
-      <h2>Carga Multiple</h2>
-      <p>Carga Masiva de datos: En esta pagina ud. podrá subir un archivo excel con los datos de los participantes. Al final de la página ud 
-         puede descargar un excel prediseñado con los deportes que desea subir a la página
-         Antes de subir el archivo ud debe seleccionar la universidad a la que perteneces los deportistas.
+      </div>
+      </div>
+      <h2>Carga Múltiple</h2>
+      <div className={styles.UploadContainer}>
+      <p>En esta página ud. podrá subir un archivo Excel con los datos de los participantes. Al final de la página ud. 
+         puede descargar un excel prediseñado con los deportes que desea subir a la página.
+         Antes de subir el archivo ud debe seleccionar la universidad a la que pertenecen los deportistas.
          No es necesario que los miembros de un equipo esten registrados; se les registrará autmáticamente.</p>
       <Form.Label htmlFor="university">Carga de Personas</Form.Label>
       <Row >
@@ -326,6 +331,7 @@ export default function Dataload() {
       </Row>
       
       */}
+      </div>
       </Stack>
       <div>
         <br/>
