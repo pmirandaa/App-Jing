@@ -53,8 +53,60 @@ def signin_view(request):
     data=json.loads(request.body)
     username = data.get("username")
     password = data.get("password")
-    pass
-    print("hola")
+    name = data.get("name")
+    last_name = data.get("last_name")
+    phone_number = data.get("phone")
+    universityid = data.get("university")
+    email = data.get("email")
+    emergency_phone_number = data.get("ephone")
+    rut = data.get("rut")
+
+    university= University.objects.get(pk=universityid)
+
+    if username is None or password is None or rut is None or email is None or phone_number is None or university is None or phone_number is None or emergency_phone_number is None or name is None or last_name is None:
+        return JsonResponse({"detail":"Error", "Error": "Valor nulo"})
+    print("primer if bueno")
+    error=[]
+
+    if User.objects.filter(username=username):
+                error.append("Ya existe una persona con ese nombre de usuario")
+                # Si hay algun error en las validaciones, se detiene completamente
+                # continue (si se quiere continuar la carga e informar de los errores depues, dejar esta linea y borrar el return)
+                return JsonResponse({"detail": "Error", "Error":error})
+
+
+    if Person.objects.filter(rut=rut):
+                error.append("Ya existe una persona con ese rut")
+                # Si hay algun error en las validaciones, se detiene completamente
+                # continue (si se quiere continuar la carga e informar de los errores depues, dejar esta linea y borrar el return)
+                return JsonResponse({"detail": "Error", "Error":error})
+    if Person.objects.filter(email=email):
+                error.append("Ya existe una persona con ese email")
+                # Si hay algun error en las validaciones, se detiene completamente
+                # continue (si se quiere continuar la carga e informar de los errores depues, dejar esta linea y borrar el return)
+                return JsonResponse({"detail": "Error", "Error":error})
+    
+    try:
+        objU = User.objects.create_user(username=username , password=password)
+        objP, created = Person.objects.update_or_create(user=objU,name=name, last_name=last_name, email=email, rut=rut,university=university,phone_number=phone_number, emergency_phone_number=emergency_phone_number)
+
+    except ValueError as e:
+                    return JsonResponse({"detail": "Error", "Error":str(e)})
+    user = authenticate(username=username, password=password)
+
+    login(request, user)
+    a= PersonSerializer(user.person)
+    b= list(PER.objects.filter(person=user.person))
+    c= PERSerializer(b, many=True)
+    d=Event.objects.filter(current=True)
+    print(a)
+    print(a.data)
+    print(b)
+    print(c)
+    print(c.data)
+    print("current event", d.get().name)
+    
+    return JsonResponse({"details":"Succesfull log","user": a.data, "PER":c.data})
 
 @require_POST
 def login_view(request):
@@ -62,11 +114,13 @@ def login_view(request):
     username = data.get("username")
     password = data.get("password")
 
+    print(username)
+    print(password)
     if username is None or password is None:
         return JsonResponse({"detail":"Please provide username and password"})
     user = authenticate(username=username, password=password)
     if user is None:
-        return JsonResponse({"detail":"invalid credentials"}, status=400)
+        return JsonResponse({"detail":"invalid credentials", "Error":"Usuario o contraseña incorrectos"})
     login(request, user)
 
     a= PersonSerializer(user.person)

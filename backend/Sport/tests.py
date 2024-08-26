@@ -21,7 +21,6 @@ class SportTest(APITestCase):
                 "name": "Fútbol",
                 "gender": "FEM",
                 "sport_type": "A",
-                "coordinator": 1
                 
             },
             {
@@ -29,7 +28,6 @@ class SportTest(APITestCase):
                 "name": "Básquetbol",
                 "gender": "MIX",
                 "sport_type": "A",
-                "coordinator": 2
                 
             },
         ]
@@ -44,7 +42,6 @@ class SportTest(APITestCase):
             "name": "Fútbol",
             "gender": "FEM",
             "sport_type": "A",
-            "coordinator": 2
             
         }
         response = self.client.get(url, format='json')
@@ -61,14 +58,12 @@ class SportTest(APITestCase):
             "name": "Vóleibol",
             "gender": "MLE",
             "sport_type": "C",
-            "coordinator": 3,
         }
         expected = {
             "id": sports_count + 1,
             "name": "Vóleibol",
             "gender": "MLE",
             "sport_type": "C",
-            "coordinator": 3
            
         }
         response = self.client.post(url, data, format='json')
@@ -81,15 +76,13 @@ class SportTest(APITestCase):
         data = {
             "name": "Tenis de mesa",
             "gender": "MIX",
-            "sport_type": "B",
-            "coordinator": 3
+            "sport_type": "B"
         }
         expected = {
             "id": 1,
             "name": "Tenis de mesa",
             "gender": "MIX",
-            "sport_type": "B",
-            "coordinator": 3
+            "sport_type": "B"
            
         }
         response = self.client.patch(url, data, format='json')

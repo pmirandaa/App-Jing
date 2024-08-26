@@ -9,6 +9,11 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         fields = ('id','sender_name','chat','subject','body','is_read','date','deleted')
 
+class MessageCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ('__all__')
+
 class ChatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chat

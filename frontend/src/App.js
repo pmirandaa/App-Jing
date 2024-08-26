@@ -49,7 +49,6 @@ function App() {
   useEffect(() =>{
     const fetchInit = async () =>{
       setIsLoading(true);
-
       const response = await axios.get(`${API_URL}/events/?current=True`);
       const evento= response.data
       console.log(response.data[0].id)
@@ -112,7 +111,6 @@ function App() {
             
           }
           })
-        
         //profileRef.current={...profile,id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER}
         setUser({...user, id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER, isAuthenticated:true, actual_roles:array})
         

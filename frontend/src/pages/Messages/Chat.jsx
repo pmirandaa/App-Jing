@@ -14,8 +14,6 @@ import styles from "./Messages.module.scss";
 import MessagesContainer from "./MessagesContainer";
 
 export default function Chat({messages, chat, addMessage}){
-
-
     return(
         <div className={styles.home}>
           <div className={styles.container}>

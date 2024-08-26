@@ -17,19 +17,27 @@ class EventTest(APITestCase):
         url = '/api/events/'
         expected = [
             {
-                "id": 1,
-                "name": "Jing 2022",
-                "year": 2022,
-                "logo": "events/teddy-bear.png"
-            },
-            {
                 "id": 2,
                 "name": "Jing 2021",
                 "year": 2021,
-                "logo": "events/teddy-bear.png"
+                "logo": 'http://testserver/events/teddy-bear.png',
+                'current': False
             }
+            
+            ,
+            
+            {
+                "id": 1,
+                "name": "Jing 2022",
+                "year": 2022,
+                "logo": 'http://testserver/events/teddy-bear.png',
+                'current': False
+            }
+            
         ]
         response = self.client.get(url, format='json')
+        print("Respuesta: ")
+        print(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -39,9 +47,12 @@ class EventTest(APITestCase):
             "id": 1,
             "name": "Jing 2022",
             "year": 2022,
-            "logo": "events/teddy-bear.png"
+            "logo": "http://testserver/events/teddy-bear.png",
+            'current': False
         }
         response = self.client.get(url, format='json')
+        print("Respuesta: ")
+        print(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(response.content, expected)
 
@@ -59,9 +70,12 @@ class EventTest(APITestCase):
             "id": events_count + 1,
             "name": "Jing 2023",
             "year": 2023,
-            "logo": ""
+            "logo": None,
+            'current': False
         }
         response = self.client.post(url, data, format='json')
+        print("Respuesta: ")
+        print(response.content)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Event.objects.count(), events_count + 1)
         self.assertJSONEqual(response.content, expected)
@@ -77,7 +91,8 @@ class EventTest(APITestCase):
             "id": 1,
             "name": "Jing 2024",
             "year": 2024,
-            "logo": "events/teddy-bear.png"
+            "logo": "http://testserver/events/teddy-bear.png",
+            'current': False
         }
         response = self.client.patch(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

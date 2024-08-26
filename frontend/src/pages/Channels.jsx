@@ -86,11 +86,11 @@ import {
             {chats.map((e) => (
               <tr>
                 <td><Link to={`/mensajes/${e.id}`} > {e.name}</Link></td>
-                <td>[SENDER]</td>
+                <td>[]</td>
                 <td>
                   <p class="font-weight-bold mb-0">[]</p>
                   <hr class="mt-0 mb-2" />
-                  <p class="ml-3 mb-1">[BODY]</p>
+                  <p class="ml-3 mb-1">[]</p>
                 </td>
               </tr>
         ))}

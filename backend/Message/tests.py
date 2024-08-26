@@ -38,7 +38,6 @@ class MessageTest(APITestCase):
             "id": 1,
             "sender": 2,
             "chat": 1,
-           
             "subject": "Asd",
             "body": "Zxc",
             "is_read": True,
@@ -82,7 +81,7 @@ class MessageTest(APITestCase):
         url = '/api/messages/1/'
         data = {
             "sender": 1,
-            "reciever": 2,
+            "chat": 2,
             "event": 2,
             "subject": "Mensaje de prueba",
             "body": "Hola! Este es un mensaje de prueba.",
@@ -90,7 +89,7 @@ class MessageTest(APITestCase):
         expected = {
             "id": 1,
             "sender": 1,
-            "reciever": 2,
+            "chat": 2,
             "event": 2,
             "subject": "Mensaje de prueba",
             "body": "Hola! Este es un mensaje de prueba.",

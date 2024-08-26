@@ -5,14 +5,19 @@ from django.http import JsonResponse, HttpResponse
 from Message.models import Message, Chat, PersonsChats, ChatPerson
 from Person.models import Person
 from Event.models import Event
-from Message.serializers import MessageSerializer, ChatSerializer
+from Message.serializers import MessageSerializer, ChatSerializer, MessageCreateSerializer
 import json 
 
 
 class MessageViewSet(viewsets.ModelViewSet):
-    serializer_class = MessageSerializer
     queryset = Message.objects.all()
     
+    def get_serializer_class(self):
+        if self.action == 'create':
+           return  MessageCreateSerializer
+        else:
+            return MessageSerializer
+        return super().get_serializer_class()
     def get_queryset(self):
         empty = Message.objects.none()
         if self.request.user.is_authenticated:

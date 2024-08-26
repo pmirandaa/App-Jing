@@ -1,3 +1,11 @@
+import {
+  Button,
+  Col,
+  Container,
+  Modal,
+  Row,
+  Stack
+}from "react-bootstrap";
 import axios from "axios";
 import { API_URL } from "constants";
 import { sleeper } from "utils";
@@ -19,12 +27,15 @@ export default function Login() {
   const {user, setUser} = useContext(UserContext)
   const {event, setEvent} = useContext(EventContext)
   const profileRef = useRef({id:0,name:"",last_name:"",email:"",university:0, rut:"" ,error:"", roles:[]})
+  const [show, setShow] = useState(false);
+  const [dialogContent, setDialogContent] = useState({error:'', row:0, content:''});
 
   async function asyncLoginpost(user, setUser,e) {
     setIsLoading(true);
     e.preventDefault();
     const fetch = axios
-      .post(`${API_URL}/login/`,JSON.stringify( {username: session.username, password:session.password}),{
+      .post(`${API_URL}/login/`,JSON.stringify( 
+        {username: session.username, password:session.password}),{
         headers:{
           "X-CSRFToken": cookies.get("csrftoken")
         },
@@ -35,13 +46,18 @@ export default function Login() {
       .then((response) => response.data)
       .then( (data)=> 
       {
+        if(data.detail=="invalid credentials"){
+          setDialogContent({error:data.Error})
+          handleShow()
+          setIsLoading(false);
+        }
+        else{
         console.log("respuesta de login",data);
         setProfile({...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut})
         profileRef.current={...profile,id:data.user.id, name: data.user.name ,last_name:data.user.last_name,email:data.user.email,university:data.user.university, rut:data.user.rut, roles:data.PER}
         setSession({...session,isAuthenticated: true, username: "", password: "", error: ""});
         saveUser(user,setUser)
-        setIsLoading(false);
-        
+        setIsLoading(false);}
       })
   }
 
@@ -63,28 +79,26 @@ export default function Login() {
     
   },[]) 
 
-    // Get Session Method https://github.com/BekBrace/django-react-vite-auth/blob/main/frontend/src/App.jsx
-    function getSession() {
-      //// Make a GET request to the "/api/session/" URL with "same-origin" credentials
-      axios.get(`${API_URL}/session/`,{credentials: "same-origin",withCredentials:true,})
-      //.then((res) => res.json()) //// Parse the response as JSON
-      .then((data) => {
-        console.log("get sessiondata",data); // Log the response data to the console
-        console.log("get session data.data",data.data.isAuthenticated)
-        //// If the response indicates the user is authenticated
-        if (data.data.isAuthenticated) {
-          setSession({...session,isAuthenticated: true}); // Update the component's state
-          profileRef.current={...profile,id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER}
-          saveUser(user,setUser)
-          //setIsLoading(false);
-        } else {  // If the response indicates the user is not authenticated
-          setSession({...session,isAuthenticated: false}); // Update the component's state
-          //setIsLoading(false);
-        }
-        
-      })
-      
-    }
+  // Get Session Method https://github.com/BekBrace/django-react-vite-auth/blob/main/frontend/src/App.jsx
+  function getSession() {
+    //// Make a GET request to the "/api/session/" URL with "same-origin" credentials
+    axios.get(`${API_URL}/session/`,{credentials: "same-origin",withCredentials:true,})
+    //.then((res) => res.json()) //// Parse the response as JSON
+    .then((data) => {
+      console.log("get sessiondata",data); // Log the response data to the console
+      console.log("get session data.data",data.data.isAuthenticated)
+      //// If the response indicates the user is authenticated
+      if (data.data.isAuthenticated) {
+        setSession({...session,isAuthenticated: true}); // Update the component's state
+        profileRef.current={...profile,id:data.data.user.id, name: data.data.user.name ,last_name:data.data.user.last_name,email:data.data.user.email,university:data.data.user.university, rut:data.data.user.rut, roles:data.data.PER}
+        saveUser(user,setUser)
+        //setIsLoading(false);
+      } else {  // If the response indicates the user is not authenticated
+        setSession({...session,isAuthenticated: false}); // Update the component's state
+        //setIsLoading(false);
+      }
+    })
+  }
 
   function isResponseOk(response) {
     if (response.status >= 200 && response.status <= 299) {
@@ -115,6 +129,13 @@ export default function Login() {
     });
   };
 
+  function handleClose(){
+    setShow(false)
+  };
+  function handleShow(){
+    setShow(true)
+  };
+
   function handlePasswordChange(event) {
     setSession({...session,password: event.target.value});
   }
@@ -130,9 +151,9 @@ export default function Login() {
   if(!session.isAuthenticated){
   return (
     <UserContext.Provider value={[user, setUser]}>
+      <Container>
       {console.log("profile dentro del provider",profile)}
       {console.log("usuario dentro del provider",user)}
-
       <div className={styles.mainContainer}>
         <div className={styles.titleContainer}>
           <div>Log in</div>
@@ -148,34 +169,50 @@ export default function Login() {
           </div>
           <br />
           <div className={styles.buttonContainer} >
-            <button className={styles.submitButton}   id="submit-btn" type="submit" > Login</button> 
+            <button className={styles.submitButton}   id="submit-btn" type="submit" > Log in</button> 
           </div>
         </form>
-
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {dialogContent.error} <br/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      </Container>
     </UserContext.Provider>
   )}
 
   return(
-    <div>
+      <div className={styles.mainContainer}>
+    <div className={styles.titleContainer}>
       <h1>Bienvenido {session.username}</h1>
+      </div>
 
       <div>
         <button class="btn btn-primary" id="submit-btn" type="submit" onClick={logout}> Logout</button>
       </div>
+      <br />
       <br />
       <div>
         <Link to={`*`}>
         <button class="btn btn-primary" >Home</button>
         </Link>
       </div>
-      
-      <p>{user.name}</p>
+    
+      {/*<p>{user.name}</p>
       <p>{user.email}</p>
       <p>{user.id}</p>
       <p>{user.last_name}</p>
       <p>{user.rut}</p>
-      <p>{user.university}</p>
+  <p>{user.university}</p>*/}
     </div>
   
   )

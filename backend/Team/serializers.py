@@ -23,9 +23,9 @@ class PlayerTeamSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class TeamTestSerializer(serializers.ModelSerializer):
-    sport = serializers.PrimaryKeyRelatedField(queryset=Sport.objects.all())
-    university = serializers.PrimaryKeyRelatedField(queryset=University.objects.all())
+    #sport = serializers.PrimaryKeyRelatedField(queryset=Sport.objects.all())
+    #university = serializers.PrimaryKeyRelatedField(queryset=University.objects.all())
     #sport_name = serializers.CharField(source='sport.name', read_only=True)
     class Meta:
         model = Team
-        fields = ['coordinator', 'university', 'place', 'sport', 'event', 'history']
+        fields = ('__all__')
