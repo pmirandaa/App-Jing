@@ -50,19 +50,21 @@ import {
     }, [])  
 
     return (
+      
       <section class="my-2 row">
         <div class="d-flex row w-100 justify-content-center">
           <h2 class="h1-responsive font-weight-bold text-center my-5">
-            Canales
+          Canales
           </h2>
           
-          <div style={{width:100}}>
+          <div style={{width:200, display: 'flex', justifyContent: 'center'}}>
           <Link to={`/createchat`}>
-          <button   id="submit-btn" type="submit" > Nuevo canal</button>
+          <Button   id="submit-btn" type="submit" > Nuevo canal</Button>
           </Link>
           </div>
           
           {console.log(chats)}
+          
           <a
             class="btn btn-danger btn-circle my-auto ml-5"
             data-toggle="modal"
@@ -72,30 +74,26 @@ import {
           </a>
           {/* {% endif %} */}
         </div>
-        <div class="w-100 mx-md-5 mx-4">
+
+        <div className="d-flex justify-content-center">
+        <div class="w-50 mx-md-5 mx-4 ">
           {/* {% if messages %} */}
           <Table striped variant="light" className="mt-4">
             <thead>
               <tr>
                 <th class="th-sm">Nombre</th>
-                <th class="th-sm">fecha</th>
-                <th class="th-sm">mensajes</th>
+               
               </tr>
             </thead>
             <tbody>
             {chats.map((e) => (
               <tr>
                 <td><Link to={`/mensajes/${e.id}`} > {e.name}</Link></td>
-                <td>[]</td>
-                <td>
-                  <p class="font-weight-bold mb-0">[]</p>
-                  <hr class="mt-0 mb-2" />
-                  <p class="ml-3 mb-1">[]</p>
-                </td>
               </tr>
         ))}
             </tbody>
           </Table>
+        </div>
         </div>
       </section>
     );
