@@ -4,8 +4,8 @@ from Event.models import Event
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('name', 'year')
-    search_fields = ('name', 'year')
+    list_display = ('name', 'year', 'current')
+    search_fields = ('name', 'year', 'current')
 
 
 admin.site.register(Event, EventAdmin)

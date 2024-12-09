@@ -4,7 +4,7 @@ from rest_framework import serializers
 from serializers import DynamicFieldsModelSerializer
 
 from .models import EventPlacement, SportPlacement
-from Sport.models import FinalSportPoints
+#from Sport.models import FinalSportPoints
 from Sport.serializers import SportSerializer
 from University.serializers import UniversitySerializer
 

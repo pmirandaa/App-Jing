@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from utils.utils import is_valid_param
 
 from Team.models import Team, PlayerTeam
-from Team.serializers import TeamSerializer, PlayerTeamSerializer
+from Team.serializers import TeamSerializer, PlayerTeamSerializer, TeamTestSerializer
 from Sport.models import Sport
 from University.models import University
 
@@ -17,8 +17,15 @@ from University.models import University
 class TeamViewSet(viewsets.ModelViewSet):
     serializer_class = TeamSerializer
     queryset = Team.objects.all()
+    
+    def get_serializer_class(self):
+        if self.action == 'create':
+           return  TeamTestSerializer
+        else:
+            return TeamSerializer
 
     def dispatch(self, request, *args, **kwargs):
+       
         sleep(0.5)
         return super().dispatch(request, *args, **kwargs)
 

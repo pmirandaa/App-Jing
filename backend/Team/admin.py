@@ -3,8 +3,10 @@ from django.contrib import admin
 from Team.models import Team
 from Team.models import PlayerTeam
 
+from simple_history.admin import SimpleHistoryAdmin
 
-class TeamAdmin(admin.ModelAdmin):
+
+class TeamAdmin(SimpleHistoryAdmin):
     list_display = ('event', 'Sport', 'Coordinator')
     search_fields = ('event__name', 'event__year', 'sport__name', 'coordinator__name', 'university__short_name')
 
@@ -15,9 +17,12 @@ class TeamAdmin(admin.ModelAdmin):
         return obj.coordinator or '-'
 
 
-class TeamPlayerAdmin(admin.ModelAdmin):
-    list_display = ('team', 'player')
+class TeamPlayerAdmin(SimpleHistoryAdmin):
+    list_display = ('team' ,'player', "team_event")
     search_fields = ('team__sport__name', 'player__name', 'team__university__name')
+
+    def team_event(self, obj):
+        return obj.team.event
 
 
 admin.site.register(Team, TeamAdmin)

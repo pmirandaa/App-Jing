@@ -4,14 +4,16 @@ from django.contrib.auth.models import User
 from Event.models import Event
 from University.models import University
 
+from simple_history.models import HistoricalRecords
 from django.core.validators import validate_email
 
+
 class Person(models.Model):
-    user = models.ForeignKey(
-        User, related_name='person', on_delete=models.CASCADE,
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE,
         blank=True, null=True
     )
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    #event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True, validators=[validate_email])
@@ -21,6 +23,7 @@ class Person(models.Model):
     emergency_phone_number = models.CharField(max_length=20, null=True)
     avatar = models.ImageField(upload_to='person_avatars/', blank=True)
     pending_messages = models.IntegerField(default=0)
+    history = HistoricalRecords()
 
     def __str__(self):
         return '{} {}'.format(self.name, self.last_name)
@@ -32,3 +35,31 @@ class PersonTemporaryCode(models.Model):
 
     def __str__(self):
         return f'{self.person} - {self.code} -- {self.expiration_date}'
+    
+class Role(models.Model):
+    roles= models.CharField(max_length=20)
+    #permisos = models.
+    def __str__(self):
+        return f'{self.roles}'
+    
+
+class PER(models.Model):
+    person= models.ForeignKey(Person, on_delete=models.CASCADE)
+    event= models.ForeignKey(Event, on_delete=models.CASCADE)
+    role= models.ForeignKey(Role, on_delete=models.CASCADE)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return f'{self.person} - {self.event} -- {self.role}'
+    
+
+
+def getPersonEventRoles(person, event):
+    b= PER.objects.filter(person=person, event=event).values_list('role', flat=True)
+    roles=Role.objects.filter(pk__in =b).values_list('roles', flat=True)
+
+    return roles
+    
+
+
+

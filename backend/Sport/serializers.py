@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Sport, FinalSportPoints
+from .models import Sport , FinalSportPoints
 
 
 class SportSerializer(serializers.ModelSerializer):

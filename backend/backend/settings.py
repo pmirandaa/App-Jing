@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
+    'simple_history',
 
     'Administration',
     'Authentication',
@@ -63,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
 
@@ -144,6 +146,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = os.getenv('JING_CORS_ORIGIN_WHITELIST', '').split() or ['http://localhost:3000']
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
+
 # Django REST Framework
 
 REST_FRAMEWORK = {
@@ -154,3 +159,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'pagination.CustomPagination',
     'PAGE_SIZE': 50
 }
+
+# Security setting
+
+CSRF_COOKIE_SAMESITE= 'Strict'
+SESSION_COOKIE_SAMESITE= 'Strict'
+CSRF_COOKIE_HTTPONLY= False
+SESSION_COOKIE_HTTPONLY= True
+
+# For production, set these lines to True
+# CSRF_COOKIE_HTTPONLY= False
+# SESSION_COOKIE_HTTPONLY= True

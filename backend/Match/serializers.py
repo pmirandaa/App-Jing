@@ -72,7 +72,7 @@ class MatchSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Match
-        fields = ('id', 'location', 'event', 'date', 'teams', 'sport',
+        fields = ('id','name', 'location', 'event', 'date', 'teams', 'sport',
                   'played', 'closed', 'time_finished', 'comment')
 
     def updateMatchTeams(self, match_instance, match_teams_data):

@@ -34,8 +34,6 @@ export default function TeamsTable({ rows, ...props }) {
             <td></td>
           </tr>
         ))}
-
-        {/* {% endfor %} */}
       </tbody>
     </Table>
   );

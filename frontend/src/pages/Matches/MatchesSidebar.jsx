@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL } from "constants";
 import { EventContext } from "contexts/EventContext";
+import { UserContext } from "contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
@@ -8,6 +9,7 @@ import { sleeper } from "utils";
 
 export default function MatchesSidebar({ filters, setFilters }) {
   const { event } = useContext(EventContext);
+  const { profile } = useContext(UserContext);
   const [participantsOptions, setParticipantsOptions] = useState([]);
   const [sportOptions, setSportOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);

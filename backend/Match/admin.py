@@ -3,7 +3,11 @@ from django.contrib import admin
 from Match.models import Match
 from Match.models import MatchTeam
 
-class MatchAdmin(admin.ModelAdmin):
+from simple_history.admin import SimpleHistoryAdmin
+
+
+
+class MatchAdmin(SimpleHistoryAdmin):
     list_display = ('id', 'event_id', 'location_id', 'date', 'sport_id', 'scores', 'winners', 'played', 'closed')
     search_fields = ('event__name', 'event__year', 'sport__name', 'team__university__short_name', 'team__coordinator__name')
 
@@ -39,3 +43,4 @@ class MatchTeamAdmin(admin.ModelAdmin):
 
 admin.site.register(Match, MatchAdmin)
 admin.site.register(MatchTeam, MatchTeamAdmin)
+

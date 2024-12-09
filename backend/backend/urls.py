@@ -28,9 +28,13 @@ from Message.views import MessageViewSet
 from News.views import NewsViewSet, NewsCategoryViewSet
 from Person.views import PersonViewSet
 from Placement.views import EventPlacementViewSet, SportPlacementViewSet
-from Sport.views import SportViewSet, FinalSportPointsViewSet
+from Sport.views import SportViewSet , FinalSportPointsViewSet
 from Team.views import TeamViewSet, PlayerTeamViewSet
 from University.views import UniversityViewSet
+
+import Authentication.urls
+import Message.urls
+import Match.urls
 
 
 router = routers.DefaultRouter()
@@ -54,5 +58,8 @@ router.register('placements/sport', SportPlacementViewSet, 'sport_placements')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/', include(Authentication.urls)), #añadido por agustin
+    path('api/', include(Message.urls)),
+    path('api/', include(Match.urls)),
     path('api-auth/', include('rest_framework.urls')),
 ]

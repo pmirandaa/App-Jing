@@ -6,7 +6,7 @@ from rest_framework.exceptions import APIException, NotFound
 from rest_framework.response import Response
 
 from Match.models import Match, MatchTeam
-from Sport.models import Sport, FinalSportPoints
+from Sport.models import Sport , FinalSportPoints #seguir el error desde acá
 from University.models import University
 from Event.models import Event
 

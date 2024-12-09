@@ -1,0 +1,32 @@
+.mainContainer {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    font-weight: bolder;
+    align-items: center;
+    justify-content: center;
+}
+
+.individualContainer {
+    display: flex;
+    flex-direction: column;
+    font-weight: bolder;
+    justify-content: center;
+}
+
+
+.uploadContainer {
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+ 

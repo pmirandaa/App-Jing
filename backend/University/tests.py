@@ -20,28 +20,33 @@ class UniversityTest(APITestCase):
                 "id": 1,
                 "name": "Universidad de Chile",
                 "city": "Santiago",
-                "overall_score": 2000,
-                "logo": "",
-                "map": "",
+                "logo": None,
+                "map": None,
                 "short_name": "UCH"
             },
             {
                 "id": 2,
                 "name": "Universidad Católica",
                 "city": "Santiago",
-                "overall_score": 1200,
-                "logo": "",
-                "map": "",
+               "logo": None,
+                "map": None,
                 "short_name": "PUC"
             },
             {
                 "id": 3,
                 "name": "Universidad de Concepción",
                 "city": "Concepción",
-                "overall_score": 0,
-                "logo": "",
-                "map": "",
+                "logo": None,
+                "map": None,
                 "short_name": "UdeC"
+            },
+            {
+                "id": 4,
+                "name": "Universidad de Valparaíso",
+                "city": "Valparaíso",
+                "logo": None,
+                "map": None,
+                "short_name": "UV"
             },
         ]
         response = self.client.get(url, format='json')
@@ -54,9 +59,8 @@ class UniversityTest(APITestCase):
             "id": 1,
             "name": "Universidad de Chile",
             "city": "Santiago",
-            "overall_score": 2000,
-            "logo": "",
-            "map": "",
+            "logo": None,
+            "map": None,
             "short_name": "UCH"
         }
         response = self.client.get(url, format='json')
@@ -78,9 +82,8 @@ class UniversityTest(APITestCase):
             "id": universities_count + 1,
             "name": "Universidad Técnica Federico Santa María",
             "city": "Valparaíso",
-            "overall_score": 0,
-            "logo": "",
-            "map": "",
+            "logo": None,
+            "map": None,
             "short_name": "USM"
         }
         response = self.client.post(url, data, format='json')
@@ -100,8 +103,8 @@ class UniversityTest(APITestCase):
             "id": 1,
             "name": "Universidad de Talca",
             "city": "Talca",
-            "logo": "",
-            "map": "",
+            "logo": None,
+            "map": None,
             "short_name": "UTalca"
         }
         response = self.client.patch(url, data, format='json')

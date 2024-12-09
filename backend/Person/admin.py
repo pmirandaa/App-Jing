@@ -2,9 +2,12 @@ from django.contrib import admin
 
 from Person.models import Person
 from Person.models import PersonTemporaryCode
+from Person.models import Role, PER
+
+from simple_history.admin import SimpleHistoryAdmin
 
 
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(SimpleHistoryAdmin):
     list_display = ('rut', 'Name', 'user', 'University')
     search_fields = ('rut', 'name', 'user__username', 'university__short_name')
 
@@ -27,3 +30,6 @@ class PersonTemporaryCodeAdmin(admin.ModelAdmin):
 admin.site.register(Person, PersonAdmin)
 admin.site.register(PersonTemporaryCode, PersonTemporaryCodeAdmin
 )
+admin.site.register(Role, SimpleHistoryAdmin)
+admin.site.register(PER, SimpleHistoryAdmin)
+

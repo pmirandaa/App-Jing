@@ -21,16 +21,14 @@ class SportTest(APITestCase):
                 "name": "Fútbol",
                 "gender": "FEM",
                 "sport_type": "A",
-                "coordinator": 1,
-                "closed": True
+                
             },
             {
                 "id": 2,
                 "name": "Básquetbol",
                 "gender": "MIX",
                 "sport_type": "A",
-                "coordinator": 2,
-                "closed": False
+                
             },
         ]
         response = self.client.get(url, format='json')
@@ -44,8 +42,7 @@ class SportTest(APITestCase):
             "name": "Fútbol",
             "gender": "FEM",
             "sport_type": "A",
-            "coordinator": 2,
-            "closed": True
+            
         }
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -61,15 +58,13 @@ class SportTest(APITestCase):
             "name": "Vóleibol",
             "gender": "MLE",
             "sport_type": "C",
-            "coordinator": 3,
         }
         expected = {
             "id": sports_count + 1,
             "name": "Vóleibol",
             "gender": "MLE",
             "sport_type": "C",
-            "coordinator": 3,
-            "closed": False
+           
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -81,16 +76,14 @@ class SportTest(APITestCase):
         data = {
             "name": "Tenis de mesa",
             "gender": "MIX",
-            "sport_type": "B",
-            "coordinator": 3
+            "sport_type": "B"
         }
         expected = {
             "id": 1,
             "name": "Tenis de mesa",
             "gender": "MIX",
-            "sport_type": "B",
-            "coordinator": 3,
-            "closed": True
+            "sport_type": "B"
+           
         }
         response = self.client.patch(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
